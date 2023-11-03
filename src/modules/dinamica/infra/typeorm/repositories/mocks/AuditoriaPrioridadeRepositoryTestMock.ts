@@ -2,8 +2,8 @@ import {
   ICreateAuditoriaPrioridadeDTO,
   IPatchAuditoriaPrioridadeDTO,
 } from "../../../../dtos/ICreateAuditoriaPrioridadeDTO";
-import { AuditoriaPrioridade } from "../../entities/AuditoriaPrioridade";
-import { IAuditoriaPrioridadeRepository } from "../interfaces/IAuditoriaPrioridadeRepository";
+import {AuditoriaPrioridade} from "../../entities/AuditoriaPrioridade";
+import {IAuditoriaPrioridadeRepository} from "../interfaces/IAuditoriaPrioridadeRepository";
 
 class AuditoriaPrioridadeRepositoryTestMock
   implements IAuditoriaPrioridadeRepository
@@ -41,19 +41,15 @@ class AuditoriaPrioridadeRepositoryTestMock
   }
 
   async queryById(id: string): Promise<AuditoriaPrioridade> {
-    const auditoriaFounded = this.auditoriasPrioridade.find(
+    return this.auditoriasPrioridade.find(
       (auditoriaToSearch) => auditoriaToSearch.id === id
     );
-
-    return auditoriaFounded;
   }
 
   async queryBySiape(siape: string): Promise<AuditoriaPrioridade> {
-    const auditoriaFounded = this.auditoriasPrioridade.find(
+    return this.auditoriasPrioridade.find(
       (auditoriaToSearch) => auditoriaToSearch.siape === siape
     );
-
-    return auditoriaFounded;
   }
 
   async update({

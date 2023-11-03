@@ -1,5 +1,6 @@
-import { getRepository, Repository } from "typeorm";
+import { Repository } from "typeorm";
 
+import { dataSource } from "../../../../../shared/infra/typeorm";
 import {
   ICreateAuditoriaFilaDTO,
   IPatchAuditoriaFilaDTO,
@@ -11,7 +12,7 @@ class AuditoriaFilaRepository implements IAuditoriaFilaRepository {
   private repository: Repository<AuditoriaFila>;
 
   constructor() {
-    this.repository = getRepository(AuditoriaFila);
+    this.repository = dataSource.getRepository(AuditoriaFila);
   }
 
   async create({
@@ -49,24 +50,18 @@ class AuditoriaFilaRepository implements IAuditoriaFilaRepository {
   }
 
   async listAllAuditorias(): Promise<AuditoriaFila[]> {
-    const auditorias = await this.repository
+    return this.repository
       .createQueryBuilder("auditoria_fila")
       .orderBy("siape", "ASC")
       .getMany();
-
-    return auditorias;
   }
 
   async queryById(id: string): Promise<AuditoriaFila> {
-    const auditoria = await this.repository.findOne(id);
-
-    return auditoria;
+    return this.repository.findOneBy({ id });
   }
 
   async queryBySiape(siape: string): Promise<AuditoriaFila> {
-    const auditoria = await this.repository.findOne({ siape });
-
-    return auditoria;
+    return this.repository.findOneBy({ siape });
   }
 
   async updateById({
@@ -84,7 +79,7 @@ class AuditoriaFilaRepository implements IAuditoriaFilaRepository {
     comando,
     stamp,
   }: IPatchAuditoriaFilaDTO): Promise<AuditoriaFila> {
-    const auditoria = await this.repository.findOne({ id });
+    const auditoria = await this.repository.findOneBy({ id });
 
     auditoria.siape = siape || auditoria.siape;
     auditoria.codigo_disc = codigo_disc || auditoria.codigo_disc;

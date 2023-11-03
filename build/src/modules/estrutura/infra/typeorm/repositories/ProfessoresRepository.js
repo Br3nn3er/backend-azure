@@ -26,7 +26,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     function verb(n) { return function (v) { return step([n, v]); }; }
     function step(op) {
         if (f) throw new TypeError("Generator is already executing.");
-        while (_) try {
+        while (g && (g = 0, op[0] && (_ = 0)), _) try {
             if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
             if (y = 0, t) op = [op[0] & 2, t.value];
             switch (op[0]) {
@@ -50,23 +50,17 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ProfessoresRepository = void 0;
 var tsyringe_1 = require("tsyringe");
-var typeorm_1 = require("typeorm");
+var typeorm_1 = require("../../../../../shared/infra/typeorm");
 var Professor_1 = require("../entities/Professor");
 var ProfessoresRepository = /** @class */ (function () {
     function ProfessoresRepository(dateProvider) {
         this.dateProvider = dateProvider;
-        this.repository = (0, typeorm_1.getRepository)(Professor_1.Professor);
+        this.repository = typeorm_1.dataSource.getRepository(Professor_1.Professor);
     }
     ProfessoresRepository.prototype.queryBySiape = function (siape) {
         return __awaiter(this, void 0, void 0, function () {
-            var professor;
             return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0: return [4 /*yield*/, this.repository.findOne({ siape: siape })];
-                    case 1:
-                        professor = _a.sent();
-                        return [2 /*return*/, professor];
-                }
+                return [2 /*return*/, this.repository.findOneBy({ siape: siape })];
             });
         });
     };
@@ -102,17 +96,11 @@ var ProfessoresRepository = /** @class */ (function () {
     };
     ProfessoresRepository.prototype.listAllProfessores = function () {
         return __awaiter(this, void 0, void 0, function () {
-            var listProfessores;
             return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0: return [4 /*yield*/, this.repository
-                            .createQueryBuilder("professor")
-                            .orderBy("siape", "ASC")
-                            .getMany()];
-                    case 1:
-                        listProfessores = _a.sent();
-                        return [2 /*return*/, listProfessores];
-                }
+                return [2 /*return*/, this.repository
+                        .createQueryBuilder("professor")
+                        .orderBy("siape", "ASC")
+                        .getMany()];
             });
         });
     };
@@ -134,7 +122,7 @@ var ProfessoresRepository = /** @class */ (function () {
             var professorToUpdate;
             return __generator(this, function (_b) {
                 switch (_b.label) {
-                    case 0: return [4 /*yield*/, this.repository.findOne({ siape: siape })];
+                    case 0: return [4 /*yield*/, this.repository.findOneBy({ siape: siape })];
                     case 1:
                         professorToUpdate = _b.sent();
                         professorToUpdate.nome = nome || professorToUpdate.nome;

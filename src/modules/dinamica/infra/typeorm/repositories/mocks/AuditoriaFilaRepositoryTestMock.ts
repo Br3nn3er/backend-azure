@@ -1,9 +1,6 @@
-import {
-  ICreateAuditoriaFilaDTO,
-  IPatchAuditoriaFilaDTO,
-} from "../../../../dtos/ICreateAuditoriaFilaDTO";
-import { AuditoriaFila } from "../../entities/AuditoriaFila";
-import { IAuditoriaFilaRepository } from "../interfaces/IAuditoriaFilaRepository";
+import {ICreateAuditoriaFilaDTO, IPatchAuditoriaFilaDTO,} from "../../../../dtos/ICreateAuditoriaFilaDTO";
+import {AuditoriaFila} from "../../entities/AuditoriaFila";
+import {IAuditoriaFilaRepository} from "../interfaces/IAuditoriaFilaRepository";
 
 class AuditoriaFilaRepositoryTestMock implements IAuditoriaFilaRepository {
   private auditorias: AuditoriaFila[] = [];
@@ -53,19 +50,15 @@ class AuditoriaFilaRepositoryTestMock implements IAuditoriaFilaRepository {
   }
 
   async queryById(id: string): Promise<AuditoriaFila> {
-    const auditoria = this.auditorias.find(
+    return this.auditorias.find(
       (auditoriaToSearch) => auditoriaToSearch.id === id
     );
-
-    return auditoria;
   }
 
   async queryBySiape(siape: string): Promise<AuditoriaFila> {
-    const auditoria = this.auditorias.find(
+    return this.auditorias.find(
       (auditoriaToSearch) => auditoriaToSearch.siape === siape
     );
-
-    return auditoria;
   }
 
   async updateById({

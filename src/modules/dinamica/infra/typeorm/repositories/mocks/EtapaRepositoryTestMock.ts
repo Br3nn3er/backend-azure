@@ -1,9 +1,6 @@
-import {
-  ICreateEtapaDTO,
-  IPatchEtapaDTO,
-} from "../../../../dtos/ICreateEtapaDTO";
-import { Etapa } from "../../entities/Etapa";
-import { IEtapaRepository } from "../interfaces/IEtapaRepository";
+import {ICreateEtapaDTO, IPatchEtapaDTO,} from "../../../../dtos/ICreateEtapaDTO";
+import {Etapa} from "../../entities/Etapa";
+import {IEtapaRepository} from "../interfaces/IEtapaRepository";
 
 class EtapaRepositoryTestMock implements IEtapaRepository {
   private etapas: Etapa[] = [];
@@ -31,15 +28,11 @@ class EtapaRepositoryTestMock implements IEtapaRepository {
   }
 
   async queryById(id: string): Promise<Etapa> {
-    const etapaFounded = this.etapas.find((etapa) => etapa.id === id);
-
-    return etapaFounded;
+    return this.etapas.find((etapa) => etapa.id === id);
   }
 
   async queryByCodigo(codigo: string): Promise<Etapa> {
-    const etapaFounded = this.etapas.find((etapa) => etapa.codigo === codigo);
-
-    return etapaFounded;
+    return this.etapas.find((etapa) => etapa.codigo === codigo);
   }
 
   async updateById({

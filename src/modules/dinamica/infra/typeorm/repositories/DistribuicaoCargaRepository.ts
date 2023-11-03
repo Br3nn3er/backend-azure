@@ -1,5 +1,6 @@
-import { getRepository, Repository } from "typeorm";
+import { Repository } from "typeorm";
 
+import { dataSource } from "../../../../../shared/infra/typeorm";
 import {
   ICreateDistribuicaoCargaDTO,
   IPatchDistribuicaoCargaDTO,
@@ -11,7 +12,7 @@ class DistribuicaoCargaRepository implements IDistribuicaoCargaRepository {
   private repository: Repository<DistribuicaoCarga>;
 
   constructor() {
-    this.repository = getRepository(DistribuicaoCarga);
+    this.repository = dataSource.getRepository(DistribuicaoCarga);
   }
 
   async create({
@@ -28,12 +29,10 @@ class DistribuicaoCargaRepository implements IDistribuicaoCargaRepository {
   }
 
   async listDistribuicoes(): Promise<DistribuicaoCarga[]> {
-    const listDist = this.repository
+    return this.repository
       .createQueryBuilder("distribuicao_carga")
       .orderBy("siape", "ASC")
       .getMany();
-
-    return listDist;
   }
 
   async queryByCenarioESiapeERegra(
@@ -41,11 +40,9 @@ class DistribuicaoCargaRepository implements IDistribuicaoCargaRepository {
     siape: string,
     regra: string
   ): Promise<DistribuicaoCarga> {
-    const dist = await this.repository.findOne({
+    return this.repository.findOne({
       where: { cenario, siape, regra },
     });
-
-    return dist;
   }
 
   async update({
@@ -63,11 +60,9 @@ class DistribuicaoCargaRepository implements IDistribuicaoCargaRepository {
       .andWhere("regra = :regra", { regra })
       .execute();
 
-    const distUpdated = await this.repository.findOne({
+    return this.repository.findOne({
       where: { cenario, siape, regra },
     });
-
-    return distUpdated;
   }
 
   async deleteByCenarioESiapeERegra(

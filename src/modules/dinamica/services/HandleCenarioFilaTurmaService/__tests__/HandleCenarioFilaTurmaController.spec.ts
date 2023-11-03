@@ -5,7 +5,7 @@ import { v4 as uuidV4 } from "uuid";
 
 import { DayjsDateProvider } from "../../../../../shared/container/providers/DateProvider/implementations/DayjsDateProvider";
 import { app } from "../../../../../shared/infra/http/app";
-import createConnection from "../../../../../shared/infra/typeorm";
+import { dataSource } from "../../../../../shared/infra/typeorm";
 import { Curso } from "../../../../estrutura/infra/typeorm/entities/Curso";
 import { Disciplina } from "../../../../estrutura/infra/typeorm/entities/Disciplina";
 import { Professor } from "../../../../estrutura/infra/typeorm/entities/Professor";
@@ -22,7 +22,7 @@ let dateProvider: DayjsDateProvider;
 describe("Handle CRUD routes related to cenario_fila_turma", () => {
   beforeAll(async () => {
     dateProvider = new DayjsDateProvider();
-    connection = await createConnection();
+    connection = await dataSource.initialize();
     await connection.runMigrations();
 
     const id = uuidV4();

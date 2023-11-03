@@ -1,5 +1,6 @@
-import { getRepository, Repository } from "typeorm";
+import { Repository } from "typeorm";
 
+import { dataSource } from "../../../../../shared/infra/typeorm";
 import {
   ICreateCursosDTO,
   IPatchCursosDTO,
@@ -11,11 +12,11 @@ class CursosRepository implements ICursosRepository {
   private repository: Repository<Curso>;
 
   constructor() {
-    this.repository = getRepository(Curso);
+    this.repository = dataSource.getRepository(Curso);
   }
 
   async queryByCodigo(codigo: string): Promise<Curso> {
-    return this.repository.findOne({ codigo });
+    return this.repository.findOneBy({ codigo });
   }
 
   async createCurso({
@@ -26,7 +27,7 @@ class CursosRepository implements ICursosRepository {
     permitir_choque_periodo,
     permitir_choque_horario,
   }: ICreateCursosDTO): Promise<Curso> {
-    const curso = await this.repository.create({
+    const curso = this.repository.create({
       codigo,
       nome,
       unidade,
@@ -41,12 +42,10 @@ class CursosRepository implements ICursosRepository {
   }
 
   async listAllCursos(): Promise<Curso[]> {
-    const cursos = await this.repository
+    return this.repository
       .createQueryBuilder("curso")
       .orderBy("codigo", "ASC")
       .getMany();
-
-    return cursos;
   }
 
   async deleteByCodigo(codigo: string): Promise<void> {
@@ -61,7 +60,7 @@ class CursosRepository implements ICursosRepository {
     permitir_choque_periodo,
     permitir_choque_horario,
   }: IPatchCursosDTO): Promise<Curso> {
-    const cursoToUpdate = await this.repository.findOne({ codigo });
+    const cursoToUpdate = await this.repository.findOneBy({ codigo });
 
     cursoToUpdate.nome = nome || cursoToUpdate.nome;
     cursoToUpdate.unidade = unidade || cursoToUpdate.unidade;

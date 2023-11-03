@@ -14,7 +14,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     function verb(n) { return function (v) { return step([n, v]); }; }
     function step(op) {
         if (f) throw new TypeError("Generator is already executing.");
-        while (_) try {
+        while (g && (g = 0, op[0] && (_ = 0)), _) try {
             if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
             if (y = 0, t) op = [op[0] & 2, t.value];
             switch (op[0]) {
@@ -77,71 +77,59 @@ var FilaRepositoryTestMock = /** @class */ (function () {
     };
     FilaRepositoryTestMock.prototype.queryById = function (id) {
         return __awaiter(this, void 0, void 0, function () {
-            var filaFounded;
             return __generator(this, function (_a) {
-                filaFounded = this.filas.find(function (fila) { return fila.id === id; });
-                return [2 /*return*/, filaFounded];
+                return [2 /*return*/, this.filas.find(function (fila) { return fila.id === id; })];
             });
         });
     };
     FilaRepositoryTestMock.prototype.queryByDiscEPosEAnoESemestre = function (codigo_disc, pos, ano, semestre) {
         return __awaiter(this, void 0, void 0, function () {
-            var filaFounded;
             return __generator(this, function (_a) {
-                filaFounded = this.filas.find(function (fila) {
-                    return fila.codigo_disc === codigo_disc &&
-                        fila.pos === pos &&
-                        fila.ano === ano &&
-                        fila.semestre === semestre;
-                });
-                return [2 /*return*/, filaFounded];
+                return [2 /*return*/, this.filas.find(function (fila) {
+                        return fila.codigo_disc === codigo_disc &&
+                            fila.pos === pos &&
+                            fila.ano === ano &&
+                            fila.semestre === semestre;
+                    })];
             });
         });
     };
     FilaRepositoryTestMock.prototype.queryBySiapeEDiscEAnoESemestre = function (siape, codigo_disc, ano, semestre) {
         return __awaiter(this, void 0, void 0, function () {
-            var filaFounded;
             return __generator(this, function (_a) {
-                filaFounded = this.filas.find(function (fila) {
-                    return fila.siape === siape &&
-                        fila.codigo_disc === codigo_disc &&
-                        fila.ano === ano &&
-                        fila.semestre === semestre;
-                });
-                return [2 /*return*/, filaFounded];
+                return [2 /*return*/, this.filas.find(function (fila) {
+                        return fila.siape === siape &&
+                            fila.codigo_disc === codigo_disc &&
+                            fila.ano === ano &&
+                            fila.semestre === semestre;
+                    })];
             });
         });
     };
     FilaRepositoryTestMock.prototype.queryBySiape = function (siape) {
         return __awaiter(this, void 0, void 0, function () {
-            var filaFounded;
             return __generator(this, function (_a) {
-                filaFounded = this.filas.filter(function (fila) { return fila.siape === siape; });
-                return [2 /*return*/, filaFounded];
+                return [2 /*return*/, this.filas.filter(function (fila) { return fila.siape === siape; })];
             });
         });
     };
     FilaRepositoryTestMock.prototype.queryByDiscEAnoESemestre = function (codigo_disc, ano, semestre) {
         return __awaiter(this, void 0, void 0, function () {
-            var fila;
             return __generator(this, function (_a) {
-                fila = this.filas.filter(function (fila) {
-                    return fila.codigo_disc === codigo_disc &&
-                        fila.ano === ano &&
-                        fila.semestre === semestre;
-                });
-                return [2 /*return*/, fila];
+                return [2 /*return*/, this.filas.filter(function (fila) {
+                        return fila.codigo_disc === codigo_disc &&
+                            fila.ano === ano &&
+                            fila.semestre === semestre;
+                    })];
             });
         });
     };
     FilaRepositoryTestMock.prototype.queryBySIAPEEAnoESemestre = function (siape, ano, semestre) {
         return __awaiter(this, void 0, void 0, function () {
-            var fila;
             return __generator(this, function (_a) {
-                fila = this.filas.filter(function (fila) {
-                    return fila.siape === siape && fila.ano === ano && fila.semestre === semestre;
-                });
-                return [2 /*return*/, fila];
+                return [2 /*return*/, this.filas.filter(function (fila) {
+                        return fila.siape === siape && fila.ano === ano && fila.semestre === semestre;
+                    })];
             });
         });
     };
@@ -154,12 +142,10 @@ var FilaRepositoryTestMock = /** @class */ (function () {
     };
     FilaRepositoryTestMock.prototype.queryBySiapeEAnoESemestre = function (siape, ano, semestre) {
         return __awaiter(this, void 0, void 0, function () {
-            var filaFounded;
             return __generator(this, function (_a) {
-                filaFounded = this.filas.filter(function (fila) {
-                    return fila.siape === siape && fila.ano === ano && fila.semestre === semestre;
-                });
-                return [2 /*return*/, filaFounded];
+                return [2 /*return*/, this.filas.filter(function (fila) {
+                        return fila.siape === siape && fila.ano === ano && fila.semestre === semestre;
+                    })];
             });
         });
     };

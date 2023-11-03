@@ -1,9 +1,6 @@
-import {
-  ICreateDistribuicaoCargaDTO,
-  IPatchDistribuicaoCargaDTO,
-} from "../../../../dtos/ICreateDistribuicaoCargaDTO";
-import { DistribuicaoCarga } from "../../entities/DistribuicaoCarga";
-import { IDistribuicaoCargaRepository } from "../interfaces/IDistribuicaoCargaRepository";
+import {ICreateDistribuicaoCargaDTO, IPatchDistribuicaoCargaDTO,} from "../../../../dtos/ICreateDistribuicaoCargaDTO";
+import {DistribuicaoCarga} from "../../entities/DistribuicaoCarga";
+import {IDistribuicaoCargaRepository} from "../interfaces/IDistribuicaoCargaRepository";
 
 class DistribuicaoCargaRepositoryTestMock
   implements IDistribuicaoCargaRepository
@@ -34,12 +31,10 @@ class DistribuicaoCargaRepositoryTestMock
     siape: string,
     regra: string
   ): Promise<DistribuicaoCarga> {
-    const distFounded = this.listDist.find(
+    return this.listDist.find(
       (dist) =>
         dist.cenario === cenario && dist.siape === siape && dist.regra === regra
     );
-
-    return distFounded;
   }
 
   async update({

@@ -23,12 +23,10 @@ class HandlePossibilidadesService {
     descricao,
     num_cenario,
   }: IHandlePossibilidades): Promise<Possibilidades> {
-    const possibilidade = await this.possibilidadeRepository.create({
+    return this.possibilidadeRepository.create({
       descricao,
       num_cenario,
     });
-
-    return possibilidade;
   }
 
   async read(): Promise<Possibilidades[]> {
@@ -58,15 +56,11 @@ class HandlePossibilidadesService {
       throw new AppError("Possibilidade não encontrada!", 403);
     }
 
-    const possibilidadeToUpdate = await this.possibilidadeRepository.updateById(
-      {
-        id,
-        descricao,
-        num_cenario,
-      }
-    );
-
-    return possibilidadeToUpdate;
+    return this.possibilidadeRepository.updateById({
+      id,
+      descricao,
+      num_cenario,
+    });
   }
 
   async delete(id: string): Promise<void> {
@@ -96,7 +90,7 @@ class HandlePossibilidadesService {
 
       const stream = fs.createReadStream(file.path);
 
-      const parseFile = csvParse();
+      const parseFile = csvParse.parse();
 
       stream.pipe(parseFile);
 

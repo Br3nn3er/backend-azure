@@ -5,7 +5,7 @@ import { v4 as uuidV4 } from "uuid";
 
 import { DayjsDateProvider } from "../../../../../shared/container/providers/DateProvider/implementations/DayjsDateProvider";
 import { app } from "../../../../../shared/infra/http/app";
-import createConnection from "../../../../../shared/infra/typeorm";
+import { dataSource } from "../../../../../shared/infra/typeorm";
 import { Professor } from "../../../infra/typeorm/entities/Professor";
 
 let connection: Connection;
@@ -14,7 +14,7 @@ let dateProvider: DayjsDateProvider;
 describe("Handle CRUD routes related to professor", () => {
   beforeAll(async () => {
     dateProvider = new DayjsDateProvider();
-    connection = await createConnection();
+    connection = await dataSource.initialize();
     await connection.runMigrations();
 
     const id = uuidV4();

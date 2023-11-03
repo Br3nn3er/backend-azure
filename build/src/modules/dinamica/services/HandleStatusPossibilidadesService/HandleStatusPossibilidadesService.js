@@ -26,7 +26,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     function verb(n) { return function (v) { return step([n, v]); }; }
     function step(op) {
         if (f) throw new TypeError("Generator is already executing.");
-        while (_) try {
+        while (g && (g = 0, op[0] && (_ = 0)), _) try {
             if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
             if (y = 0, t) op = [op[0] & 2, t.value];
             switch (op[0]) {
@@ -63,7 +63,7 @@ var HandleStatusPossibilidadesService = /** @class */ (function () {
     HandleStatusPossibilidadesService.prototype.create = function (_a) {
         var id_fila = _a.id_fila, id_possibilidade = _a.id_possibilidade, status = _a.status;
         return __awaiter(this, void 0, void 0, function () {
-            var statusFilaExistent, statusFila;
+            var statusFilaExistent;
             return __generator(this, function (_b) {
                 switch (_b.label) {
                     case 0: return [4 /*yield*/, this.statusFilaRepository.queryByFilaEPossibilidade(id_fila, id_possibilidade)];
@@ -72,28 +72,19 @@ var HandleStatusPossibilidadesService = /** @class */ (function () {
                         if (statusFilaExistent) {
                             throw new AppError_1.AppError("Possibilidade já cadastrada!");
                         }
-                        return [4 /*yield*/, this.statusFilaRepository.create({
+                        return [2 /*return*/, this.statusFilaRepository.create({
                                 id_fila: id_fila,
                                 id_possibilidade: id_possibilidade,
                                 status: status,
                             })];
-                    case 2:
-                        statusFila = _b.sent();
-                        return [2 /*return*/, statusFila];
                 }
             });
         });
     };
     HandleStatusPossibilidadesService.prototype.read = function () {
         return __awaiter(this, void 0, void 0, function () {
-            var statusFilas;
             return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0: return [4 /*yield*/, this.statusFilaRepository.listStatusPossibilidades()];
-                    case 1:
-                        statusFilas = _a.sent();
-                        return [2 /*return*/, statusFilas];
-                }
+                return [2 /*return*/, this.statusFilaRepository.listStatusPossibilidades()];
             });
         });
     };
@@ -151,7 +142,7 @@ var HandleStatusPossibilidadesService = /** @class */ (function () {
         return new Promise(function (resolve, reject) {
             var statusFilas = [];
             var stream = fs_1.default.createReadStream(file.path);
-            var parseFile = (0, csv_parse_1.default)();
+            var parseFile = csv_parse_1.default.parse();
             stream.pipe(parseFile);
             parseFile
                 .on("data", function (line) { return __awaiter(_this, void 0, void 0, function () {

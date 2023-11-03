@@ -14,7 +14,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     function verb(n) { return function (v) { return step([n, v]); }; }
     function step(op) {
         if (f) throw new TypeError("Generator is already executing.");
-        while (_) try {
+        while (g && (g = 0, op[0] && (_ = 0)), _) try {
             if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
             if (y = 0, t) op = [op[0] & 2, t.value];
             switch (op[0]) {
@@ -37,11 +37,11 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.RestricoesRepository = void 0;
-var typeorm_1 = require("typeorm");
+var typeorm_1 = require("../../../../../shared/infra/typeorm");
 var Restricoes_1 = require("../entities/Restricoes");
 var RestricoesRepository = /** @class */ (function () {
     function RestricoesRepository() {
-        this.repository = (0, typeorm_1.getRepository)(Restricoes_1.Restricoes);
+        this.repository = typeorm_1.dataSource.getRepository(Restricoes_1.Restricoes);
     }
     RestricoesRepository.prototype.create = function (_a) {
         var siape = _a.siape, dia = _a.dia, letra = _a.letra;
@@ -81,47 +81,29 @@ var RestricoesRepository = /** @class */ (function () {
     };
     RestricoesRepository.prototype.listRestricoes = function () {
         return __awaiter(this, void 0, void 0, function () {
-            var listRestricoes;
             return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0: return [4 /*yield*/, this.repository
-                            .createQueryBuilder("restricoes")
-                            .orderBy("siape", "ASC")
-                            .getMany()];
-                    case 1:
-                        listRestricoes = _a.sent();
-                        return [2 /*return*/, listRestricoes];
-                }
+                return [2 /*return*/, this.repository
+                        .createQueryBuilder("restricoes")
+                        .orderBy("siape", "ASC")
+                        .getMany()];
             });
         });
     };
     RestricoesRepository.prototype.queryBySiapeEDiaELetra = function (siape, dia, letra) {
         return __awaiter(this, void 0, void 0, function () {
-            var restricoes;
             return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0: return [4 /*yield*/, this.repository.findOne({
-                            where: { siape: siape, dia: dia, letra: letra },
-                        })];
-                    case 1:
-                        restricoes = _a.sent();
-                        return [2 /*return*/, restricoes];
-                }
+                return [2 /*return*/, this.repository.findOne({
+                        where: { siape: siape, dia: dia, letra: letra },
+                    })];
             });
         });
     };
     RestricoesRepository.prototype.queryBySiape = function (siape) {
         return __awaiter(this, void 0, void 0, function () {
-            var restricoes;
             return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0: return [4 /*yield*/, this.repository.find({
-                            where: { siape: siape },
-                        })];
-                    case 1:
-                        restricoes = _a.sent();
-                        return [2 /*return*/, restricoes];
-                }
+                return [2 /*return*/, this.repository.find({
+                        where: { siape: siape },
+                    })];
             });
         });
     };

@@ -26,7 +26,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     function verb(n) { return function (v) { return step([n, v]); }; }
     function step(op) {
         if (f) throw new TypeError("Generator is already executing.");
-        while (_) try {
+        while (g && (g = 0, op[0] && (_ = 0)), _) try {
             if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
             if (y = 0, t) op = [op[0] & 2, t.value];
             switch (op[0]) {
@@ -63,7 +63,7 @@ var HandleDistribuicaoCargaService = /** @class */ (function () {
     HandleDistribuicaoCargaService.prototype.create = function (_a) {
         var cenario = _a.cenario, siape = _a.siape, regra = _a.regra, carga = _a.carga;
         return __awaiter(this, void 0, void 0, function () {
-            var existentDist, dist;
+            var existentDist;
             return __generator(this, function (_b) {
                 switch (_b.label) {
                     case 0: return [4 /*yield*/, this.distRepository.queryByCenarioESiapeERegra(cenario, siape, regra)];
@@ -72,15 +72,12 @@ var HandleDistribuicaoCargaService = /** @class */ (function () {
                         if (existentDist) {
                             throw new AppError_1.AppError("Distribuicao já cadastrada!");
                         }
-                        return [4 /*yield*/, this.distRepository.create({
+                        return [2 /*return*/, this.distRepository.create({
                                 cenario: cenario,
                                 siape: siape,
                                 regra: regra,
                                 carga: carga,
                             })];
-                    case 2:
-                        dist = _b.sent();
-                        return [2 /*return*/, dist];
                 }
             });
         });
@@ -107,7 +104,7 @@ var HandleDistribuicaoCargaService = /** @class */ (function () {
     HandleDistribuicaoCargaService.prototype.update = function (_a) {
         var cenario = _a.cenario, siape = _a.siape, regra = _a.regra, carga = _a.carga;
         return __awaiter(this, void 0, void 0, function () {
-            var distFounded, distToUpdate;
+            var distFounded;
             return __generator(this, function (_b) {
                 switch (_b.label) {
                     case 0: return [4 /*yield*/, this.distRepository.queryByCenarioESiapeERegra(cenario, siape, regra)];
@@ -116,15 +113,12 @@ var HandleDistribuicaoCargaService = /** @class */ (function () {
                         if (!distFounded) {
                             throw new AppError_1.AppError("Distribuição não encontrada!", 403);
                         }
-                        return [4 /*yield*/, this.distRepository.update({
+                        return [2 /*return*/, this.distRepository.update({
                                 cenario: cenario,
                                 siape: siape,
                                 regra: regra,
                                 carga: carga,
                             })];
-                    case 2:
-                        distToUpdate = _b.sent();
-                        return [2 /*return*/, distToUpdate];
                 }
             });
         });
@@ -179,7 +173,7 @@ var HandleDistribuicaoCargaService = /** @class */ (function () {
         return new Promise(function (resolve, reject) {
             var listDistribuicaoCargas = [];
             var stream = fs_1.default.createReadStream(file.path);
-            var parseFile = (0, csv_parse_1.default)();
+            var parseFile = csv_parse_1.default.parse();
             stream.pipe(parseFile);
             parseFile
                 .on("data", function (line) { return __awaiter(_this, void 0, void 0, function () {

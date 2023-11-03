@@ -1,9 +1,6 @@
-import {
-  ICreateCargaDocenteDTO,
-  IPatchCargaDocenteDTO,
-} from "../../../../dtos/ICreateUpdateCargaDocenteDTO";
-import { CargaDocente } from "../../entities/CargaDocente";
-import { ICargaDocentesRepository } from "../interfaces/ICargaDocentesRepository";
+import {ICreateCargaDocenteDTO, IPatchCargaDocenteDTO,} from "../../../../dtos/ICreateUpdateCargaDocenteDTO";
+import {CargaDocente} from "../../entities/CargaDocente";
+import {ICargaDocentesRepository} from "../interfaces/ICargaDocentesRepository";
 
 class CargaDocentesRepositoryTestMock implements ICargaDocentesRepository {
   private cargas: CargaDocente[] = [];
@@ -29,9 +26,7 @@ class CargaDocentesRepositoryTestMock implements ICargaDocentesRepository {
   }
 
   async queryBySiape(siape: string): Promise<CargaDocente> {
-    const carga = this.cargas.find((carga) => carga.siape === siape);
-
-    return carga;
+    return this.cargas.find((carga) => carga.siape === siape);
   }
 
   async listAllCargas(): Promise<CargaDocente[]> {

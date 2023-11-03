@@ -30,9 +30,7 @@ class DayjsDateProvider implements IDateProvider {
 
   processDateToUTC(date: Date): Date {
     const date_utc = this.convertToUTC(date);
-    const convertedDate = new Date(date_utc);
-
-    return convertedDate;
+    return new Date(date_utc);
   }
 
   addDays(days: number): Date {

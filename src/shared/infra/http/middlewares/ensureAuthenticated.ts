@@ -1,4 +1,4 @@
-import { Request, Response, NextFunction } from "express";
+import { NextFunction, Request, Response } from "express";
 import { verify } from "jsonwebtoken";
 import { container } from "tsyringe";
 
@@ -27,9 +27,9 @@ export async function ensureAuthenticated(
   try {
     const { sub: user_id } = verify(token, auth.secret_token) as IPayload;
     const userService = container.resolve(HandleUserService);
-    const user = await userService.getCurrentUserInfo(user_id);
-
-    (request as IRequestWithUser).user = user;
+    (request as IRequestWithUser).user = await userService.getCurrentUserInfo(
+      user_id
+    );
 
     next();
   } catch {

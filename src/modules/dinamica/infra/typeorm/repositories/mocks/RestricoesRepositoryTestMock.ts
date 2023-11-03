@@ -1,6 +1,6 @@
-import { ICreateRestricoesDTO } from "../../../../dtos/ICreateRestricoesDTO";
-import { Restricoes } from "../../entities/Restricoes";
-import { IRestricoesRepository } from "../interfaces/IRestricoesRepository";
+import {ICreateRestricoesDTO} from "../../../../dtos/ICreateRestricoesDTO";
+import {Restricoes} from "../../entities/Restricoes";
+import {IRestricoesRepository} from "../interfaces/IRestricoesRepository";
 
 class RestricoesRepositoryTestMock implements IRestricoesRepository {
   createMany(data: ICreateRestricoesDTO[]): Promise<Restricoes[]> {
@@ -34,22 +34,18 @@ class RestricoesRepositoryTestMock implements IRestricoesRepository {
     dia: string,
     letra: string
   ): Promise<Restricoes> {
-    const restricoes = this.restricoesList.find(
+    return this.restricoesList.find(
       (restricoesToSearch) =>
         restricoesToSearch.siape === siape &&
         restricoesToSearch.dia === dia &&
         restricoesToSearch.letra === letra
     );
-
-    return restricoes;
   }
 
   async queryBySiape(siape: string): Promise<Restricoes[]> {
-    const restricoes = this.restricoesList.filter(
+    return this.restricoesList.filter(
       (restricoesToSearch) => restricoesToSearch.siape === siape
     );
-
-    return restricoes;
   }
 
   async deleteBySiapeEDiaELetra(

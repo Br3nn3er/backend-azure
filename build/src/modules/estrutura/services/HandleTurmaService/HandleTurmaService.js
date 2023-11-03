@@ -26,7 +26,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     function verb(n) { return function (v) { return step([n, v]); }; }
     function step(op) {
         if (f) throw new TypeError("Generator is already executing.");
-        while (_) try {
+        while (g && (g = 0, op[0] && (_ = 0)), _) try {
             if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
             if (y = 0, t) op = [op[0] & 2, t.value];
             switch (op[0]) {
@@ -64,7 +64,7 @@ var HandleTurmaService = /** @class */ (function () {
     HandleTurmaService.prototype.create = function (_a) {
         var codigo_disc = _a.codigo_disc, turma = _a.turma, ch = _a.ch, ano = _a.ano, semestre = _a.semestre;
         return __awaiter(this, void 0, void 0, function () {
-            var existentTurma, turmaToCreate;
+            var existentTurma;
             return __generator(this, function (_b) {
                 switch (_b.label) {
                     case 0: return [4 /*yield*/, this.turmasRepository.queryByCodigoTurmaAnoSemestre(codigo_disc, turma, ano, semestre)];
@@ -73,16 +73,13 @@ var HandleTurmaService = /** @class */ (function () {
                         if (existentTurma) {
                             throw new AppError_1.AppError("Há uma turma com este código!");
                         }
-                        return [4 /*yield*/, this.turmasRepository.createTurma({
+                        return [2 /*return*/, this.turmasRepository.createTurma({
                                 codigo_disc: codigo_disc,
                                 turma: turma,
                                 ch: ch,
                                 ano: ano,
                                 semestre: semestre,
                             })];
-                    case 2:
-                        turmaToCreate = _b.sent();
-                        return [2 /*return*/, turmaToCreate];
                 }
             });
         });
@@ -131,7 +128,7 @@ var HandleTurmaService = /** @class */ (function () {
     HandleTurmaService.prototype.update = function (_a) {
         var id = _a.id, codigo_disc = _a.codigo_disc, turma = _a.turma, ch = _a.ch, ano = _a.ano, semestre = _a.semestre;
         return __awaiter(this, void 0, void 0, function () {
-            var existentTurma, turmaToUpdate;
+            var existentTurma;
             return __generator(this, function (_b) {
                 switch (_b.label) {
                     case 0: return [4 /*yield*/, this.turmasRepository.queryById(id)];
@@ -140,7 +137,7 @@ var HandleTurmaService = /** @class */ (function () {
                         if (!existentTurma) {
                             throw new AppError_1.AppError("Esta turma não está cadastrada!");
                         }
-                        return [4 /*yield*/, this.turmasRepository.updateById({
+                        return [2 /*return*/, this.turmasRepository.updateById({
                                 id: id,
                                 codigo_disc: codigo_disc,
                                 turma: turma,
@@ -148,9 +145,6 @@ var HandleTurmaService = /** @class */ (function () {
                                 ano: ano,
                                 semestre: semestre,
                             })];
-                    case 2:
-                        turmaToUpdate = _b.sent();
-                        return [2 /*return*/, turmaToUpdate];
                 }
             });
         });
@@ -211,7 +205,7 @@ var HandleTurmaService = /** @class */ (function () {
         return new Promise(function (resolve, reject) {
             var turmas = [];
             var stream = fs_1.default.createReadStream(file.path);
-            var parseFile = (0, csv_parse_1.default)();
+            var parseFile = csv_parse_1.default.parse();
             stream.pipe(parseFile);
             parseFile
                 .on("data", function (line) { return __awaiter(_this, void 0, void 0, function () {

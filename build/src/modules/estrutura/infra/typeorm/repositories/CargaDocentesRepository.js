@@ -14,7 +14,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     function verb(n) { return function (v) { return step([n, v]); }; }
     function step(op) {
         if (f) throw new TypeError("Generator is already executing.");
-        while (_) try {
+        while (g && (g = 0, op[0] && (_ = 0)), _) try {
             if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
             if (y = 0, t) op = [op[0] & 2, t.value];
             switch (op[0]) {
@@ -37,11 +37,11 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.CargaDocentesRepository = void 0;
-var typeorm_1 = require("typeorm");
+var typeorm_1 = require("../../../../../shared/infra/typeorm");
 var CargaDocente_1 = require("../entities/CargaDocente");
 var CargaDocentesRepository = /** @class */ (function () {
     function CargaDocentesRepository() {
-        this.repository = (0, typeorm_1.getRepository)(CargaDocente_1.CargaDocente);
+        this.repository = typeorm_1.dataSource.getRepository(CargaDocente_1.CargaDocente);
     }
     CargaDocentesRepository.prototype.createCarga = function (_a) {
         var siape = _a.siape, carga_atual = _a.carga_atual, ano = _a.ano, semestre = _a.semestre;
@@ -49,16 +49,15 @@ var CargaDocentesRepository = /** @class */ (function () {
             var carga;
             return __generator(this, function (_b) {
                 switch (_b.label) {
-                    case 0: return [4 /*yield*/, this.repository.create({
+                    case 0:
+                        carga = this.repository.create({
                             siape: siape,
                             carga_atual: carga_atual,
                             ano: ano,
                             semestre: semestre,
-                        })];
-                    case 1:
-                        carga = _b.sent();
+                        });
                         return [4 /*yield*/, this.repository.save(carga)];
-                    case 2:
+                    case 1:
                         _b.sent();
                         return [2 /*return*/, carga];
                 }
@@ -67,30 +66,18 @@ var CargaDocentesRepository = /** @class */ (function () {
     };
     CargaDocentesRepository.prototype.queryBySiape = function (siape) {
         return __awaiter(this, void 0, void 0, function () {
-            var carga;
             return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0: return [4 /*yield*/, this.repository.findOne({ siape: siape })];
-                    case 1:
-                        carga = _a.sent();
-                        return [2 /*return*/, carga];
-                }
+                return [2 /*return*/, this.repository.findOneBy({ siape: siape })];
             });
         });
     };
     CargaDocentesRepository.prototype.listAllCargas = function () {
         return __awaiter(this, void 0, void 0, function () {
-            var cargas;
             return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0: return [4 /*yield*/, this.repository
-                            .createQueryBuilder("carga_docentes")
-                            .orderBy("siape", "ASC")
-                            .getMany()];
-                    case 1:
-                        cargas = _a.sent();
-                        return [2 /*return*/, cargas];
-                }
+                return [2 /*return*/, this.repository
+                        .createQueryBuilder("carga_docentes")
+                        .orderBy("siape", "ASC")
+                        .getMany()];
             });
         });
     };
@@ -100,7 +87,7 @@ var CargaDocentesRepository = /** @class */ (function () {
             var cargaToUpdate;
             return __generator(this, function (_b) {
                 switch (_b.label) {
-                    case 0: return [4 /*yield*/, this.repository.findOne({ siape: siape })];
+                    case 0: return [4 /*yield*/, this.repository.findOneBy({ siape: siape })];
                     case 1:
                         cargaToUpdate = _b.sent();
                         cargaToUpdate.carga_atual = carga_atual || cargaToUpdate.carga_atual;

@@ -1,9 +1,6 @@
-import {
-  ICreateDisciplinaDTO,
-  IPatchDisciplinaDTO,
-} from "../../../../dtos/ICreateUpdateDisciplinaDTO";
-import { Disciplina } from "../../entities/Disciplina";
-import { IDisciplinasRepository } from "../interfaces/IDisciplinasRepository";
+import {ICreateDisciplinaDTO, IPatchDisciplinaDTO,} from "../../../../dtos/ICreateUpdateDisciplinaDTO";
+import {Disciplina} from "../../entities/Disciplina";
+import {IDisciplinasRepository} from "../interfaces/IDisciplinasRepository";
 
 class DisciplinasRepositoryTestMock implements IDisciplinasRepository {
   disciplinas: Disciplina[] = [];
@@ -43,11 +40,9 @@ class DisciplinasRepositoryTestMock implements IDisciplinasRepository {
   }
 
   async queryByCodigo(codigo: string): Promise<Disciplina> {
-    const disciplina = this.disciplinas.find(
+    return this.disciplinas.find(
       (disciplina) => disciplina.codigo === codigo
     );
-
-    return disciplina;
   }
 
   async queryBySiapeEAnoESemestre(

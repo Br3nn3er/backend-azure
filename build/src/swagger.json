@@ -84,9 +84,7 @@
                 "tags": ["Contas"],
                 "summary": "Listar todas as contas",
                 "description": "Listar todas as contas",
-                "security": [
-                    { "bearerAuth": [] }
-                ],
+                "security": [{ "bearerAuth": [] }],
                 "responses": {
                     "200": {
                         "description": "Success",

@@ -1,11 +1,12 @@
 import { Router } from "express";
+
 import { HandleFilaTurmaController } from "../../../../modules/dinamica/services/HandleFilaTurmaService/HandleFilaTurmaController";
 import { ensureAdmin } from "../middlewares/ensureAdmin";
 import { ensureAuthenticated } from "../middlewares/ensureAuthenticated";
 
 const filaTurmaRoutes = Router();
 
-const handleFilaTurmaController =  new HandleFilaTurmaController();
+const handleFilaTurmaController = new HandleFilaTurmaController();
 
 filaTurmaRoutes.post(
   "/",
@@ -46,6 +47,5 @@ filaTurmaRoutes.delete(
   ensureAdmin,
   handleFilaTurmaController.delete
 );
-
 
 export { filaTurmaRoutes };

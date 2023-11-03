@@ -1,5 +1,6 @@
-import { getRepository, Repository } from "typeorm";
+import { Repository } from "typeorm";
 
+import { dataSource } from "../../../../../shared/infra/typeorm";
 import { ICreateOfertaDTO } from "../../../dtos/ICreateOfertaDTO";
 import { Oferta } from "../entities/Oferta";
 import { IOfertaRepository } from "./interfaces/IOfertaRepository";
@@ -8,7 +9,7 @@ class OfertaRepository implements IOfertaRepository {
   private repository: Repository<Oferta>;
 
   constructor() {
-    this.repository = getRepository(Oferta);
+    this.repository = dataSource.getRepository(Oferta);
   }
 
   async create({ dia, letra, id_turma }: ICreateOfertaDTO): Promise<Oferta> {
@@ -20,12 +21,10 @@ class OfertaRepository implements IOfertaRepository {
   }
 
   async listOfertas(): Promise<Oferta[]> {
-    const ofertas = await this.repository
+    return this.repository
       .createQueryBuilder("oferta")
       .orderBy("id", "ASC")
       .getMany();
-
-    return ofertas;
   }
 
   async listByTurmaIdAndSemestreAndAno(
@@ -33,7 +32,7 @@ class OfertaRepository implements IOfertaRepository {
     ano: number,
     semestre: number
   ): Promise<Oferta[]> {
-    const ofertas = await this.repository
+    return this.repository
       .createQueryBuilder("oferta")
       .innerJoinAndSelect("oferta.horario", "horario")
       .innerJoinAndSelect("oferta.turma", "turma")
@@ -45,14 +44,10 @@ class OfertaRepository implements IOfertaRepository {
       .orderBy("oferta.id", "ASC")
       .printSql()
       .getMany();
-
-    return ofertas;
   }
 
   async queryById(id: string): Promise<Oferta> {
-    const oferta = await this.repository.findOne(id);
-
-    return oferta;
+    return this.repository.findOneBy({ id });
   }
 
   async queryByDiaELetraETurma(
@@ -60,11 +55,9 @@ class OfertaRepository implements IOfertaRepository {
     letra: string,
     id_turma: number
   ): Promise<Oferta> {
-    const oferta = await this.repository.findOne({
+    return this.repository.findOne({
       where: { dia, letra, id_turma },
     });
-
-    return oferta;
   }
 
   async delete(id: string): Promise<void> {

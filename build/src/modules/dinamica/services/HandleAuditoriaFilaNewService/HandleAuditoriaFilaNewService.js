@@ -26,7 +26,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     function verb(n) { return function (v) { return step([n, v]); }; }
     function step(op) {
         if (f) throw new TypeError("Generator is already executing.");
-        while (_) try {
+        while (g && (g = 0, op[0] && (_ = 0)), _) try {
             if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
             if (y = 0, t) op = [op[0] & 2, t.value];
             switch (op[0]) {
@@ -63,40 +63,28 @@ var HandleAuditoriaFilaNewService = /** @class */ (function () {
     HandleAuditoriaFilaNewService.prototype.create = function (_a) {
         var id_turma = _a.id_turma, id_fila = _a.id_fila, prioridade_old = _a.prioridade_old, prioridade_new = _a.prioridade_new, stamp = _a.stamp;
         return __awaiter(this, void 0, void 0, function () {
-            var auditoriaNew;
             return __generator(this, function (_b) {
-                switch (_b.label) {
-                    case 0: return [4 /*yield*/, this.auditoriaFilaNewRepository.create({
-                            id_turma: id_turma,
-                            id_fila: id_fila,
-                            prioridade_old: prioridade_old,
-                            prioridade_new: prioridade_new,
-                            stamp: stamp,
-                        })];
-                    case 1:
-                        auditoriaNew = _b.sent();
-                        return [2 /*return*/, auditoriaNew];
-                }
+                return [2 /*return*/, this.auditoriaFilaNewRepository.create({
+                        id_turma: id_turma,
+                        id_fila: id_fila,
+                        prioridade_old: prioridade_old,
+                        prioridade_new: prioridade_new,
+                        stamp: stamp,
+                    })];
             });
         });
     };
     HandleAuditoriaFilaNewService.prototype.read = function () {
         return __awaiter(this, void 0, void 0, function () {
-            var auditoriasNew;
             return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0: return [4 /*yield*/, this.auditoriaFilaNewRepository.listAllAuditoriaNew()];
-                    case 1:
-                        auditoriasNew = _a.sent();
-                        return [2 /*return*/, auditoriasNew];
-                }
+                return [2 /*return*/, this.auditoriaFilaNewRepository.listAllAuditoriaNew()];
             });
         });
     };
     HandleAuditoriaFilaNewService.prototype.update = function (_a) {
         var id = _a.id, id_turma = _a.id_turma, id_fila = _a.id_fila, prioridade_old = _a.prioridade_old, prioridade_new = _a.prioridade_new, stamp = _a.stamp;
         return __awaiter(this, void 0, void 0, function () {
-            var existentAuditoriaNew, auditoriaToUpdate;
+            var existentAuditoriaNew;
             return __generator(this, function (_b) {
                 switch (_b.label) {
                     case 0: return [4 /*yield*/, this.auditoriaFilaNewRepository.queryById(id)];
@@ -105,7 +93,7 @@ var HandleAuditoriaFilaNewService = /** @class */ (function () {
                         if (!existentAuditoriaNew) {
                             throw new AppError_1.AppError("Auditoria não cadastrada!");
                         }
-                        return [4 /*yield*/, this.auditoriaFilaNewRepository.updateById({
+                        return [2 /*return*/, this.auditoriaFilaNewRepository.updateById({
                                 id: id,
                                 id_turma: id_turma,
                                 id_fila: id_fila,
@@ -113,9 +101,6 @@ var HandleAuditoriaFilaNewService = /** @class */ (function () {
                                 prioridade_new: prioridade_new,
                                 stamp: stamp,
                             })];
-                    case 2:
-                        auditoriaToUpdate = _b.sent();
-                        return [2 /*return*/, auditoriaToUpdate];
                 }
             });
         });
@@ -171,7 +156,7 @@ var HandleAuditoriaFilaNewService = /** @class */ (function () {
         return new Promise(function (resolve, reject) {
             var auditorias = [];
             var stream = fs_1.default.createReadStream(file.path);
-            var parseFile = (0, csv_parse_1.default)();
+            var parseFile = csv_parse_1.default.parse();
             stream.pipe(parseFile);
             parseFile
                 .on("data", function (line) { return __awaiter(_this, void 0, void 0, function () {

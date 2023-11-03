@@ -14,7 +14,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     function verb(n) { return function (v) { return step([n, v]); }; }
     function step(op) {
         if (f) throw new TypeError("Generator is already executing.");
-        while (_) try {
+        while (g && (g = 0, op[0] && (_ = 0)), _) try {
             if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
             if (y = 0, t) op = [op[0] & 2, t.value];
             switch (op[0]) {
@@ -37,14 +37,14 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.FilaTurmaRepository = void 0;
-var typeorm_1 = require("typeorm");
+var typeorm_1 = require("../../../../../shared/infra/typeorm");
 var Curso_1 = require("../../../../estrutura/infra/typeorm/entities/Curso");
 var Disciplina_1 = require("../../../../estrutura/infra/typeorm/entities/Disciplina");
 var Professor_1 = require("../../../../estrutura/infra/typeorm/entities/Professor");
 var FilaTurma_1 = require("../entities/FilaTurma");
 var FilaTurmaRepository = /** @class */ (function () {
     function FilaTurmaRepository() {
-        this.repository = (0, typeorm_1.getRepository)(FilaTurma_1.FilaTurma);
+        this.repository = typeorm_1.dataSource.getRepository(FilaTurma_1.FilaTurma);
     }
     FilaTurmaRepository.prototype.create = function (_a) {
         var siape = _a.siape, id_turma = _a.id_turma, codigo_disc = _a.codigo_disc, turma = _a.turma, pos = _a.pos, prioridade = _a.prioridade, qte_ministrada = _a.qte_ministrada, qte_maximo = _a.qte_maximo, status = _a.status, ch = _a.ch, id = _a.id, periodo_preferencial = _a.periodo_preferencial;
@@ -77,78 +77,56 @@ var FilaTurmaRepository = /** @class */ (function () {
     };
     FilaTurmaRepository.prototype.listFilas = function () {
         return __awaiter(this, void 0, void 0, function () {
-            var filasTurma;
             return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0: return [4 /*yield*/, this.repository
-                            .createQueryBuilder("fila_turma")
-                            .orderBy("id", "ASC")
-                            .getMany()];
-                    case 1:
-                        filasTurma = _a.sent();
-                        return [2 /*return*/, filasTurma];
-                }
+                return [2 /*return*/, this.repository
+                        .createQueryBuilder("fila_turma")
+                        .orderBy("id", "ASC")
+                        .getMany()];
             });
         });
     };
     FilaTurmaRepository.prototype.queryById = function (id) {
         return __awaiter(this, void 0, void 0, function () {
-            var filaFinded;
             return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0: return [4 /*yield*/, this.repository.findOne(id)];
-                    case 1:
-                        filaFinded = _a.sent();
-                        return [2 /*return*/, filaFinded];
-                }
+                return [2 /*return*/, this.repository.findOneBy({ id: id })];
             });
         });
     };
     FilaTurmaRepository.prototype.queryByTurma = function (id_turma) {
         return __awaiter(this, void 0, void 0, function () {
-            var filaFinded;
             return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0: return [4 /*yield*/, (0, typeorm_1.getRepository)(FilaTurma_1.FilaTurma)
-                            .createQueryBuilder("ft")
-                            .select("nome")
-                            .addSelect("ft.pos", "possicao")
-                            .addSelect("ft.prioridade", "prioridade")
-                            .addSelect("ft.qte_ministrada", "qte_ministrada")
-                            .addSelect("ft.qte_maximo", "qte_maximo")
-                            .leftJoin(Professor_1.Professor, "pf", "pf.siape = ft.siape")
-                            .where("ft.id_turma = :id_turma", { id_turma: id_turma })
-                            .orderBy("ft.prioridade", "DESC")
-                            .getRawMany()];
-                    case 1:
-                        filaFinded = _a.sent();
-                        return [2 /*return*/, filaFinded];
-                }
+                return [2 /*return*/, typeorm_1.dataSource
+                        .getRepository(FilaTurma_1.FilaTurma)
+                        .createQueryBuilder("ft")
+                        .select("nome")
+                        .addSelect("ft.pos", "possicao")
+                        .addSelect("ft.prioridade", "prioridade")
+                        .addSelect("ft.qte_ministrada", "qte_ministrada")
+                        .addSelect("ft.qte_maximo", "qte_maximo")
+                        .leftJoin(Professor_1.Professor, "pf", "pf.siape = ft.siape")
+                        .where("ft.id_turma = :id_turma", { id_turma: id_turma })
+                        .orderBy("ft.prioridade", "DESC")
+                        .getRawMany()];
             });
         });
     };
     FilaTurmaRepository.prototype.queryBySiape = function (siape) {
         return __awaiter(this, void 0, void 0, function () {
-            var filaFinded;
             return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0: return [4 /*yield*/, (0, typeorm_1.getRepository)(FilaTurma_1.FilaTurma)
-                            .createQueryBuilder("ft")
-                            .select("dp.nome", "nome_diciplina")
-                            .addSelect("ft.turma", "turma")
-                            .addSelect("cs.nome", "nome_curso")
-                            .addSelect("ft.pos", "possicao")
-                            .addSelect("ft.prioridade", "prioridade")
-                            .addSelect("ft.qte_ministrada", "qte_ministrada")
-                            .addSelect("ft.qte_maximo", "qte_maximo")
-                            .leftJoin(Disciplina_1.Disciplina, "dp", "dp.codigo = ft.codigo_disc")
-                            .leftJoin(Curso_1.Curso, "cs", "cs.codigo = dp.curso")
-                            .where("ft.siape = :siape", { siape: siape })
-                            .getRawMany()];
-                    case 1:
-                        filaFinded = _a.sent();
-                        return [2 /*return*/, filaFinded];
-                }
+                return [2 /*return*/, typeorm_1.dataSource
+                        .getRepository(FilaTurma_1.FilaTurma)
+                        .createQueryBuilder("ft")
+                        .select("dp.nome", "nome_diciplina")
+                        .addSelect("ft.turma", "turma")
+                        .addSelect("cs.nome", "nome_curso")
+                        .addSelect("ft.pos", "possicao")
+                        .addSelect("ft.prioridade", "prioridade")
+                        .addSelect("ft.qte_ministrada", "qte_ministrada")
+                        .addSelect("ft.qte_maximo", "qte_maximo")
+                        .leftJoin(Disciplina_1.Disciplina, "dp", "dp.codigo = ft.codigo_disc")
+                        .leftJoin(Curso_1.Curso, "cs", "cs.codigo = dp.curso")
+                        .where("ft.siape = :siape", { siape: siape })
+                        .getRawMany()];
             });
         });
     };
@@ -158,7 +136,7 @@ var FilaTurmaRepository = /** @class */ (function () {
             var filaTurma;
             return __generator(this, function (_b) {
                 switch (_b.label) {
-                    case 0: return [4 /*yield*/, this.repository.findOne(id)];
+                    case 0: return [4 /*yield*/, this.repository.findOneBy({ id: id })];
                     case 1:
                         filaTurma = _b.sent();
                         filaTurma.id_turma = id_turma || filaTurma.id_turma;

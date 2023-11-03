@@ -14,7 +14,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     function verb(n) { return function (v) { return step([n, v]); }; }
     function step(op) {
         if (f) throw new TypeError("Generator is already executing.");
-        while (_) try {
+        while (g && (g = 0, op[0] && (_ = 0)), _) try {
             if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
             if (y = 0, t) op = [op[0] & 2, t.value];
             switch (op[0]) {
@@ -37,11 +37,11 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.AuditoriaFilaRepository = void 0;
-var typeorm_1 = require("typeorm");
+var typeorm_1 = require("../../../../../shared/infra/typeorm");
 var AuditoriaFila_1 = require("../entities/AuditoriaFila");
 var AuditoriaFilaRepository = /** @class */ (function () {
     function AuditoriaFilaRepository() {
-        this.repository = (0, typeorm_1.getRepository)(AuditoriaFila_1.AuditoriaFila);
+        this.repository = typeorm_1.dataSource.getRepository(AuditoriaFila_1.AuditoriaFila);
     }
     AuditoriaFilaRepository.prototype.create = function (_a) {
         var siape = _a.siape, codigo_disc = _a.codigo_disc, pos = _a.pos, prioridade = _a.prioridade, qte_ministrada = _a.qte_ministrada, qte_maximo = _a.qte_maximo, ano = _a.ano, semestre = _a.semestre, status = _a.status, periodo_preferencial = _a.periodo_preferencial, comando = _a.comando, stamp = _a.stamp;
@@ -74,43 +74,25 @@ var AuditoriaFilaRepository = /** @class */ (function () {
     };
     AuditoriaFilaRepository.prototype.listAllAuditorias = function () {
         return __awaiter(this, void 0, void 0, function () {
-            var auditorias;
             return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0: return [4 /*yield*/, this.repository
-                            .createQueryBuilder("auditoria_fila")
-                            .orderBy("siape", "ASC")
-                            .getMany()];
-                    case 1:
-                        auditorias = _a.sent();
-                        return [2 /*return*/, auditorias];
-                }
+                return [2 /*return*/, this.repository
+                        .createQueryBuilder("auditoria_fila")
+                        .orderBy("siape", "ASC")
+                        .getMany()];
             });
         });
     };
     AuditoriaFilaRepository.prototype.queryById = function (id) {
         return __awaiter(this, void 0, void 0, function () {
-            var auditoria;
             return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0: return [4 /*yield*/, this.repository.findOne(id)];
-                    case 1:
-                        auditoria = _a.sent();
-                        return [2 /*return*/, auditoria];
-                }
+                return [2 /*return*/, this.repository.findOneBy({ id: id })];
             });
         });
     };
     AuditoriaFilaRepository.prototype.queryBySiape = function (siape) {
         return __awaiter(this, void 0, void 0, function () {
-            var auditoria;
             return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0: return [4 /*yield*/, this.repository.findOne({ siape: siape })];
-                    case 1:
-                        auditoria = _a.sent();
-                        return [2 /*return*/, auditoria];
-                }
+                return [2 /*return*/, this.repository.findOneBy({ siape: siape })];
             });
         });
     };
@@ -120,7 +102,7 @@ var AuditoriaFilaRepository = /** @class */ (function () {
             var auditoria;
             return __generator(this, function (_b) {
                 switch (_b.label) {
-                    case 0: return [4 /*yield*/, this.repository.findOne({ id: id })];
+                    case 0: return [4 /*yield*/, this.repository.findOneBy({ id: id })];
                     case 1:
                         auditoria = _b.sent();
                         auditoria.siape = siape || auditoria.siape;

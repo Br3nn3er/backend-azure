@@ -1,5 +1,6 @@
-import { getRepository, Repository } from "typeorm";
+import { Repository } from "typeorm";
 
+import { dataSource } from "../../../../../shared/infra/typeorm";
 import { Oferta } from "../../../../dinamica/infra/typeorm/entities/Oferta";
 import { ICreateMinistraDTO } from "../../../dtos/ICreateMinistraDTO";
 import { Ministra } from "../entities/Ministra";
@@ -9,11 +10,11 @@ class MinistraRepository implements IMinistraRepository {
   private repository: Repository<Ministra>;
 
   constructor() {
-    this.repository = getRepository(Ministra);
+    this.repository = dataSource.getRepository(Ministra);
   }
 
   async create({ siape, id_turma }: ICreateMinistraDTO): Promise<Ministra> {
-    const ministra = await this.repository.create({ siape, id_turma });
+    const ministra = this.repository.create({ siape, id_turma });
 
     await this.repository.save(ministra);
 
@@ -21,12 +22,10 @@ class MinistraRepository implements IMinistraRepository {
   }
 
   async listAllMinistra(): Promise<Ministra[]> {
-    const allMinistra = await this.repository
+    return this.repository
       .createQueryBuilder("ministra")
       .orderBy("siape", "ASC")
       .getMany();
-
-    return allMinistra;
   }
 
   async listMinistraByProfessorAndSemestre(
@@ -34,7 +33,7 @@ class MinistraRepository implements IMinistraRepository {
     ano: number,
     semestre: number
   ): Promise<Ministra[]> {
-    const allMinistra = await this.repository
+    return this.repository
       .createQueryBuilder("ministra")
       .innerJoinAndSelect("ministra.turma", "turma")
       .innerJoinAndMapMany(
@@ -48,8 +47,6 @@ class MinistraRepository implements IMinistraRepository {
         { ano, semestre, siapes }
       )
       .getMany();
-
-    return allMinistra;
   }
 
   async listByTurmasAndSemestre(
@@ -57,7 +54,7 @@ class MinistraRepository implements IMinistraRepository {
     ano: number,
     semestre: number
   ): Promise<Ministra[]> {
-    const allMinistra = await this.repository
+    return this.repository
       .createQueryBuilder("ministra")
       .innerJoinAndSelect("ministra.turma", "turma")
       .innerJoinAndMapMany(
@@ -71,19 +68,15 @@ class MinistraRepository implements IMinistraRepository {
         { ano, semestre, turmaIds }
       )
       .getMany();
-
-    return allMinistra;
   }
 
   async queryBySiapeAndIdTurma(
     siape: string,
     id_turma: string
   ): Promise<Ministra> {
-    const ministra = await this.repository.findOne({
+    return this.repository.findOne({
       where: { siape, id_turma },
     });
-
-    return ministra;
   }
 
   async deleteBySiapeAndIdTurma(

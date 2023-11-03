@@ -1,9 +1,6 @@
-import {
-  ICreateHorarioDTO,
-  IPatchHorarioDTO,
-} from "../../../../dtos/ICreateUpdateHorarioDTO";
-import { Horario } from "../../entities/Horario";
-import { IHorariosRepository } from "../interfaces/IHorariosRepository";
+import {ICreateHorarioDTO, IPatchHorarioDTO,} from "../../../../dtos/ICreateUpdateHorarioDTO";
+import {Horario} from "../../entities/Horario";
+import {IHorariosRepository} from "../interfaces/IHorariosRepository";
 
 class HorariosRepositoryTestMock implements IHorariosRepository {
   private horarios: Horario[] = [];
@@ -29,9 +26,7 @@ class HorariosRepositoryTestMock implements IHorariosRepository {
   }
 
   async queryByLetra(letra: string): Promise<Horario> {
-    const horario = this.horarios.find((horario) => horario.letra === letra);
-
-    return horario;
+    return this.horarios.find((horario) => horario.letra === letra);
   }
 
   async listAllHorarios(): Promise<Horario[]> {

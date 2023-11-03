@@ -43,7 +43,7 @@ class HandleAuditoriaFilaService {
     comando,
     stamp,
   }: IHandleAuditoriaFila): Promise<AuditoriaFila> {
-    const auditoria = await this.auditoriaFilaRepository.create({
+    return this.auditoriaFilaRepository.create({
       siape,
       codigo_disc,
       pos,
@@ -57,8 +57,6 @@ class HandleAuditoriaFilaService {
       comando,
       stamp,
     });
-
-    return auditoria;
   }
 
   async read(): Promise<AuditoriaFila[]> {
@@ -95,7 +93,7 @@ class HandleAuditoriaFilaService {
       throw new AppError("Auditoria não cadastrada!");
     }
 
-    const auditoriaToUpdate = await this.auditoriaFilaRepository.updateById({
+    return this.auditoriaFilaRepository.updateById({
       id,
       siape,
       codigo_disc,
@@ -110,8 +108,6 @@ class HandleAuditoriaFilaService {
       comando,
       stamp,
     });
-
-    return auditoriaToUpdate;
   }
 
   async delete(id: string): Promise<void> {
@@ -164,7 +160,7 @@ class HandleAuditoriaFilaService {
 
       const stream = fs.createReadStream(file.path);
 
-      const parseFile = csvParse();
+      const parseFile = csvParse.parse();
 
       stream.pipe(parseFile);
 

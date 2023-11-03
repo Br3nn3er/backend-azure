@@ -14,7 +14,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     function verb(n) { return function (v) { return step([n, v]); }; }
     function step(op) {
         if (f) throw new TypeError("Generator is already executing.");
-        while (_) try {
+        while (g && (g = 0, op[0] && (_ = 0)), _) try {
             if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
             if (y = 0, t) op = [op[0] & 2, t.value];
             switch (op[0]) {
@@ -37,14 +37,14 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.DisciplinasRepository = void 0;
-var typeorm_1 = require("typeorm");
+var typeorm_1 = require("../../../../../shared/infra/typeorm");
+var Fila_1 = require("../../../../dinamica/infra/typeorm/entities/Fila");
+var FilaTurmaNew_1 = require("../../../../dinamica/infra/typeorm/entities/FilaTurmaNew");
 var Disciplina_1 = require("../entities/Disciplina");
 var Turma_1 = require("../entities/Turma");
-var FilaTurmaNew_1 = require("../../../../dinamica/infra/typeorm/entities/FilaTurmaNew");
-var Fila_1 = require("../../../../dinamica/infra/typeorm/entities/Fila");
 var DisciplinasRepository = /** @class */ (function () {
     function DisciplinasRepository() {
-        this.repository = (0, typeorm_1.getRepository)(Disciplina_1.Disciplina);
+        this.repository = typeorm_1.dataSource.getRepository(Disciplina_1.Disciplina);
     }
     DisciplinasRepository.prototype.createDisciplina = function (_a) {
         var codigo = _a.codigo, nome = _a.nome, ch_teorica = _a.ch_teorica, ch_pratica = _a.ch_pratica, ch_total = _a.ch_total, curso = _a.curso, temfila = _a.temfila, periodo = _a.periodo, cod_antigo = _a.cod_antigo;
@@ -52,7 +52,8 @@ var DisciplinasRepository = /** @class */ (function () {
             var disciplina;
             return __generator(this, function (_b) {
                 switch (_b.label) {
-                    case 0: return [4 /*yield*/, this.repository.create({
+                    case 0:
+                        disciplina = this.repository.create({
                             codigo: codigo,
                             nome: nome,
                             ch_teorica: ch_teorica,
@@ -62,11 +63,9 @@ var DisciplinasRepository = /** @class */ (function () {
                             temfila: temfila,
                             periodo: periodo,
                             cod_antigo: cod_antigo,
-                        })];
-                    case 1:
-                        disciplina = _b.sent();
+                        });
                         return [4 /*yield*/, this.repository.save(disciplina)];
-                    case 2:
+                    case 1:
                         _b.sent();
                         return [2 /*return*/, disciplina];
                 }
@@ -75,61 +74,46 @@ var DisciplinasRepository = /** @class */ (function () {
     };
     DisciplinasRepository.prototype.listAllDisciplinas = function () {
         return __awaiter(this, void 0, void 0, function () {
-            var disciplinas;
             return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0: return [4 /*yield*/, this.repository
-                            .createQueryBuilder("disciplina")
-                            .orderBy("codigo", "ASC")
-                            .getMany()];
-                    case 1:
-                        disciplinas = _a.sent();
-                        return [2 /*return*/, disciplinas];
-                }
+                return [2 /*return*/, this.repository
+                        .createQueryBuilder("disciplina")
+                        .orderBy("codigo", "ASC")
+                        .getMany()];
             });
         });
     };
     DisciplinasRepository.prototype.queryByCodigo = function (codigo) {
         return __awaiter(this, void 0, void 0, function () {
-            var disciplina;
             return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0: return [4 /*yield*/, this.repository.findOne({ codigo: codigo })];
-                    case 1:
-                        disciplina = _a.sent();
-                        return [2 /*return*/, disciplina];
-                }
+                return [2 /*return*/, this.repository.findOneBy({ codigo: codigo })];
             });
         });
     };
     DisciplinasRepository.prototype.queryBySiapeEAnoESemestre = function (siape, ano, semestre) {
         return __awaiter(this, void 0, void 0, function () {
-            var disciplinas;
             return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0: return [4 /*yield*/, (0, typeorm_1.getRepository)(Disciplina_1.Disciplina)
-                            .createQueryBuilder("dp")
-                            .select(['dp.codigo AS codigo_disciplina',
-                            'dp.nome AS nome_disciplina',
-                            'tm.turma AS turma',
-                            'dp.curso AS codigo_curso',
-                            'fl.siape AS siape',
-                            'ftn.prioridade AS prioridade',
-                            'fl.pos AS posicao',
-                            'fl.qte_ministrada AS qte_ministrada',
-                            'ftn.id_turma AS id_turma'])
-                            .leftJoin(Turma_1.Turma, "tm", "dp.codigo = tm.codigo_disc")
-                            .leftJoin(FilaTurmaNew_1.FilaTurmaNew, "ftn", "tm.id = ftn.id_turma")
-                            .leftJoin(Fila_1.Fila, "fl", "fl.id = ftn.id_fila")
-                            .where("fl.siape = :siape", { siape: siape })
-                            .andWhere("tm.ano = :ano", { ano: ano })
-                            .andWhere("tm.semestre = :semestre", { semestre: semestre })
-                            .orderBy("codigo", "ASC")
-                            .getRawMany()];
-                    case 1:
-                        disciplinas = _a.sent();
-                        return [2 /*return*/, disciplinas];
-                }
+                return [2 /*return*/, typeorm_1.dataSource
+                        .getRepository(Disciplina_1.Disciplina)
+                        .createQueryBuilder("dp")
+                        .select([
+                        "dp.codigo AS codigo_disciplina",
+                        "dp.nome AS nome_disciplina",
+                        "tm.turma AS turma",
+                        "dp.curso AS codigo_curso",
+                        "fl.siape AS siape",
+                        "ftn.prioridade AS prioridade",
+                        "fl.pos AS posicao",
+                        "fl.qte_ministrada AS qte_ministrada",
+                        "ftn.id_turma AS id_turma",
+                    ])
+                        .leftJoin(Turma_1.Turma, "tm", "dp.codigo = tm.codigo_disc")
+                        .leftJoin(FilaTurmaNew_1.FilaTurmaNew, "ftn", "tm.id = ftn.id_turma")
+                        .leftJoin(Fila_1.Fila, "fl", "fl.id = ftn.id_fila")
+                        .where("fl.siape = :siape", { siape: siape })
+                        .andWhere("tm.ano = :ano", { ano: ano })
+                        .andWhere("tm.semestre = :semestre", { semestre: semestre })
+                        .orderBy("codigo", "ASC")
+                        .getRawMany()];
             });
         });
     };
@@ -139,7 +123,9 @@ var DisciplinasRepository = /** @class */ (function () {
             var disciplinaToUpdate;
             return __generator(this, function (_b) {
                 switch (_b.label) {
-                    case 0: return [4 /*yield*/, this.repository.findOne({ codigo: codigo })];
+                    case 0: return [4 /*yield*/, this.repository.findOneBy({
+                            codigo: codigo,
+                        })];
                     case 1:
                         disciplinaToUpdate = _b.sent();
                         disciplinaToUpdate.nome = nome || disciplinaToUpdate.nome;

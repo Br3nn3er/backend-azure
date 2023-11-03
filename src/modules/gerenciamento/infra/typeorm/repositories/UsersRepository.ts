@@ -1,5 +1,6 @@
 import { getRepository, Repository } from "typeorm";
 
+import { dataSource } from "../../../../../shared/infra/typeorm";
 import {
   ICreateUsersDTO,
   IPatchUserDTO,
@@ -11,7 +12,7 @@ class UsersRepository implements IUsersRepository {
   private usersRepository: Repository<User>;
 
   constructor() {
-    this.usersRepository = getRepository(User);
+    this.usersRepository = dataSource.getRepository(User);
   }
 
   createUser({
@@ -35,11 +36,11 @@ class UsersRepository implements IUsersRepository {
   }
 
   queryByEmail(email: string): Promise<User> {
-    return this.usersRepository.findOne({ email });
+    return this.usersRepository.findOneBy({ email });
   }
 
   queryById(id: string): Promise<User> {
-    return this.usersRepository.findOne(id);
+    return this.usersRepository.findOneBy({ id });
   }
 
   listUsers(): Promise<User[]> {
@@ -51,7 +52,7 @@ class UsersRepository implements IUsersRepository {
   }
 
   async updateById({ id, name, isAdmin }: IPatchUserDTO): Promise<User> {
-    const user = await this.usersRepository.findOne(id);
+    const user = await this.usersRepository.findOneBy({ id });
 
     user.name = name || user.name;
     user.isAdmin =

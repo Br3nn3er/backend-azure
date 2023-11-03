@@ -1,12 +1,9 @@
-import { inject, injectable } from "tsyringe";
+import {inject, injectable} from "tsyringe";
 
-import { IDateProvider } from "../../../../../../shared/container/providers/DateProvider/IDateProvider";
-import {
-  ICreateProfessoresDTO,
-  IPatchProfessorDTO,
-} from "../../../../dtos/ICreateUpdateProfessoresDTO";
-import { Professor } from "../../entities/Professor";
-import { IProfessoresRepository } from "../interfaces/IProfessoresRepository";
+import {IDateProvider} from "../../../../../../shared/container/providers/DateProvider/IDateProvider";
+import {ICreateProfessoresDTO, IPatchProfessorDTO,} from "../../../../dtos/ICreateUpdateProfessoresDTO";
+import {Professor} from "../../entities/Professor";
+import {IProfessoresRepository} from "../interfaces/IProfessoresRepository";
 
 @injectable()
 class ProfessoresRepositoryTestMock implements IProfessoresRepository {
@@ -60,11 +57,9 @@ class ProfessoresRepositoryTestMock implements IProfessoresRepository {
   }
 
   async queryBySiape(siape: string): Promise<Professor> {
-    const foundedProfessor = this.professores.find(
+    return this.professores.find(
       (professor) => professor.siape === siape
     );
-
-    return foundedProfessor;
   }
 
   async updateBySiape({

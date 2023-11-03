@@ -14,7 +14,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     function verb(n) { return function (v) { return step([n, v]); }; }
     function step(op) {
         if (f) throw new TypeError("Generator is already executing.");
-        while (_) try {
+        while (g && (g = 0, op[0] && (_ = 0)), _) try {
             if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
             if (y = 0, t) op = [op[0] & 2, t.value];
             switch (op[0]) {
@@ -37,16 +37,16 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.CursosRepository = void 0;
-var typeorm_1 = require("typeorm");
+var typeorm_1 = require("../../../../../shared/infra/typeorm");
 var Curso_1 = require("../entities/Curso");
 var CursosRepository = /** @class */ (function () {
     function CursosRepository() {
-        this.repository = (0, typeorm_1.getRepository)(Curso_1.Curso);
+        this.repository = typeorm_1.dataSource.getRepository(Curso_1.Curso);
     }
     CursosRepository.prototype.queryByCodigo = function (codigo) {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
-                return [2 /*return*/, this.repository.findOne({ codigo: codigo })];
+                return [2 /*return*/, this.repository.findOneBy({ codigo: codigo })];
             });
         });
     };
@@ -56,18 +56,17 @@ var CursosRepository = /** @class */ (function () {
             var curso;
             return __generator(this, function (_b) {
                 switch (_b.label) {
-                    case 0: return [4 /*yield*/, this.repository.create({
+                    case 0:
+                        curso = this.repository.create({
                             codigo: codigo,
                             nome: nome,
                             unidade: unidade,
                             campus: campus,
                             permitir_choque_periodo: permitir_choque_periodo,
                             permitir_choque_horario: permitir_choque_horario,
-                        })];
-                    case 1:
-                        curso = _b.sent();
+                        });
                         return [4 /*yield*/, this.repository.save(curso)];
-                    case 2:
+                    case 1:
                         _b.sent();
                         return [2 /*return*/, curso];
                 }
@@ -76,17 +75,11 @@ var CursosRepository = /** @class */ (function () {
     };
     CursosRepository.prototype.listAllCursos = function () {
         return __awaiter(this, void 0, void 0, function () {
-            var cursos;
             return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0: return [4 /*yield*/, this.repository
-                            .createQueryBuilder("curso")
-                            .orderBy("codigo", "ASC")
-                            .getMany()];
-                    case 1:
-                        cursos = _a.sent();
-                        return [2 /*return*/, cursos];
-                }
+                return [2 /*return*/, this.repository
+                        .createQueryBuilder("curso")
+                        .orderBy("codigo", "ASC")
+                        .getMany()];
             });
         });
     };
@@ -108,7 +101,7 @@ var CursosRepository = /** @class */ (function () {
             var cursoToUpdate;
             return __generator(this, function (_b) {
                 switch (_b.label) {
-                    case 0: return [4 /*yield*/, this.repository.findOne({ codigo: codigo })];
+                    case 0: return [4 /*yield*/, this.repository.findOneBy({ codigo: codigo })];
                     case 1:
                         cursoToUpdate = _b.sent();
                         cursoToUpdate.nome = nome || cursoToUpdate.nome;

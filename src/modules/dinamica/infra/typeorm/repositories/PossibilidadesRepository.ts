@@ -1,5 +1,6 @@
-import { getRepository, Repository } from "typeorm";
+import { Repository } from "typeorm";
 
+import { dataSource } from "../../../../../shared/infra/typeorm";
 import {
   ICreatePossibilidadeDTO,
   IPatchPossibilidadeDTO,
@@ -11,7 +12,7 @@ class PossibilidadesRepository implements IPossibilidadesRepository {
   private repository: Repository<Possibilidades>;
 
   constructor() {
-    this.repository = getRepository(Possibilidades);
+    this.repository = dataSource.getRepository(Possibilidades);
   }
 
   async create({
@@ -26,26 +27,20 @@ class PossibilidadesRepository implements IPossibilidadesRepository {
   }
 
   async listPossibilidades(): Promise<Possibilidades[]> {
-    const possibilidades = await this.repository
+    return this.repository
       .createQueryBuilder("possibilidades")
       .orderBy("id", "ASC")
       .getMany();
-
-    return possibilidades;
   }
 
   async queryById(id: string): Promise<Possibilidades> {
-    const possibilidade = await this.repository.findOne(id);
-
-    return possibilidade;
+    return this.repository.findOneBy({ id });
   }
 
   async queryByNumCenario(num_cenario: number): Promise<Possibilidades> {
-    const possibilidade = await this.repository.findOne({
+    return this.repository.findOne({
       where: { num_cenario },
     });
-
-    return possibilidade;
   }
 
   async updateById({
@@ -53,7 +48,7 @@ class PossibilidadesRepository implements IPossibilidadesRepository {
     descricao,
     num_cenario,
   }: IPatchPossibilidadeDTO): Promise<Possibilidades> {
-    const possibilidade = await this.repository.findOne(id);
+    const possibilidade = await this.repository.findOneBy({ id });
 
     possibilidade.descricao = descricao || possibilidade.descricao;
     possibilidade.num_cenario = num_cenario || possibilidade.num_cenario;

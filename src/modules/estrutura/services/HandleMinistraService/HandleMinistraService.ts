@@ -42,12 +42,10 @@ class HandleMinistraService {
       throw new AppError("Há um professor ministrando nesta turma!", 403);
     }
 
-    const ministra = await this.ministraRepository.create({
+    return this.ministraRepository.create({
       siape,
       id_turma,
     });
-
-    return ministra;
   }
 
   async read(): Promise<Ministra[]> {
@@ -132,7 +130,7 @@ class HandleMinistraService {
 
       const stream = fs.createReadStream(file.path);
 
-      const parseFile = csvParse();
+      const parseFile = csvParse.parse();
 
       stream.pipe(parseFile);
 

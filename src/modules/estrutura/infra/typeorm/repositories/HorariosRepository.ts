@@ -1,5 +1,6 @@
-import { getRepository, Repository } from "typeorm";
+import { Repository } from "typeorm";
 
+import { dataSource } from "../../../../../shared/infra/typeorm";
 import {
   ICreateHorarioDTO,
   IPatchHorarioDTO,
@@ -11,7 +12,7 @@ class HorariosRepository implements IHorariosRepository {
   private repository: Repository<Horario>;
 
   constructor() {
-    this.repository = getRepository(Horario);
+    this.repository = dataSource.getRepository(Horario);
   }
 
   async createHorario({
@@ -20,7 +21,7 @@ class HorariosRepository implements IHorariosRepository {
     hora_fim,
     turno,
   }: ICreateHorarioDTO): Promise<Horario> {
-    const horario = await this.repository.create({
+    const horario = this.repository.create({
       letra,
       hora_inicio,
       hora_fim,
@@ -33,18 +34,14 @@ class HorariosRepository implements IHorariosRepository {
   }
 
   async queryByLetra(letra: string): Promise<Horario> {
-    const horario = await this.repository.findOne({ letra });
-
-    return horario;
+    return this.repository.findOneBy({ letra });
   }
 
   async listAllHorarios(): Promise<Horario[]> {
-    const horarios = await this.repository
+    return this.repository
       .createQueryBuilder("horario")
       .orderBy("letra", "ASC")
       .getMany();
-
-    return horarios;
   }
 
   async updateHorarioByLetra({
@@ -53,7 +50,7 @@ class HorariosRepository implements IHorariosRepository {
     hora_fim,
     turno,
   }: IPatchHorarioDTO): Promise<Horario> {
-    const horarioToUpdate = await this.repository.findOne({ letra });
+    const horarioToUpdate = await this.repository.findOneBy({ letra });
 
     horarioToUpdate.hora_inicio = hora_inicio || horarioToUpdate.hora_inicio;
     horarioToUpdate.hora_fim = hora_fim || horarioToUpdate.hora_fim;

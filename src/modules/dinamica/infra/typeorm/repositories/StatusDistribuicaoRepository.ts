@@ -1,5 +1,6 @@
-import { getRepository, Repository } from "typeorm";
+import { Repository } from "typeorm";
 
+import { dataSource } from "../../../../../shared/infra/typeorm";
 import {
   ICreateStatusDistribuicaoDTO,
   IPatchStatusDistribuicaoDTO,
@@ -11,7 +12,7 @@ class StatusDistribuicaoRepository implements IStatusDistribuicaoRepository {
   private repository: Repository<StatusDistribuicao>;
 
   constructor() {
-    this.repository = getRepository(StatusDistribuicao);
+    this.repository = dataSource.getRepository(StatusDistribuicao);
   }
 
   async create({
@@ -26,24 +27,18 @@ class StatusDistribuicaoRepository implements IStatusDistribuicaoRepository {
   }
 
   async listAllStatus(): Promise<StatusDistribuicao[]> {
-    const listStatus = await this.repository
+    return this.repository
       .createQueryBuilder("status_distribuicao")
       .orderBy("id", "ASC")
       .getMany();
-
-    return listStatus;
   }
 
   async queryById(id: number): Promise<StatusDistribuicao> {
-    const statusFounded = await this.repository.findOne({ where: { id } });
-
-    return statusFounded;
+    return this.repository.findOne({ where: { id } });
   }
 
   async queryByCodigo(codigo: string): Promise<StatusDistribuicao> {
-    const statusFounded = await this.repository.findOne(codigo);
-
-    return statusFounded;
+    return this.repository.findOneBy({ codigo });
   }
 
   async updateByCodigo({
@@ -51,7 +46,7 @@ class StatusDistribuicaoRepository implements IStatusDistribuicaoRepository {
     id,
     descricao,
   }: IPatchStatusDistribuicaoDTO): Promise<StatusDistribuicao> {
-    const statusFounded = await this.repository.findOne(codigo);
+    const statusFounded = await this.repository.findOneBy({ codigo });
 
     statusFounded.descricao = descricao || statusFounded.descricao;
     statusFounded.id = id || statusFounded.id;

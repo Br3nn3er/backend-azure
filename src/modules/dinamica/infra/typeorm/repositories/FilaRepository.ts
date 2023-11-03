@@ -1,18 +1,19 @@
-import { getRepository, Repository } from "typeorm";
+import { Repository } from "typeorm";
 
+import { dataSource } from "../../../../../shared/infra/typeorm";
+import { Disciplina } from "../../../../estrutura/infra/typeorm/entities/Disciplina";
+import { Professor } from "../../../../estrutura/infra/typeorm/entities/Professor";
+import { Turma } from "../../../../estrutura/infra/typeorm/entities/Turma";
 import { ICreateFilaDTO, IPatchFilaDTO } from "../../../dtos/ICreateFilaDTO";
 import { Fila } from "../entities/Fila";
-import { IFilaRepository } from "./interfaces/IFilaRepository";
-import { Professor } from "../../../../estrutura/infra/typeorm/entities/Professor";
 import { FilaTurmaNew } from "../entities/FilaTurmaNew";
-import { Turma } from "../../../../estrutura/infra/typeorm/entities/Turma";
-import { Disciplina } from "../../../../estrutura/infra/typeorm/entities/Disciplina";
+import { IFilaRepository } from "./interfaces/IFilaRepository";
 
 class FilaRepository implements IFilaRepository {
   private repository: Repository<Fila>;
 
   constructor() {
-    this.repository = getRepository(Fila);
+    this.repository = dataSource.getRepository(Fila);
   }
 
   async create({
@@ -46,18 +47,14 @@ class FilaRepository implements IFilaRepository {
   }
 
   async listFilas(): Promise<Fila[]> {
-    const filas = await this.repository
+    return this.repository
       .createQueryBuilder("fila")
       .orderBy("id", "ASC")
       .getMany();
-
-    return filas;
   }
 
   async queryById(id: number): Promise<Fila> {
-    const fila = await this.repository.findOne(id);
-
-    return fila;
+    return this.repository.findOneBy({ id });
   }
 
   async queryByDiscEPosEAnoESemestre(
@@ -66,11 +63,9 @@ class FilaRepository implements IFilaRepository {
     ano: number,
     semestre: number
   ): Promise<Fila> {
-    const fila = await this.repository.findOne({
+    return this.repository.findOne({
       where: { codigo_disc, pos, ano, semestre },
     });
-
-    return fila;
   }
 
   async queryByDiscEAnoESemestre(
@@ -78,13 +73,11 @@ class FilaRepository implements IFilaRepository {
     ano: number,
     semestre: number
   ): Promise<Fila[]> {
-    const fila = await this.repository.find({
+    return this.repository.find({
       relations: ["professor"],
       where: { codigo_disc, ano, semestre },
       order: { pos: "ASC" },
     });
-
-    return fila;
   }
 
   async queryBySIAPEEAnoESemestre(
@@ -92,23 +85,19 @@ class FilaRepository implements IFilaRepository {
     ano: number,
     semestre: number
   ): Promise<Fila[]> {
-    const fila = await this.repository.find({
+    return this.repository.find({
       relations: ["professor", "disciplina", "disciplina.curso_disciplinas"],
       where: { siape, ano, semestre },
       order: { pos: "ASC" },
     });
-
-    return fila;
   }
 
   async queryBySiape(siape: string): Promise<Fila[]> {
-    const fila = await this.repository.find({
+    return this.repository.find({
       relations: ["fila_turma_new"],
       where: { siape },
       order: { pos: "ASC" },
     });
-
-    return fila;
   }
 
   async queryBySiapeEAnoESemestre(
@@ -116,7 +105,8 @@ class FilaRepository implements IFilaRepository {
     ano: number,
     semestre: number
   ): Promise<Fila[]> {
-    const filaFinded = await getRepository(Fila)
+    return dataSource
+      .getRepository(Fila)
       .createQueryBuilder("fl")
       .select("dp.codigo", "codigo_disciplina")
       .addSelect("dp.nome", "nome_disciplina")
@@ -133,12 +123,11 @@ class FilaRepository implements IFilaRepository {
       .andWhere("tm.semestre = :semestre", { semestre })
       .orderBy("fl.prioridade", "DESC")
       .getRawMany();
-
-    return filaFinded;
   }
 
   async queryByTurma(turma: number): Promise<Fila[]> {
-    const filaFinded = await getRepository(Fila)
+    return dataSource
+      .getRepository(Fila)
       .createQueryBuilder("fl")
       .select("pf.nome", "nome_professor")
       .addSelect("fl.pos", "posicao")
@@ -151,8 +140,6 @@ class FilaRepository implements IFilaRepository {
       .where("ftn.id_turma = :turma", { turma })
       .orderBy("fl.prioridade", "DESC")
       .getRawMany();
-
-    return filaFinded;
   }
 
   async queryBySiapeEDiscEAnoESemestre(
@@ -161,11 +148,9 @@ class FilaRepository implements IFilaRepository {
     ano: number,
     semestre: number
   ): Promise<Fila> {
-    const fila = await this.repository.findOne({
+    return this.repository.findOne({
       where: { siape, codigo_disc, ano, semestre },
     });
-
-    return fila;
   }
 
   async updateById({
@@ -181,7 +166,7 @@ class FilaRepository implements IFilaRepository {
     status,
     periodo_preferencial,
   }: IPatchFilaDTO): Promise<Fila> {
-    const filaToUpdate = await this.repository.findOne(id);
+    const filaToUpdate = await this.repository.findOneBy({ id });
 
     filaToUpdate.siape = siape || filaToUpdate.siape;
     filaToUpdate.codigo_disc = codigo_disc || filaToUpdate.codigo_disc;

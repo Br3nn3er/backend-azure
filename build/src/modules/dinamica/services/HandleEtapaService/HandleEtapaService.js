@@ -26,7 +26,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     function verb(n) { return function (v) { return step([n, v]); }; }
     function step(op) {
         if (f) throw new TypeError("Generator is already executing.");
-        while (_) try {
+        while (g && (g = 0, op[0] && (_ = 0)), _) try {
             if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
             if (y = 0, t) op = [op[0] & 2, t.value];
             switch (op[0]) {
@@ -63,38 +63,26 @@ var HandleEtapaService = /** @class */ (function () {
     HandleEtapaService.prototype.create = function (_a) {
         var codigo = _a.codigo, ativo = _a.ativo, descricao = _a.descricao;
         return __awaiter(this, void 0, void 0, function () {
-            var etapa;
             return __generator(this, function (_b) {
-                switch (_b.label) {
-                    case 0: return [4 /*yield*/, this.etapaRepository.create({
-                            codigo: codigo,
-                            ativo: ativo,
-                            descricao: descricao,
-                        })];
-                    case 1:
-                        etapa = _b.sent();
-                        return [2 /*return*/, etapa];
-                }
+                return [2 /*return*/, this.etapaRepository.create({
+                        codigo: codigo,
+                        ativo: ativo,
+                        descricao: descricao,
+                    })];
             });
         });
     };
     HandleEtapaService.prototype.read = function () {
         return __awaiter(this, void 0, void 0, function () {
-            var etapas;
             return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0: return [4 /*yield*/, this.etapaRepository.listEtapas()];
-                    case 1:
-                        etapas = _a.sent();
-                        return [2 /*return*/, etapas];
-                }
+                return [2 /*return*/, this.etapaRepository.listEtapas()];
             });
         });
     };
     HandleEtapaService.prototype.update = function (_a) {
         var id = _a.id, codigo = _a.codigo, ativo = _a.ativo, descricao = _a.descricao;
         return __awaiter(this, void 0, void 0, function () {
-            var etapaFounded, etapa;
+            var etapaFounded;
             return __generator(this, function (_b) {
                 switch (_b.label) {
                     case 0: return [4 /*yield*/, this.etapaRepository.queryById(id)];
@@ -103,15 +91,12 @@ var HandleEtapaService = /** @class */ (function () {
                         if (!etapaFounded) {
                             throw new AppError_1.AppError("Registro de etapa não cadastrado!");
                         }
-                        return [4 /*yield*/, this.etapaRepository.updateById({
+                        return [2 /*return*/, this.etapaRepository.updateById({
                                 id: id,
                                 codigo: codigo,
                                 ativo: ativo,
                                 descricao: descricao,
                             })];
-                    case 2:
-                        etapa = _b.sent();
-                        return [2 /*return*/, etapa];
                 }
             });
         });
@@ -165,7 +150,7 @@ var HandleEtapaService = /** @class */ (function () {
         return new Promise(function (resolve, reject) {
             var etapas = [];
             var stream = fs_1.default.createReadStream(file.path);
-            var parseFile = (0, csv_parse_1.default)();
+            var parseFile = csv_parse_1.default.parse();
             stream.pipe(parseFile);
             parseFile
                 .on("data", function (line) { return __awaiter(_this, void 0, void 0, function () {

@@ -25,13 +25,11 @@ class HandlePrioridadeService {
     codigo_disc,
     siape,
   }: IHandlePrioridades): Promise<Prioridades> {
-    const prioridades = await this.prioridadesRepository.create({
+    return this.prioridadesRepository.create({
       prioridade,
       codigo_disc,
       siape,
     });
-
-    return prioridades;
   }
 
   async read(): Promise<Prioridades[]> {
@@ -58,14 +56,12 @@ class HandlePrioridadeService {
       throw new AppError("Prioridade não cadastrada!");
     }
 
-    const prioridadeToUpdate = await this.prioridadesRepository.updateById({
+    return this.prioridadesRepository.updateById({
       id,
       prioridade,
       codigo_disc,
       siape,
     });
-
-    return prioridadeToUpdate;
   }
 
   async delete(id: string): Promise<void> {
@@ -96,7 +92,7 @@ class HandlePrioridadeService {
 
       const stream = fs.createReadStream(file.path);
 
-      const parseFile = csvParse();
+      const parseFile = csvParse.parse();
 
       stream.pipe(parseFile);
 

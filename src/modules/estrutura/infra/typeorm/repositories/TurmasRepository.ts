@@ -1,5 +1,6 @@
-import { getRepository, Repository } from "typeorm";
+import { Repository } from "typeorm";
 
+import { dataSource } from "../../../../../shared/infra/typeorm";
 import {
   ICreateTurmaDTO,
   IPatchTurmaDTO,
@@ -11,7 +12,7 @@ class TurmasRepository implements ITurmasRepository {
   private repository: Repository<Turma>;
 
   constructor() {
-    this.repository = getRepository(Turma);
+    this.repository = dataSource.getRepository(Turma);
   }
 
   async createTurma({
@@ -21,7 +22,7 @@ class TurmasRepository implements ITurmasRepository {
     ano,
     semestre,
   }: ICreateTurmaDTO): Promise<Turma> {
-    const turmaToCreate = await this.repository.create({
+    const turmaToCreate = this.repository.create({
       codigo_disc,
       turma,
       ch,
@@ -35,35 +36,27 @@ class TurmasRepository implements ITurmasRepository {
   }
 
   async listAllTurmas(): Promise<Turma[]> {
-    const turmas = await this.repository
+    return this.repository
       .createQueryBuilder("turma")
       .orderBy("codigo_disc", "ASC")
       .getMany();
-
-    return turmas;
   }
 
   async queryByAnoESemestre(year: number, semester: number): Promise<Turma[]> {
-    const turmas = await this.repository
+    return this.repository
       .createQueryBuilder("turma")
       .innerJoinAndSelect("turma.disciplina", "disciplina")
       .where("ano = :year AND semestre = :semester", { semester, year })
       .orderBy("codigo_disc", "ASC")
       .getMany();
-
-    return turmas;
   }
 
   async queryById(id: string): Promise<Turma> {
-    const turma = await this.repository.findOne(id);
-
-    return turma;
+    return this.repository.findOneBy({ id });
   }
 
   async queryByCodigo(codigo_disc: string): Promise<Turma> {
-    const turma = await this.repository.findOne({ codigo_disc });
-
-    return turma;
+    return this.repository.findOneBy({ codigo_disc });
   }
 
   async queryByCodigoTurmaAnoSemestre(
@@ -72,11 +65,9 @@ class TurmasRepository implements ITurmasRepository {
     ano: number,
     semestre: number
   ): Promise<Turma> {
-    const foundedTurma = await this.repository.findOne({
+    return this.repository.findOne({
       where: { codigo_disc: codigo, turma, ano, semestre },
     });
-
-    return foundedTurma;
   }
 
   async updateById({
@@ -87,7 +78,7 @@ class TurmasRepository implements ITurmasRepository {
     ano,
     semestre,
   }: IPatchTurmaDTO): Promise<Turma> {
-    const turmaToUpdate = await this.repository.findOne({ id });
+    const turmaToUpdate = await this.repository.findOneBy({ id });
 
     turmaToUpdate.codigo_disc = codigo_disc || turmaToUpdate.codigo_disc;
     turmaToUpdate.turma = turma || turmaToUpdate.turma;

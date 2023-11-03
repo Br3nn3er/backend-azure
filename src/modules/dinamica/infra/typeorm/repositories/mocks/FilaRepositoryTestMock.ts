@@ -1,6 +1,6 @@
-import { ICreateFilaDTO, IPatchFilaDTO } from "../../../../dtos/ICreateFilaDTO";
-import { Fila } from "../../entities/Fila";
-import { IFilaRepository } from "../interfaces/IFilaRepository";
+import {ICreateFilaDTO, IPatchFilaDTO} from "../../../../dtos/ICreateFilaDTO";
+import {Fila} from "../../entities/Fila";
+import {IFilaRepository} from "../interfaces/IFilaRepository";
 
 class FilaRepositoryTestMock implements IFilaRepository {
   private filas: Fila[] = [];
@@ -46,9 +46,7 @@ class FilaRepositoryTestMock implements IFilaRepository {
   }
 
   async queryById(id: number): Promise<Fila> {
-    const filaFounded = this.filas.find((fila) => fila.id === id);
-
-    return filaFounded;
+    return this.filas.find((fila) => fila.id === id);
   }
 
   async queryByDiscEPosEAnoESemestre(
@@ -57,15 +55,13 @@ class FilaRepositoryTestMock implements IFilaRepository {
     ano: number,
     semestre: number
   ): Promise<Fila> {
-    const filaFounded = this.filas.find(
+    return this.filas.find(
       (fila) =>
         fila.codigo_disc === codigo_disc &&
         fila.pos === pos &&
         fila.ano === ano &&
         fila.semestre === semestre
     );
-
-    return filaFounded;
   }
 
   async queryBySiapeEDiscEAnoESemestre(
@@ -74,20 +70,17 @@ class FilaRepositoryTestMock implements IFilaRepository {
     ano: number,
     semestre: number
   ): Promise<Fila> {
-    const filaFounded = this.filas.find(
+    return this.filas.find(
       (fila) =>
         fila.siape === siape &&
         fila.codigo_disc === codigo_disc &&
         fila.ano === ano &&
         fila.semestre === semestre
     );
-
-    return filaFounded;
   }
 
   async queryBySiape(siape: string): Promise<Fila[]> {
-    const filaFounded = this.filas.filter((fila) => fila.siape === siape);
-    return filaFounded;
+    return this.filas.filter((fila) => fila.siape === siape);
   }
 
   async queryByDiscEAnoESemestre(
@@ -95,14 +88,12 @@ class FilaRepositoryTestMock implements IFilaRepository {
     ano: number,
     semestre: number
   ): Promise<Fila[]> {
-    const fila = this.filas.filter(
+    return this.filas.filter(
       (fila) =>
         fila.codigo_disc === codigo_disc &&
         fila.ano === ano &&
         fila.semestre === semestre
     );
-
-    return fila;
   }
 
   async queryBySIAPEEAnoESemestre(
@@ -110,29 +101,25 @@ class FilaRepositoryTestMock implements IFilaRepository {
     ano: number,
     semestre: number
   ): Promise<Fila[]> {
-    const fila = this.filas.filter(
+    return this.filas.filter(
       (fila) =>
         fila.siape === siape && fila.ano === ano && fila.semestre === semestre
     );
-
-    return fila;
   }
 
   async queryByTurma(turma: number): Promise<Fila[]> {
     throw new Error("Method not implemented.");
   }
-  
+
   async queryBySiapeEAnoESemestre(
     siape: string,
     ano: number,
     semestre: number
   ): Promise<Fila[]> {
-    const filaFounded = this.filas.filter(
+    return this.filas.filter(
       (fila) =>
         fila.siape === siape && fila.ano === ano && fila.semestre === semestre
     );
-
-    return filaFounded;
   }
 
   async updateById({

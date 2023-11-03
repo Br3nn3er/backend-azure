@@ -14,7 +14,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     function verb(n) { return function (v) { return step([n, v]); }; }
     function step(op) {
         if (f) throw new TypeError("Generator is already executing.");
-        while (_) try {
+        while (g && (g = 0, op[0] && (_ = 0)), _) try {
             if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
             if (y = 0, t) op = [op[0] & 2, t.value];
             switch (op[0]) {
@@ -37,11 +37,11 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.AtribuicaoManualRepository = void 0;
-var typeorm_1 = require("typeorm");
+var typeorm_1 = require("../../../../../shared/infra/typeorm");
 var AtribuicaoManual_1 = require("../entities/AtribuicaoManual");
 var AtribuicaoManualRepository = /** @class */ (function () {
     function AtribuicaoManualRepository() {
-        this.repository = (0, typeorm_1.getRepository)(AtribuicaoManual_1.AtribuicaoManual);
+        this.repository = typeorm_1.dataSource.getRepository(AtribuicaoManual_1.AtribuicaoManual);
     }
     AtribuicaoManualRepository.prototype.create = function (_a) {
         var num_cenario = _a.num_cenario, siape = _a.siape, id_turma = _a.id_turma;
@@ -61,28 +61,20 @@ var AtribuicaoManualRepository = /** @class */ (function () {
     };
     AtribuicaoManualRepository.prototype.listAllAtribuicoes = function () {
         return __awaiter(this, void 0, void 0, function () {
-            var atribuicoes;
             return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0: return [4 /*yield*/, this.repository
-                            .createQueryBuilder("atribuicao_manual")
-                            .orderBy("num_cenario", "ASC")
-                            .getMany()];
-                    case 1:
-                        atribuicoes = _a.sent();
-                        return [2 /*return*/, atribuicoes];
-                }
+                return [2 /*return*/, this.repository
+                        .createQueryBuilder("atribuicao_manual")
+                        .orderBy("num_cenario", "ASC")
+                        .getMany()];
             });
         });
     };
     AtribuicaoManualRepository.prototype.queryByCenarioETurma = function (num_cenario, id_turma) {
         return __awaiter(this, void 0, void 0, function () {
-            var atribuicao;
             return __generator(this, function (_a) {
-                atribuicao = this.repository.findOne({
-                    where: { num_cenario: num_cenario, id_turma: id_turma },
-                });
-                return [2 /*return*/, atribuicao];
+                return [2 /*return*/, this.repository.findOne({
+                        where: { num_cenario: num_cenario, id_turma: id_turma },
+                    })];
             });
         });
     };

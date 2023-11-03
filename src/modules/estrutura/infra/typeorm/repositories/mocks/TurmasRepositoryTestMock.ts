@@ -1,9 +1,6 @@
-import {
-  ICreateTurmaDTO,
-  IPatchTurmaDTO,
-} from "../../../../dtos/ICreateUpdateTurmaDTO";
-import { Turma } from "../../entities/Turma";
-import { ITurmasRepository } from "../interfaces/ITurmasRepository";
+import {ICreateTurmaDTO, IPatchTurmaDTO,} from "../../../../dtos/ICreateUpdateTurmaDTO";
+import {Turma} from "../../entities/Turma";
+import {ITurmasRepository} from "../interfaces/ITurmasRepository";
 
 class TurmasRepositoryTestMock implements ITurmasRepository {
   private turmas: Turma[] = [];
@@ -38,17 +35,13 @@ class TurmasRepositoryTestMock implements ITurmasRepository {
   }
 
   async queryById(id: string): Promise<Turma> {
-    const turma = this.turmas.find((turmaToSearch) => turmaToSearch.id === id);
-
-    return turma;
+    return this.turmas.find((turmaToSearch) => turmaToSearch.id === id);
   }
 
   async queryByCodigo(codigo_disc: string): Promise<Turma> {
-    const turma = this.turmas.find(
+    return this.turmas.find(
       (turmaToSearch) => turmaToSearch.codigo_disc === codigo_disc
     );
-
-    return turma;
   }
 
   async queryByCodigoTurmaAnoSemestre(
@@ -57,15 +50,13 @@ class TurmasRepositoryTestMock implements ITurmasRepository {
     ano: number,
     semestre: number
   ): Promise<Turma> {
-    const foundedTurma = this.turmas.find(
+    return this.turmas.find(
       (turmaToSearch) =>
         turmaToSearch.codigo_disc === codigo &&
         turmaToSearch.turma === turma &&
         turmaToSearch.ano === ano &&
         turmaToSearch.semestre === semestre
     );
-
-    return foundedTurma;
   }
 
   async queryByAnoESemestre(year: number, semester: number): Promise<Turma[]> {

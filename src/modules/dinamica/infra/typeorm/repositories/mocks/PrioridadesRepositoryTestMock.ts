@@ -1,9 +1,6 @@
-import {
-  ICreatePrioridadesDTO,
-  IPatchPrioridadesDTO,
-} from "../../../../dtos/ICreatePrioridadesDTO";
-import { Prioridades } from "../../entities/Prioridades";
-import { IPrioridadesRepository } from "../interfaces/IPrioridadesRepository";
+import {ICreatePrioridadesDTO, IPatchPrioridadesDTO,} from "../../../../dtos/ICreatePrioridadesDTO";
+import {Prioridades} from "../../entities/Prioridades";
+import {IPrioridadesRepository} from "../interfaces/IPrioridadesRepository";
 
 class PrioridadesRepositoryTestMock implements IPrioridadesRepository {
   private listPriodidades: Prioridades[] = [];
@@ -35,24 +32,20 @@ class PrioridadesRepositoryTestMock implements IPrioridadesRepository {
   }
 
   async queryById(id: string): Promise<Prioridades> {
-    const prioridadeFounded = this.listPriodidades.find(
+    return this.listPriodidades.find(
       (prioridadeToSearch) => prioridadeToSearch.id === id
     );
-
-    return prioridadeFounded;
   }
 
   async queryBySiapeECodigo(
     siape: string,
     codigo_disc: string
   ): Promise<Prioridades> {
-    const prioridadeFounded = this.listPriodidades.find(
+    return this.listPriodidades.find(
       (prioridadeToSearch) =>
         prioridadeToSearch.siape === siape &&
         prioridadeToSearch.codigo_disc === codigo_disc
     );
-
-    return prioridadeFounded;
   }
 
   async updateById({

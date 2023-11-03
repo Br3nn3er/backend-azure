@@ -26,7 +26,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     function verb(n) { return function (v) { return step([n, v]); }; }
     function step(op) {
         if (f) throw new TypeError("Generator is already executing.");
-        while (_) try {
+        while (g && (g = 0, op[0] && (_ = 0)), _) try {
             if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
             if (y = 0, t) op = [op[0] & 2, t.value];
             switch (op[0]) {
@@ -63,7 +63,7 @@ var HandleCursoService = /** @class */ (function () {
     HandleCursoService.prototype.create = function (_a) {
         var codigo = _a.codigo, nome = _a.nome, unidade = _a.unidade, campus = _a.campus, permitir_choque_periodo = _a.permitir_choque_periodo, permitir_choque_horario = _a.permitir_choque_horario;
         return __awaiter(this, void 0, void 0, function () {
-            var existentCurso, curso;
+            var existentCurso;
             return __generator(this, function (_b) {
                 switch (_b.label) {
                     case 0: return [4 /*yield*/, this.cursosRepository.queryByCodigo(codigo)];
@@ -72,7 +72,7 @@ var HandleCursoService = /** @class */ (function () {
                         if (existentCurso) {
                             throw new AppError_1.AppError("Há um curso cadastrado com este codigo!");
                         }
-                        return [4 /*yield*/, this.cursosRepository.createCurso({
+                        return [2 /*return*/, this.cursosRepository.createCurso({
                                 codigo: codigo,
                                 nome: nome,
                                 unidade: unidade,
@@ -80,9 +80,6 @@ var HandleCursoService = /** @class */ (function () {
                                 permitir_choque_periodo: permitir_choque_periodo,
                                 permitir_choque_horario: permitir_choque_horario,
                             })];
-                    case 2:
-                        curso = _b.sent();
-                        return [2 /*return*/, curso];
                 }
             });
         });
@@ -121,7 +118,7 @@ var HandleCursoService = /** @class */ (function () {
     HandleCursoService.prototype.update = function (_a) {
         var codigo = _a.codigo, nome = _a.nome, unidade = _a.unidade, campus = _a.campus, permitir_choque_periodo = _a.permitir_choque_periodo, permitir_choque_horario = _a.permitir_choque_horario;
         return __awaiter(this, void 0, void 0, function () {
-            var cursoExistent, cursoToUpdate;
+            var cursoExistent;
             return __generator(this, function (_b) {
                 switch (_b.label) {
                     case 0: return [4 /*yield*/, this.cursosRepository.queryByCodigo(codigo)];
@@ -130,7 +127,7 @@ var HandleCursoService = /** @class */ (function () {
                         if (!cursoExistent) {
                             throw new AppError_1.AppError("Curso não existente!");
                         }
-                        return [4 /*yield*/, this.cursosRepository.update({
+                        return [2 /*return*/, this.cursosRepository.update({
                                 codigo: codigo,
                                 nome: nome,
                                 unidade: unidade,
@@ -138,9 +135,6 @@ var HandleCursoService = /** @class */ (function () {
                                 permitir_choque_periodo: permitir_choque_periodo,
                                 permitir_choque_horario: permitir_choque_horario,
                             })];
-                    case 2:
-                        cursoToUpdate = _b.sent();
-                        return [2 /*return*/, cursoToUpdate];
                 }
             });
         });
@@ -202,7 +196,7 @@ var HandleCursoService = /** @class */ (function () {
         return new Promise(function (resolve, reject) {
             var cursos = [];
             var stream = fs_1.default.createReadStream(file.path);
-            var parseFile = (0, csv_parse_1.default)();
+            var parseFile = csv_parse_1.default.parse();
             stream.pipe(parseFile);
             parseFile
                 .on("data", function (line) { return __awaiter(_this, void 0, void 0, function () {
@@ -221,8 +215,7 @@ var HandleCursoService = /** @class */ (function () {
                 });
             }); })
                 .on("end", function () {
-                fs_1.default.promises.unlink(file.path);
-                resolve(cursos);
+                fs_1.default.promises.unlink(file.path).then(function () { return resolve(cursos); });
             })
                 .on("error", function (err) {
                 reject(err);

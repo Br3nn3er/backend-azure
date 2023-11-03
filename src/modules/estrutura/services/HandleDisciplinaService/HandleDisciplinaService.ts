@@ -1,11 +1,11 @@
 import csvParse from "csv-parse";
 import fs from "fs";
-import { inject, injectable } from "tsyringe";
+import {inject, injectable} from "tsyringe";
 
-import { AppError } from "../../../../shared/errors/AppError";
-import { IPatchDisciplinaDTO } from "../../dtos/ICreateUpdateDisciplinaDTO";
-import { Disciplina } from "../../infra/typeorm/entities/Disciplina";
-import { IDisciplinasRepository } from "../../infra/typeorm/repositories/interfaces/IDisciplinasRepository";
+import {AppError} from "../../../../shared/errors/AppError";
+import {IPatchDisciplinaDTO} from "../../dtos/ICreateUpdateDisciplinaDTO";
+import {Disciplina} from "../../infra/typeorm/entities/Disciplina";
+import {IDisciplinasRepository} from "../../infra/typeorm/repositories/interfaces/IDisciplinasRepository";
 
 interface IRequest {
   codigo: string;
@@ -57,7 +57,7 @@ class HandleDisciplinaService {
       throw new AppError("Há uma disciplina cadastrada com este codigo!", 403);
     }
 
-    const disciplina = await this.disciplinasRepository.createDisciplina({
+    return this.disciplinasRepository.createDisciplina({
       codigo,
       nome,
       ch_teorica,
@@ -68,8 +68,6 @@ class HandleDisciplinaService {
       periodo,
       cod_antigo,
     });
-
-    return disciplina;
   }
 
   async read(): Promise<Disciplina[]> {
@@ -103,8 +101,11 @@ class HandleDisciplinaService {
     return discipline;
   }
 
-  async readBySiapeEAnoESemestre(siape: string, ano: number, semestre: number): Promise<Disciplina[]> {
-    const discipline = await this.disciplinasRepository.queryBySiapeEAnoESemestre(siape, ano, semestre);
+  async readBySiapeEAnoESemestre(
+    siape: string,
+    ano: number,
+    semestre: number
+  ): Promise<Disciplina[]> {
     // discipline.forEach((disciplina) => {
     //   // eslint-disable-next-line no-param-reassign
     //   disciplina.codigo = disciplina.codigo ? disciplina.codigo.trim() : null;
@@ -115,10 +116,14 @@ class HandleDisciplinaService {
     //     ? disciplina.cod_antigo.trim()
     //     : null;
     // });
-    
-    return discipline;
+
+    return await this.disciplinasRepository.queryBySiapeEAnoESemestre(
+      siape,
+      ano,
+      semestre
+    );
   }
-  
+
   async update({
     codigo,
     nome,
@@ -137,7 +142,7 @@ class HandleDisciplinaService {
       throw new AppError("Disciplina não cadastrada!");
     }
 
-    const disciplinaToUpdate = await this.disciplinasRepository.updateByCodigo({
+    return this.disciplinasRepository.updateByCodigo({
       codigo,
       nome,
       ch_teorica,
@@ -147,8 +152,6 @@ class HandleDisciplinaService {
       temfila,
       periodo,
     });
-
-    return disciplinaToUpdate;
   }
 
   async delete(codigo: string): Promise<void> {
@@ -201,7 +204,7 @@ class HandleDisciplinaService {
 
       const stream = fs.createReadStream(file.path);
 
-      const parseFile = csvParse();
+      const parseFile = csvParse.parse();
 
       stream.pipe(parseFile);
 

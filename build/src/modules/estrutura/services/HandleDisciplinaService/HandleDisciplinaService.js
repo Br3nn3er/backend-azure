@@ -26,7 +26,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     function verb(n) { return function (v) { return step([n, v]); }; }
     function step(op) {
         if (f) throw new TypeError("Generator is already executing.");
-        while (_) try {
+        while (g && (g = 0, op[0] && (_ = 0)), _) try {
             if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
             if (y = 0, t) op = [op[0] & 2, t.value];
             switch (op[0]) {
@@ -63,7 +63,7 @@ var HandleDisciplinaService = /** @class */ (function () {
     HandleDisciplinaService.prototype.create = function (_a) {
         var codigo = _a.codigo, nome = _a.nome, ch_teorica = _a.ch_teorica, ch_pratica = _a.ch_pratica, ch_total = _a.ch_total, curso = _a.curso, temfila = _a.temfila, periodo = _a.periodo, cod_antigo = _a.cod_antigo;
         return __awaiter(this, void 0, void 0, function () {
-            var existentDisciplina, disciplina;
+            var existentDisciplina;
             return __generator(this, function (_b) {
                 switch (_b.label) {
                     case 0: return [4 /*yield*/, this.disciplinasRepository.queryByCodigo(codigo)];
@@ -72,7 +72,7 @@ var HandleDisciplinaService = /** @class */ (function () {
                         if (existentDisciplina) {
                             throw new AppError_1.AppError("Há uma disciplina cadastrada com este codigo!", 403);
                         }
-                        return [4 /*yield*/, this.disciplinasRepository.createDisciplina({
+                        return [2 /*return*/, this.disciplinasRepository.createDisciplina({
                                 codigo: codigo,
                                 nome: nome,
                                 ch_teorica: ch_teorica,
@@ -83,9 +83,6 @@ var HandleDisciplinaService = /** @class */ (function () {
                                 periodo: periodo,
                                 cod_antigo: cod_antigo,
                             })];
-                    case 2:
-                        disciplina = _b.sent();
-                        return [2 /*return*/, disciplina];
                 }
             });
         });
@@ -136,23 +133,21 @@ var HandleDisciplinaService = /** @class */ (function () {
     };
     HandleDisciplinaService.prototype.readBySiapeEAnoESemestre = function (siape, ano, semestre) {
         return __awaiter(this, void 0, void 0, function () {
-            var discipline;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0: return [4 /*yield*/, this.disciplinasRepository.queryBySiapeEAnoESemestre(siape, ano, semestre)];
-                    case 1:
-                        discipline = _a.sent();
-                        // discipline.forEach((disciplina) => {
-                        //   // eslint-disable-next-line no-param-reassign
-                        //   disciplina.codigo = disciplina.codigo ? disciplina.codigo.trim() : null;
-                        //   // eslint-disable-next-line no-param-reassign
-                        //   disciplina.curso = disciplina.curso ? disciplina.curso.trim() : null;
-                        //   // eslint-disable-next-line no-param-reassign
-                        //   disciplina.cod_antigo = disciplina.cod_antigo
-                        //     ? disciplina.cod_antigo.trim()
-                        //     : null;
-                        // });
-                        return [2 /*return*/, discipline];
+                    case 1: 
+                    // discipline.forEach((disciplina) => {
+                    //   // eslint-disable-next-line no-param-reassign
+                    //   disciplina.codigo = disciplina.codigo ? disciplina.codigo.trim() : null;
+                    //   // eslint-disable-next-line no-param-reassign
+                    //   disciplina.curso = disciplina.curso ? disciplina.curso.trim() : null;
+                    //   // eslint-disable-next-line no-param-reassign
+                    //   disciplina.cod_antigo = disciplina.cod_antigo
+                    //     ? disciplina.cod_antigo.trim()
+                    //     : null;
+                    // });
+                    return [2 /*return*/, _a.sent()];
                 }
             });
         });
@@ -160,7 +155,7 @@ var HandleDisciplinaService = /** @class */ (function () {
     HandleDisciplinaService.prototype.update = function (_a) {
         var codigo = _a.codigo, nome = _a.nome, ch_teorica = _a.ch_teorica, ch_pratica = _a.ch_pratica, ch_total = _a.ch_total, curso = _a.curso, temfila = _a.temfila, periodo = _a.periodo;
         return __awaiter(this, void 0, void 0, function () {
-            var disciplinaExistent, disciplinaToUpdate;
+            var disciplinaExistent;
             return __generator(this, function (_b) {
                 switch (_b.label) {
                     case 0: return [4 /*yield*/, this.disciplinasRepository.queryByCodigo(codigo)];
@@ -169,7 +164,7 @@ var HandleDisciplinaService = /** @class */ (function () {
                         if (!disciplinaExistent) {
                             throw new AppError_1.AppError("Disciplina não cadastrada!");
                         }
-                        return [4 /*yield*/, this.disciplinasRepository.updateByCodigo({
+                        return [2 /*return*/, this.disciplinasRepository.updateByCodigo({
                                 codigo: codigo,
                                 nome: nome,
                                 ch_teorica: ch_teorica,
@@ -179,9 +174,6 @@ var HandleDisciplinaService = /** @class */ (function () {
                                 temfila: temfila,
                                 periodo: periodo,
                             })];
-                    case 2:
-                        disciplinaToUpdate = _b.sent();
-                        return [2 /*return*/, disciplinaToUpdate];
                 }
             });
         });
@@ -246,7 +238,7 @@ var HandleDisciplinaService = /** @class */ (function () {
         return new Promise(function (resolve, reject) {
             var disciplinas = [];
             var stream = fs_1.default.createReadStream(file.path);
-            var parseFile = (0, csv_parse_1.default)();
+            var parseFile = csv_parse_1.default.parse();
             stream.pipe(parseFile);
             parseFile
                 .on("data", function (line) { return __awaiter(_this, void 0, void 0, function () {

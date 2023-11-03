@@ -1,9 +1,6 @@
-import {
-  ICreateFilaTurmaNewDTO,
-  IPatchFilaTurmaNewDTO,
-} from "../../../../dtos/ICreateFilaTurmaNewDTO";
-import { FilaTurmaNew } from "../../entities/FilaTurmaNew";
-import { IFilaTurmaNewRepository } from "../interfaces/IFilaTurmaNewRepository";
+import {ICreateFilaTurmaNewDTO, IPatchFilaTurmaNewDTO,} from "../../../../dtos/ICreateFilaTurmaNewDTO";
+import {FilaTurmaNew} from "../../entities/FilaTurmaNew";
+import {IFilaTurmaNewRepository} from "../interfaces/IFilaTurmaNewRepository";
 
 class FilaTurmaNewRepositoryTestMock implements IFilaTurmaNewRepository {
   private listFilasTurma: FilaTurmaNew[] = [];
@@ -30,11 +27,9 @@ class FilaTurmaNewRepositoryTestMock implements IFilaTurmaNewRepository {
     id_turma: number,
     id_fila: number
   ): Promise<FilaTurmaNew> {
-    const filaFounded = this.listFilasTurma.find(
+    return this.listFilasTurma.find(
       (fila) => fila.id_turma === id_turma && fila.id_fila === id_fila
     );
-
-    return filaFounded;
   }
 
   async queryByTurma(id_turma: number): Promise<FilaTurmaNew[]> {

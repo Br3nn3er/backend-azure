@@ -1,7 +1,7 @@
-import { Turma } from "../../../../../estrutura/infra/typeorm/entities/Turma";
-import { ICreateOfertaDTO } from "../../../../dtos/ICreateOfertaDTO";
-import { Oferta } from "../../entities/Oferta";
-import { IOfertaRepository } from "../interfaces/IOfertaRepository";
+import {Turma} from "../../../../../estrutura/infra/typeorm/entities/Turma";
+import {ICreateOfertaDTO} from "../../../../dtos/ICreateOfertaDTO";
+import {Oferta} from "../../entities/Oferta";
+import {IOfertaRepository} from "../interfaces/IOfertaRepository";
 
 class OfertaRepositoryTestMock implements IOfertaRepository {
   private ofertas: Oferta[] = [];
@@ -43,9 +43,7 @@ class OfertaRepositoryTestMock implements IOfertaRepository {
   }
 
   async queryById(id: string): Promise<Oferta> {
-    const ofertaFounded = this.ofertas.find((oferta) => oferta.id === id);
-
-    return ofertaFounded;
+    return this.ofertas.find((oferta) => oferta.id === id);
   }
 
   async queryByDiaELetraETurma(
@@ -53,14 +51,12 @@ class OfertaRepositoryTestMock implements IOfertaRepository {
     letra: string,
     id_turma: number
   ): Promise<Oferta> {
-    const ofertaFounded = this.ofertas.find(
+    return this.ofertas.find(
       (oferta) =>
         oferta.dia === dia &&
         oferta.letra === letra &&
         oferta.id_turma === id_turma
     );
-
-    return ofertaFounded;
   }
 
   async delete(id: string): Promise<void> {

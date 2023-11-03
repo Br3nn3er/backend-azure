@@ -1,5 +1,6 @@
-import { getRepository, Repository } from "typeorm";
+import { Repository } from "typeorm";
 
+import { dataSource } from "../../../../../shared/infra/typeorm";
 import { ICreateDistribuicoesPossibilidadeDTO } from "../../../dtos/ICreateDistribuicoesPossibilidadeDTO";
 import { DistribuicoesPossibilidade } from "../entities/DistribuicoesPossibilidade";
 import { IDistribuicoesPossibilidadeRepository } from "./interfaces/IDistribuicoesPossibilidadeRepository";
@@ -10,7 +11,7 @@ class DistribuicoesPossibilidadeRepository
   private repository: Repository<DistribuicoesPossibilidade>;
 
   constructor() {
-    this.repository = getRepository(DistribuicoesPossibilidade);
+    this.repository = dataSource.getRepository(DistribuicoesPossibilidade);
   }
 
   async create({
@@ -26,12 +27,10 @@ class DistribuicoesPossibilidadeRepository
   }
 
   async listDistribuicoes(): Promise<DistribuicoesPossibilidade[]> {
-    const listDist = await this.repository
+    return this.repository
       .createQueryBuilder("distribuicoes_possibilidade")
       .orderBy("siape", "ASC")
       .getMany();
-
-    return listDist;
   }
 
   async queryByPossibilidadeESiapeETurma(
@@ -39,11 +38,9 @@ class DistribuicoesPossibilidadeRepository
     siape: string,
     id_turma: number
   ): Promise<DistribuicoesPossibilidade> {
-    const dist = await this.repository.findOne({
+    return this.repository.findOne({
       where: { id_possibilidade, siape, id_turma },
     });
-
-    return dist;
   }
 
   async deleteByPossibilidadeESiapeETurma(

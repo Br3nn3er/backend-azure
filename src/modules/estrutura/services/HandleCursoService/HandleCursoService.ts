@@ -46,7 +46,7 @@ class HandleCursoService {
       throw new AppError("Há um curso cadastrado com este codigo!");
     }
 
-    const curso = await this.cursosRepository.createCurso({
+    return this.cursosRepository.createCurso({
       codigo,
       nome,
       unidade,
@@ -54,8 +54,6 @@ class HandleCursoService {
       permitir_choque_periodo,
       permitir_choque_horario,
     });
-
-    return curso;
   }
 
   async read(): Promise<Curso[]> {
@@ -90,7 +88,7 @@ class HandleCursoService {
       throw new AppError("Curso não existente!");
     }
 
-    const cursoToUpdate = await this.cursosRepository.update({
+    return this.cursosRepository.update({
       codigo,
       nome,
       unidade,
@@ -98,8 +96,6 @@ class HandleCursoService {
       permitir_choque_periodo,
       permitir_choque_horario,
     });
-
-    return cursoToUpdate;
   }
 
   async delete(codigo: string): Promise<void> {
@@ -142,7 +138,7 @@ class HandleCursoService {
 
       const stream = fs.createReadStream(file.path);
 
-      const parseFile = csvParse();
+      const parseFile = csvParse.parse();
 
       stream.pipe(parseFile);
 
@@ -169,8 +165,7 @@ class HandleCursoService {
           });
         })
         .on("end", () => {
-          fs.promises.unlink(file.path);
-          resolve(cursos);
+          fs.promises.unlink(file.path).then(() => resolve(cursos));
         })
         .on("error", (err) => {
           reject(err);

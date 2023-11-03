@@ -62,7 +62,7 @@ class HandleFilaService {
       throw new AppError("Há uma fila com esta configuração já cadastrada!");
     }
 
-    const fila = await this.filaRepository.create({
+    return this.filaRepository.create({
       siape,
       codigo_disc,
       pos,
@@ -74,8 +74,6 @@ class HandleFilaService {
       status,
       periodo_preferencial,
     });
-
-    return fila;
   }
 
   async read(): Promise<Fila[]> {
@@ -146,13 +144,7 @@ class HandleFilaService {
     ano: number,
     semestre: number
   ): Promise<Fila[]> {
-    const filas = await this.filaRepository.queryBySiapeEAnoESemestre(
-      siape,
-      ano,
-      semestre
-    );
-
-    return filas;
+    return this.filaRepository.queryBySiapeEAnoESemestre(siape, ano, semestre);
   }
 
   async update({
@@ -174,7 +166,7 @@ class HandleFilaService {
       throw new AppError("Fila não encontrada!");
     }
 
-    const filaToUpdate = await this.filaRepository.updateById({
+    return this.filaRepository.updateById({
       id,
       siape,
       codigo_disc,
@@ -187,8 +179,6 @@ class HandleFilaService {
       status,
       periodo_preferencial,
     });
-
-    return filaToUpdate;
   }
 
   async delete(id: number): Promise<void> {
@@ -235,7 +225,7 @@ class HandleFilaService {
 
       const stream = fs.createReadStream(file.path);
 
-      const parseFile = csvParse();
+      const parseFile = csvParse.parse();
 
       stream.pipe(parseFile);
 

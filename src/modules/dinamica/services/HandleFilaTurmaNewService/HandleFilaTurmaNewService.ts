@@ -38,13 +38,11 @@ class HandleFilaTurmaNewService {
       throw new AppError("Fila já cadastrada!");
     }
 
-    const fila = await this.filaRepository.create({
+    return this.filaRepository.create({
       id_turma,
       id_fila,
       prioridade,
     });
-
-    return fila;
   }
 
   async read(): Promise<FilaTurmaNew[]> {
@@ -75,9 +73,7 @@ class HandleFilaTurmaNewService {
   }
 
   async readByTurma(id_turma: number): Promise<FilaTurmaNew[]> {
-    const filas = await this.filaRepository.queryByTurma(id_turma);
-
-    return filas;
+    return this.filaRepository.queryByTurma(id_turma);
   }
 
   async update({
@@ -94,13 +90,11 @@ class HandleFilaTurmaNewService {
       throw new AppError("Fila não encontrada!");
     }
 
-    const filaToUpdate = await this.filaRepository.updateByTurmaEFila({
+    return this.filaRepository.updateByTurmaEFila({
       id_turma,
       id_fila,
       prioridade,
     });
-
-    return filaToUpdate;
   }
 
   async delete(id_turma: number, id_fila: number): Promise<void> {
@@ -129,7 +123,7 @@ class HandleFilaTurmaNewService {
 
       const stream = fs.createReadStream(file.path);
 
-      const parseFile = csvParse();
+      const parseFile = csvParse.parse();
 
       stream.pipe(parseFile);
 

@@ -1,9 +1,6 @@
-import {
-  ICreatePossibilidadeDTO,
-  IPatchPossibilidadeDTO,
-} from "../../../../dtos/ICreatePossibilidadeDTO";
-import { Possibilidades } from "../../entities/Possibilidades";
-import { IPossibilidadesRepository } from "../interfaces/IPossibilidadesRepository";
+import {ICreatePossibilidadeDTO, IPatchPossibilidadeDTO,} from "../../../../dtos/ICreatePossibilidadeDTO";
+import {Possibilidades} from "../../entities/Possibilidades";
+import {IPossibilidadesRepository} from "../interfaces/IPossibilidadesRepository";
 
 class PossibilidadesRepositoryTestMock implements IPossibilidadesRepository {
   private possibilidades: Possibilidades[] = [];
@@ -33,19 +30,15 @@ class PossibilidadesRepositoryTestMock implements IPossibilidadesRepository {
   }
 
   async queryById(id: string): Promise<Possibilidades> {
-    const possibilidadeFounded = this.possibilidades.find(
+    return this.possibilidades.find(
       (possibilidade) => possibilidade.id === id
     );
-
-    return possibilidadeFounded;
   }
 
   async queryByNumCenario(num_cenario: number): Promise<Possibilidades> {
-    const possibilidadeFounded = this.possibilidades.find(
+    return this.possibilidades.find(
       (possibilidade) => possibilidade.num_cenario === num_cenario
     );
-
-    return possibilidadeFounded;
   }
 
   async updateById({

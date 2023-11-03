@@ -14,7 +14,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     function verb(n) { return function (v) { return step([n, v]); }; }
     function step(op) {
         if (f) throw new TypeError("Generator is already executing.");
-        while (_) try {
+        while (g && (g = 0, op[0] && (_ = 0)), _) try {
             if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
             if (y = 0, t) op = [op[0] & 2, t.value];
             switch (op[0]) {
@@ -37,11 +37,11 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.TurmasRepository = void 0;
-var typeorm_1 = require("typeorm");
+var typeorm_1 = require("../../../../../shared/infra/typeorm");
 var Turma_1 = require("../entities/Turma");
 var TurmasRepository = /** @class */ (function () {
     function TurmasRepository() {
-        this.repository = (0, typeorm_1.getRepository)(Turma_1.Turma);
+        this.repository = typeorm_1.dataSource.getRepository(Turma_1.Turma);
     }
     TurmasRepository.prototype.createTurma = function (_a) {
         var codigo_disc = _a.codigo_disc, turma = _a.turma, ch = _a.ch, ano = _a.ano, semestre = _a.semestre;
@@ -49,17 +49,16 @@ var TurmasRepository = /** @class */ (function () {
             var turmaToCreate;
             return __generator(this, function (_b) {
                 switch (_b.label) {
-                    case 0: return [4 /*yield*/, this.repository.create({
+                    case 0:
+                        turmaToCreate = this.repository.create({
                             codigo_disc: codigo_disc,
                             turma: turma,
                             ch: ch,
                             ano: ano,
                             semestre: semestre,
-                        })];
-                    case 1:
-                        turmaToCreate = _b.sent();
+                        });
                         return [4 /*yield*/, this.repository.save(turmaToCreate)];
-                    case 2:
+                    case 1:
                         _b.sent();
                         return [2 /*return*/, turmaToCreate];
                 }
@@ -68,76 +67,46 @@ var TurmasRepository = /** @class */ (function () {
     };
     TurmasRepository.prototype.listAllTurmas = function () {
         return __awaiter(this, void 0, void 0, function () {
-            var turmas;
             return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0: return [4 /*yield*/, this.repository
-                            .createQueryBuilder("turma")
-                            .orderBy("codigo_disc", "ASC")
-                            .getMany()];
-                    case 1:
-                        turmas = _a.sent();
-                        return [2 /*return*/, turmas];
-                }
+                return [2 /*return*/, this.repository
+                        .createQueryBuilder("turma")
+                        .orderBy("codigo_disc", "ASC")
+                        .getMany()];
             });
         });
     };
     TurmasRepository.prototype.queryByAnoESemestre = function (year, semester) {
         return __awaiter(this, void 0, void 0, function () {
-            var turmas;
             return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0: return [4 /*yield*/, this.repository
-                            .createQueryBuilder("turma")
-                            .innerJoinAndSelect("turma.disciplina", "disciplina")
-                            .where("ano = :year AND semestre = :semester", { semester: semester, year: year })
-                            .orderBy("codigo_disc", "ASC")
-                            .getMany()];
-                    case 1:
-                        turmas = _a.sent();
-                        return [2 /*return*/, turmas];
-                }
+                return [2 /*return*/, this.repository
+                        .createQueryBuilder("turma")
+                        .innerJoinAndSelect("turma.disciplina", "disciplina")
+                        .where("ano = :year AND semestre = :semester", { semester: semester, year: year })
+                        .orderBy("codigo_disc", "ASC")
+                        .getMany()];
             });
         });
     };
     TurmasRepository.prototype.queryById = function (id) {
         return __awaiter(this, void 0, void 0, function () {
-            var turma;
             return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0: return [4 /*yield*/, this.repository.findOne(id)];
-                    case 1:
-                        turma = _a.sent();
-                        return [2 /*return*/, turma];
-                }
+                return [2 /*return*/, this.repository.findOneBy({ id: id })];
             });
         });
     };
     TurmasRepository.prototype.queryByCodigo = function (codigo_disc) {
         return __awaiter(this, void 0, void 0, function () {
-            var turma;
             return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0: return [4 /*yield*/, this.repository.findOne({ codigo_disc: codigo_disc })];
-                    case 1:
-                        turma = _a.sent();
-                        return [2 /*return*/, turma];
-                }
+                return [2 /*return*/, this.repository.findOneBy({ codigo_disc: codigo_disc })];
             });
         });
     };
     TurmasRepository.prototype.queryByCodigoTurmaAnoSemestre = function (codigo, turma, ano, semestre) {
         return __awaiter(this, void 0, void 0, function () {
-            var foundedTurma;
             return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0: return [4 /*yield*/, this.repository.findOne({
-                            where: { codigo_disc: codigo, turma: turma, ano: ano, semestre: semestre },
-                        })];
-                    case 1:
-                        foundedTurma = _a.sent();
-                        return [2 /*return*/, foundedTurma];
-                }
+                return [2 /*return*/, this.repository.findOne({
+                        where: { codigo_disc: codigo, turma: turma, ano: ano, semestre: semestre },
+                    })];
             });
         });
     };
@@ -147,7 +116,7 @@ var TurmasRepository = /** @class */ (function () {
             var turmaToUpdate;
             return __generator(this, function (_b) {
                 switch (_b.label) {
-                    case 0: return [4 /*yield*/, this.repository.findOne({ id: id })];
+                    case 0: return [4 /*yield*/, this.repository.findOneBy({ id: id })];
                     case 1:
                         turmaToUpdate = _b.sent();
                         turmaToUpdate.codigo_disc = codigo_disc || turmaToUpdate.codigo_disc;

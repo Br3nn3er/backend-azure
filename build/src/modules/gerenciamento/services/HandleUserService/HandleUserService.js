@@ -26,7 +26,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     function verb(n) { return function (v) { return step([n, v]); }; }
     function step(op) {
         if (f) throw new TypeError("Generator is already executing.");
-        while (_) try {
+        while (g && (g = 0, op[0] && (_ = 0)), _) try {
             if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
             if (y = 0, t) op = [op[0] & 2, t.value];
             switch (op[0]) {
@@ -66,7 +66,7 @@ var HandleUserService = /** @class */ (function () {
     HandleUserService.prototype.authenticate = function (_a) {
         var email = _a.email, password = _a.password;
         return __awaiter(this, void 0, void 0, function () {
-            var user, expires_in_token, expires_in_refresh_token, secret_token, secret_refresh_token, expires_refresh_token_days, passwordMatch, token, refresh_token, refresh_token_expires_date, tokenReturn;
+            var user, expires_in_token, expires_in_refresh_token, secret_token, secret_refresh_token, expires_refresh_token_days, passwordMatch, token, refresh_token, refresh_token_expires_date;
             return __generator(this, function (_b) {
                 switch (_b.label) {
                     case 0: return [4 /*yield*/, this.usersRepository.queryByEmail(email)];
@@ -98,16 +98,15 @@ var HandleUserService = /** @class */ (function () {
                             })];
                     case 3:
                         _b.sent();
-                        tokenReturn = {
-                            token: token,
-                            user: {
-                                name: user.name,
-                                email: user.email,
-                                isAdmin: user.isAdmin,
-                            },
-                            refresh_token: refresh_token,
-                        };
-                        return [2 /*return*/, tokenReturn];
+                        return [2 /*return*/, {
+                                token: token,
+                                user: {
+                                    name: user.name,
+                                    email: user.email,
+                                    isAdmin: user.isAdmin,
+                                },
+                                refresh_token: refresh_token,
+                            }];
                 }
             });
         });
@@ -175,7 +174,7 @@ var HandleUserService = /** @class */ (function () {
     HandleUserService.prototype.update = function (_a) {
         var id = _a.id, name = _a.name, isAdmin = _a.isAdmin;
         return __awaiter(this, void 0, void 0, function () {
-            var professorExists, professorToUpdate;
+            var professorExists;
             return __generator(this, function (_b) {
                 switch (_b.label) {
                     case 0: return [4 /*yield*/, this.usersRepository.queryById(id)];
@@ -189,9 +188,7 @@ var HandleUserService = /** @class */ (function () {
                                 name: name,
                                 isAdmin: isAdmin,
                             })];
-                    case 2:
-                        professorToUpdate = _b.sent();
-                        return [2 /*return*/, professorToUpdate];
+                    case 2: return [2 /*return*/, _b.sent()];
                 }
             });
         });

@@ -1,6 +1,6 @@
-import { ICreateAtribuicaoManualDTO } from "../../../../dtos/ICreateAtribuicaoManualDTO";
-import { AtribuicaoManual } from "../../entities/AtribuicaoManual";
-import { IAtribuicaoManualRepository } from "../interfaces/IAtribuicaoManualRepository";
+import {ICreateAtribuicaoManualDTO} from "../../../../dtos/ICreateAtribuicaoManualDTO";
+import {AtribuicaoManual} from "../../entities/AtribuicaoManual";
+import {IAtribuicaoManualRepository} from "../interfaces/IAtribuicaoManualRepository";
 
 class AtribuicaoManualRepositoryTestMock
   implements IAtribuicaoManualRepository
@@ -33,13 +33,11 @@ class AtribuicaoManualRepositoryTestMock
     num_cenario: number,
     id_turma: number
   ): Promise<AtribuicaoManual> {
-    const atribuicao = this.atribuicoes.find(
+    return this.atribuicoes.find(
       (atribuicaoToSearch) =>
         atribuicaoToSearch.num_cenario === num_cenario &&
         atribuicaoToSearch.id_turma === id_turma
     );
-
-    return atribuicao;
   }
 
   async deleteByCenarioETurma(

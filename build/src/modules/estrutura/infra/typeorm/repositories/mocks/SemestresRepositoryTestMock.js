@@ -14,7 +14,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     function verb(n) { return function (v) { return step([n, v]); }; }
     function step(op) {
         if (f) throw new TypeError("Generator is already executing.");
-        while (_) try {
+        while (g && (g = 0, op[0] && (_ = 0)), _) try {
             if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
             if (y = 0, t) op = [op[0] & 2, t.value];
             switch (op[0]) {
@@ -70,25 +70,17 @@ var SemestresRepositoryTestMock = /** @class */ (function () {
     };
     SemestresRepositoryTestMock.prototype.queryById = function (id) {
         return __awaiter(this, void 0, void 0, function () {
-            var semestreFounded;
             return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0: return [4 /*yield*/, this.semestres.find(function (semestre) { return semestre.id === id; })];
-                    case 1:
-                        semestreFounded = _a.sent();
-                        return [2 /*return*/, semestreFounded];
-                }
+                return [2 /*return*/, this.semestres.find(function (semestre) { return semestre.id === id; })];
             });
         });
     };
     SemestresRepositoryTestMock.prototype.queryByAnoSemestre = function (ano, semestre) {
         return __awaiter(this, void 0, void 0, function () {
-            var semestreFounded;
             return __generator(this, function (_a) {
-                semestreFounded = this.semestres.find(function (semestreToSearch) {
-                    return semestreToSearch.ano === ano && semestreToSearch.semestre === semestre;
-                });
-                return [2 /*return*/, semestreFounded];
+                return [2 /*return*/, this.semestres.find(function (semestreToSearch) {
+                        return semestreToSearch.ano === ano && semestreToSearch.semestre === semestre;
+                    })];
             });
         });
     };

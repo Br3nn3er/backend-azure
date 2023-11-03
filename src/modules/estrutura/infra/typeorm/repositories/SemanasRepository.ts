@@ -1,5 +1,6 @@
-import { getRepository, Repository } from "typeorm";
+import { Repository } from "typeorm";
 
+import { dataSource } from "../../../../../shared/infra/typeorm";
 import {
   ICreateSemanaDTO,
   IPatchSemanaDTO,
@@ -11,11 +12,11 @@ class SemanasRepository implements ISemanasRepository {
   private repository: Repository<Semana>;
 
   constructor() {
-    this.repository = getRepository(Semana);
+    this.repository = dataSource.getRepository(Semana);
   }
 
   async createSemana({ dia, descricao }: ICreateSemanaDTO): Promise<Semana> {
-    const semana = await this.repository.create({ dia, descricao });
+    const semana = this.repository.create({ dia, descricao });
 
     await this.repository.save(semana);
 
@@ -23,22 +24,18 @@ class SemanasRepository implements ISemanasRepository {
   }
 
   async listAllSemanas(): Promise<Semana[]> {
-    const semanas = await this.repository
+    return this.repository
       .createQueryBuilder("semana")
       .orderBy("dia", "ASC")
       .getMany();
-
-    return semanas;
   }
 
   async queryByDia(dia: string): Promise<Semana> {
-    const semana = await this.repository.findOne(dia);
-
-    return semana;
+    return this.repository.findOneBy({ dia });
   }
 
   async update({ dia, descricao }: IPatchSemanaDTO): Promise<Semana> {
-    const semana = await this.repository.findOne({ dia });
+    const semana = await this.repository.findOneBy({ dia });
 
     semana.descricao = descricao || semana.descricao;
 

@@ -26,7 +26,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     function verb(n) { return function (v) { return step([n, v]); }; }
     function step(op) {
         if (f) throw new TypeError("Generator is already executing.");
-        while (_) try {
+        while (g && (g = 0, op[0] && (_ = 0)), _) try {
             if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
             if (y = 0, t) op = [op[0] & 2, t.value];
             switch (op[0]) {
@@ -64,7 +64,7 @@ var HandleProfessorService = /** @class */ (function () {
     HandleProfessorService.prototype.create = function (_a) {
         var siape = _a.siape, nome = _a.nome, data_ingresso = _a.data_ingresso, data_nasc = _a.data_nasc, afastado = _a.afastado, regime = _a.regime, carga_atual = _a.carga_atual, locacao = _a.locacao, cnome = _a.cnome, data_saida = _a.data_saida, data_exoneracao = _a.data_exoneracao, data_aposentadoria = _a.data_aposentadoria, status = _a.status;
         return __awaiter(this, void 0, void 0, function () {
-            var existentProfessor, professor;
+            var existentProfessor;
             return __generator(this, function (_b) {
                 switch (_b.label) {
                     case 0: return [4 /*yield*/, this.professoresRepository.queryBySiape(siape)];
@@ -73,7 +73,7 @@ var HandleProfessorService = /** @class */ (function () {
                         if (existentProfessor) {
                             throw new AppError_1.AppError("Há um professor cadastrado com este código SIAPE", 403);
                         }
-                        return [4 /*yield*/, this.professoresRepository.createProfessor({
+                        return [2 /*return*/, this.professoresRepository.createProfessor({
                                 siape: siape,
                                 nome: nome,
                                 data_ingresso: data_ingresso
@@ -98,9 +98,6 @@ var HandleProfessorService = /** @class */ (function () {
                                     : null,
                                 status: status,
                             })];
-                    case 2:
-                        professor = _b.sent();
-                        return [2 /*return*/, professor];
                 }
             });
         });
@@ -139,7 +136,7 @@ var HandleProfessorService = /** @class */ (function () {
     HandleProfessorService.prototype.update = function (_a) {
         var siape = _a.siape, nome = _a.nome, data_ingresso = _a.data_ingresso, data_nasc = _a.data_nasc, afastado = _a.afastado, regime = _a.regime, carga_atual = _a.carga_atual, locacao = _a.locacao, cnome = _a.cnome, data_saida = _a.data_saida, data_exoneracao = _a.data_exoneracao, data_aposentadoria = _a.data_aposentadoria, status = _a.status;
         return __awaiter(this, void 0, void 0, function () {
-            var professorExistent, professorToUpdate;
+            var professorExistent;
             return __generator(this, function (_b) {
                 switch (_b.label) {
                     case 0: return [4 /*yield*/, this.professoresRepository.queryBySiape(siape)];
@@ -148,7 +145,7 @@ var HandleProfessorService = /** @class */ (function () {
                         if (!professorExistent) {
                             throw new AppError_1.AppError("Este professor não está cadastrado!");
                         }
-                        return [4 /*yield*/, this.professoresRepository.updateBySiape({
+                        return [2 /*return*/, this.professoresRepository.updateBySiape({
                                 siape: siape,
                                 nome: nome,
                                 data_ingresso: data_ingresso,
@@ -163,9 +160,6 @@ var HandleProfessorService = /** @class */ (function () {
                                 data_aposentadoria: data_aposentadoria,
                                 status: status,
                             })];
-                    case 2:
-                        professorToUpdate = _b.sent();
-                        return [2 /*return*/, professorToUpdate];
                 }
             });
         });
@@ -244,7 +238,7 @@ var HandleProfessorService = /** @class */ (function () {
         return new Promise(function (resolve, reject) {
             var professores = [];
             var stream = fs_1.default.createReadStream(file.path);
-            var parseFile = (0, csv_parse_1.default)();
+            var parseFile = csv_parse_1.default.parse();
             stream.pipe(parseFile);
             parseFile
                 .on("data", function (line) { return __awaiter(_this, void 0, void 0, function () {

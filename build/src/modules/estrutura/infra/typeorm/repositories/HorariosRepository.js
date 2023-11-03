@@ -14,7 +14,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     function verb(n) { return function (v) { return step([n, v]); }; }
     function step(op) {
         if (f) throw new TypeError("Generator is already executing.");
-        while (_) try {
+        while (g && (g = 0, op[0] && (_ = 0)), _) try {
             if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
             if (y = 0, t) op = [op[0] & 2, t.value];
             switch (op[0]) {
@@ -37,11 +37,11 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.HorariosRepository = void 0;
-var typeorm_1 = require("typeorm");
+var typeorm_1 = require("../../../../../shared/infra/typeorm");
 var Horario_1 = require("../entities/Horario");
 var HorariosRepository = /** @class */ (function () {
     function HorariosRepository() {
-        this.repository = (0, typeorm_1.getRepository)(Horario_1.Horario);
+        this.repository = typeorm_1.dataSource.getRepository(Horario_1.Horario);
     }
     HorariosRepository.prototype.createHorario = function (_a) {
         var letra = _a.letra, hora_inicio = _a.hora_inicio, hora_fim = _a.hora_fim, turno = _a.turno;
@@ -49,16 +49,15 @@ var HorariosRepository = /** @class */ (function () {
             var horario;
             return __generator(this, function (_b) {
                 switch (_b.label) {
-                    case 0: return [4 /*yield*/, this.repository.create({
+                    case 0:
+                        horario = this.repository.create({
                             letra: letra,
                             hora_inicio: hora_inicio,
                             hora_fim: hora_fim,
                             turno: turno,
-                        })];
-                    case 1:
-                        horario = _b.sent();
+                        });
                         return [4 /*yield*/, this.repository.save(horario)];
-                    case 2:
+                    case 1:
                         _b.sent();
                         return [2 /*return*/, horario];
                 }
@@ -67,30 +66,18 @@ var HorariosRepository = /** @class */ (function () {
     };
     HorariosRepository.prototype.queryByLetra = function (letra) {
         return __awaiter(this, void 0, void 0, function () {
-            var horario;
             return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0: return [4 /*yield*/, this.repository.findOne({ letra: letra })];
-                    case 1:
-                        horario = _a.sent();
-                        return [2 /*return*/, horario];
-                }
+                return [2 /*return*/, this.repository.findOneBy({ letra: letra })];
             });
         });
     };
     HorariosRepository.prototype.listAllHorarios = function () {
         return __awaiter(this, void 0, void 0, function () {
-            var horarios;
             return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0: return [4 /*yield*/, this.repository
-                            .createQueryBuilder("horario")
-                            .orderBy("letra", "ASC")
-                            .getMany()];
-                    case 1:
-                        horarios = _a.sent();
-                        return [2 /*return*/, horarios];
-                }
+                return [2 /*return*/, this.repository
+                        .createQueryBuilder("horario")
+                        .orderBy("letra", "ASC")
+                        .getMany()];
             });
         });
     };
@@ -100,7 +87,7 @@ var HorariosRepository = /** @class */ (function () {
             var horarioToUpdate;
             return __generator(this, function (_b) {
                 switch (_b.label) {
-                    case 0: return [4 /*yield*/, this.repository.findOne({ letra: letra })];
+                    case 0: return [4 /*yield*/, this.repository.findOneBy({ letra: letra })];
                     case 1:
                         horarioToUpdate = _b.sent();
                         horarioToUpdate.hora_inicio = hora_inicio || horarioToUpdate.hora_inicio;

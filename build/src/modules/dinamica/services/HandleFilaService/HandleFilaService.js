@@ -37,7 +37,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     function verb(n) { return function (v) { return step([n, v]); }; }
     function step(op) {
         if (f) throw new TypeError("Generator is already executing.");
-        while (_) try {
+        while (g && (g = 0, op[0] && (_ = 0)), _) try {
             if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
             if (y = 0, t) op = [op[0] & 2, t.value];
             switch (op[0]) {
@@ -75,7 +75,7 @@ var HandleFilaService = /** @class */ (function () {
     HandleFilaService.prototype.create = function (_a) {
         var siape = _a.siape, codigo_disc = _a.codigo_disc, pos = _a.pos, prioridade = _a.prioridade, qte_ministrada = _a.qte_ministrada, qte_maximo = _a.qte_maximo, ano = _a.ano, semestre = _a.semestre, status = _a.status, periodo_preferencial = _a.periodo_preferencial;
         return __awaiter(this, void 0, void 0, function () {
-            var filaFounded_1, filaFounded_2, fila;
+            var filaFounded_1, filaFounded_2;
             return __generator(this, function (_b) {
                 switch (_b.label) {
                     case 0: return [4 /*yield*/, this.filaRepository.queryByDiscEPosEAnoESemestre(codigo_disc, pos, ano, semestre)];
@@ -87,7 +87,7 @@ var HandleFilaService = /** @class */ (function () {
                         if (filaFounded_1 || filaFounded_2) {
                             throw new AppError_1.AppError("Há uma fila com esta configuração já cadastrada!");
                         }
-                        return [4 /*yield*/, this.filaRepository.create({
+                        return [2 /*return*/, this.filaRepository.create({
                                 siape: siape,
                                 codigo_disc: codigo_disc,
                                 pos: pos,
@@ -99,9 +99,6 @@ var HandleFilaService = /** @class */ (function () {
                                 status: status,
                                 periodo_preferencial: periodo_preferencial,
                             })];
-                    case 3:
-                        fila = _b.sent();
-                        return [2 /*return*/, fila];
                 }
             });
         });
@@ -169,21 +166,15 @@ var HandleFilaService = /** @class */ (function () {
     };
     HandleFilaService.prototype.readBySemestreEProfessor = function (siape, ano, semestre) {
         return __awaiter(this, void 0, void 0, function () {
-            var filas;
             return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0: return [4 /*yield*/, this.filaRepository.queryBySiapeEAnoESemestre(siape, ano, semestre)];
-                    case 1:
-                        filas = _a.sent();
-                        return [2 /*return*/, filas];
-                }
+                return [2 /*return*/, this.filaRepository.queryBySiapeEAnoESemestre(siape, ano, semestre)];
             });
         });
     };
     HandleFilaService.prototype.update = function (_a) {
         var id = _a.id, siape = _a.siape, codigo_disc = _a.codigo_disc, pos = _a.pos, prioridade = _a.prioridade, qte_ministrada = _a.qte_ministrada, qte_maximo = _a.qte_maximo, ano = _a.ano, semestre = _a.semestre, status = _a.status, periodo_preferencial = _a.periodo_preferencial;
         return __awaiter(this, void 0, void 0, function () {
-            var filaFounded, filaToUpdate;
+            var filaFounded;
             return __generator(this, function (_b) {
                 switch (_b.label) {
                     case 0: return [4 /*yield*/, this.filaRepository.queryById(id)];
@@ -192,7 +183,7 @@ var HandleFilaService = /** @class */ (function () {
                         if (!filaFounded) {
                             throw new AppError_1.AppError("Fila não encontrada!");
                         }
-                        return [4 /*yield*/, this.filaRepository.updateById({
+                        return [2 /*return*/, this.filaRepository.updateById({
                                 id: id,
                                 siape: siape,
                                 codigo_disc: codigo_disc,
@@ -205,9 +196,6 @@ var HandleFilaService = /** @class */ (function () {
                                 status: status,
                                 periodo_preferencial: periodo_preferencial,
                             })];
-                    case 2:
-                        filaToUpdate = _b.sent();
-                        return [2 /*return*/, filaToUpdate];
                 }
             });
         });
@@ -268,7 +256,7 @@ var HandleFilaService = /** @class */ (function () {
         return new Promise(function (resolve, reject) {
             var filas = [];
             var stream = fs_1.default.createReadStream(file.path);
-            var parseFile = (0, csv_parse_1.default)();
+            var parseFile = csv_parse_1.default.parse();
             stream.pipe(parseFile);
             parseFile
                 .on("data", function (line) { return __awaiter(_this, void 0, void 0, function () {

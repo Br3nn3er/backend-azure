@@ -1,9 +1,6 @@
-import {
-  ICreateSemanaDTO,
-  IPatchSemanaDTO,
-} from "../../../../dtos/ICreateUpdateSemanaDTO";
-import { Semana } from "../../entities/Semana";
-import { ISemanasRepository } from "../interfaces/ISemanasRepository";
+import {ICreateSemanaDTO, IPatchSemanaDTO,} from "../../../../dtos/ICreateUpdateSemanaDTO";
+import {Semana} from "../../entities/Semana";
+import {ISemanasRepository} from "../interfaces/ISemanasRepository";
 
 class SemanasRepositoryTestMock implements ISemanasRepository {
   private semanas: Semana[] = [];
@@ -23,9 +20,7 @@ class SemanasRepositoryTestMock implements ISemanasRepository {
   }
 
   async queryByDia(dia: string): Promise<Semana> {
-    const semana = this.semanas.find((semana) => semana.dia === dia);
-
-    return semana;
+    return this.semanas.find((semana) => semana.dia === dia);
   }
 
   async update({ dia, descricao }: IPatchSemanaDTO): Promise<Semana> {

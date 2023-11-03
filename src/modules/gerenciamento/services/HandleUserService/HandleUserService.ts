@@ -81,7 +81,7 @@ class HandleUserService {
       expires_date: refresh_token_expires_date,
     });
 
-    const tokenReturn: IResponse = {
+    return {
       token,
       user: {
         name: user.name,
@@ -90,8 +90,6 @@ class HandleUserService {
       },
       refresh_token,
     };
-
-    return tokenReturn;
   }
 
   async create({
@@ -148,13 +146,11 @@ class HandleUserService {
       throw new AppError("Este usuário não está cadastrado!", 401);
     }
 
-    const professorToUpdate = await this.usersRepository.updateById({
+    return this.usersRepository.updateById({
       id,
       name,
       isAdmin,
     });
-
-    return professorToUpdate;
   }
 
   async delete(id: string): Promise<void> {

@@ -4,7 +4,7 @@ import { Connection } from "typeorm";
 import { v4 as uuidV4 } from "uuid";
 
 import { app } from "../../../../../shared/infra/http/app";
-import createConnection from "../../../../../shared/infra/typeorm";
+import { dataSource } from "../../../../../shared/infra/typeorm";
 import { Curso } from "../../../infra/typeorm/entities/Curso";
 import { Disciplina } from "../../../infra/typeorm/entities/Disciplina";
 import { Turma } from "../../../infra/typeorm/entities/Turma";
@@ -13,7 +13,7 @@ let connection: Connection;
 
 describe("Handle CRUD routes related to turma", () => {
   beforeAll(async () => {
-    connection = await createConnection();
+    connection = await dataSource.initialize();
     await connection.runMigrations();
 
     const id = uuidV4();

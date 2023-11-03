@@ -14,7 +14,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     function verb(n) { return function (v) { return step([n, v]); }; }
     function step(op) {
         if (f) throw new TypeError("Generator is already executing.");
-        while (_) try {
+        while (g && (g = 0, op[0] && (_ = 0)), _) try {
             if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
             if (y = 0, t) op = [op[0] & 2, t.value];
             switch (op[0]) {
@@ -37,11 +37,11 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.StatusPossibilidadesRepository = void 0;
-var typeorm_1 = require("typeorm");
+var typeorm_1 = require("../../../../../shared/infra/typeorm");
 var StatusPossibilidades_1 = require("../entities/StatusPossibilidades");
 var StatusPossibilidadesRepository = /** @class */ (function () {
     function StatusPossibilidadesRepository() {
-        this.repository = (0, typeorm_1.getRepository)(StatusPossibilidades_1.StatusPossibilidades);
+        this.repository = typeorm_1.dataSource.getRepository(StatusPossibilidades_1.StatusPossibilidades);
     }
     StatusPossibilidadesRepository.prototype.create = function (_a) {
         var id_fila = _a.id_fila, id_possibilidade = _a.id_possibilidade, status = _a.status;
@@ -66,32 +66,20 @@ var StatusPossibilidadesRepository = /** @class */ (function () {
     };
     StatusPossibilidadesRepository.prototype.listStatusPossibilidades = function () {
         return __awaiter(this, void 0, void 0, function () {
-            var listStatus;
             return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0: return [4 /*yield*/, this.repository
-                            .createQueryBuilder("status_possibilidade")
-                            .orderBy("id_fila")
-                            .getMany()];
-                    case 1:
-                        listStatus = _a.sent();
-                        return [2 /*return*/, listStatus];
-                }
+                return [2 /*return*/, this.repository
+                        .createQueryBuilder("status_possibilidade")
+                        .orderBy("id_fila")
+                        .getMany()];
             });
         });
     };
     StatusPossibilidadesRepository.prototype.queryByFilaEPossibilidade = function (id_fila, id_possibilidade) {
         return __awaiter(this, void 0, void 0, function () {
-            var statusFounded;
             return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0: return [4 /*yield*/, this.repository.findOne({
-                            where: { id_fila: id_fila, id_possibilidade: id_possibilidade },
-                        })];
-                    case 1:
-                        statusFounded = _a.sent();
-                        return [2 /*return*/, statusFounded];
-                }
+                return [2 /*return*/, this.repository.findOne({
+                        where: { id_fila: id_fila, id_possibilidade: id_possibilidade },
+                    })];
             });
         });
     };

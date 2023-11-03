@@ -26,7 +26,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     function verb(n) { return function (v) { return step([n, v]); }; }
     function step(op) {
         if (f) throw new TypeError("Generator is already executing.");
-        while (_) try {
+        while (g && (g = 0, op[0] && (_ = 0)), _) try {
             if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
             if (y = 0, t) op = [op[0] & 2, t.value];
             switch (op[0]) {
@@ -63,17 +63,11 @@ var HandlePossibilidadesService = /** @class */ (function () {
     HandlePossibilidadesService.prototype.create = function (_a) {
         var descricao = _a.descricao, num_cenario = _a.num_cenario;
         return __awaiter(this, void 0, void 0, function () {
-            var possibilidade;
             return __generator(this, function (_b) {
-                switch (_b.label) {
-                    case 0: return [4 /*yield*/, this.possibilidadeRepository.create({
-                            descricao: descricao,
-                            num_cenario: num_cenario,
-                        })];
-                    case 1:
-                        possibilidade = _b.sent();
-                        return [2 /*return*/, possibilidade];
-                }
+                return [2 /*return*/, this.possibilidadeRepository.create({
+                        descricao: descricao,
+                        num_cenario: num_cenario,
+                    })];
             });
         });
     };
@@ -99,7 +93,7 @@ var HandlePossibilidadesService = /** @class */ (function () {
     HandlePossibilidadesService.prototype.update = function (_a) {
         var id = _a.id, descricao = _a.descricao, num_cenario = _a.num_cenario;
         return __awaiter(this, void 0, void 0, function () {
-            var possibilidadeFounded, possibilidadeToUpdate;
+            var possibilidadeFounded;
             return __generator(this, function (_b) {
                 switch (_b.label) {
                     case 0: return [4 /*yield*/, this.possibilidadeRepository.queryById(id)];
@@ -108,14 +102,11 @@ var HandlePossibilidadesService = /** @class */ (function () {
                         if (!possibilidadeFounded) {
                             throw new AppError_1.AppError("Possibilidade não encontrada!", 403);
                         }
-                        return [4 /*yield*/, this.possibilidadeRepository.updateById({
+                        return [2 /*return*/, this.possibilidadeRepository.updateById({
                                 id: id,
                                 descricao: descricao,
                                 num_cenario: num_cenario,
                             })];
-                    case 2:
-                        possibilidadeToUpdate = _b.sent();
-                        return [2 /*return*/, possibilidadeToUpdate];
                 }
             });
         });
@@ -168,7 +159,7 @@ var HandlePossibilidadesService = /** @class */ (function () {
         return new Promise(function (resolve, reject) {
             var listPossibilidades = [];
             var stream = fs_1.default.createReadStream(file.path);
-            var parseFile = (0, csv_parse_1.default)();
+            var parseFile = csv_parse_1.default.parse();
             stream.pipe(parseFile);
             parseFile
                 .on("data", function (line) { return __awaiter(_this, void 0, void 0, function () {

@@ -26,7 +26,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     function verb(n) { return function (v) { return step([n, v]); }; }
     function step(op) {
         if (f) throw new TypeError("Generator is already executing.");
-        while (_) try {
+        while (g && (g = 0, op[0] && (_ = 0)), _) try {
             if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
             if (y = 0, t) op = [op[0] & 2, t.value];
             switch (op[0]) {
@@ -65,7 +65,7 @@ var HandleFilaTurmaNewService = /** @class */ (function () {
     HandleFilaTurmaNewService.prototype.create = function (_a) {
         var id_turma = _a.id_turma, id_fila = _a.id_fila, prioridade = _a.prioridade;
         return __awaiter(this, void 0, void 0, function () {
-            var filaFounded, fila;
+            var filaFounded;
             return __generator(this, function (_b) {
                 switch (_b.label) {
                     case 0: return [4 /*yield*/, this.filaRepository.queryByTurmaEFila(id_turma, id_fila)];
@@ -74,14 +74,11 @@ var HandleFilaTurmaNewService = /** @class */ (function () {
                         if (filaFounded) {
                             throw new AppError_1.AppError("Fila já cadastrada!");
                         }
-                        return [4 /*yield*/, this.filaRepository.create({
+                        return [2 /*return*/, this.filaRepository.create({
                                 id_turma: id_turma,
                                 id_fila: id_fila,
                                 prioridade: prioridade,
                             })];
-                    case 2:
-                        fila = _b.sent();
-                        return [2 /*return*/, fila];
                 }
             });
         });
@@ -120,21 +117,15 @@ var HandleFilaTurmaNewService = /** @class */ (function () {
     };
     HandleFilaTurmaNewService.prototype.readByTurma = function (id_turma) {
         return __awaiter(this, void 0, void 0, function () {
-            var filas;
             return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0: return [4 /*yield*/, this.filaRepository.queryByTurma(id_turma)];
-                    case 1:
-                        filas = _a.sent();
-                        return [2 /*return*/, filas];
-                }
+                return [2 /*return*/, this.filaRepository.queryByTurma(id_turma)];
             });
         });
     };
     HandleFilaTurmaNewService.prototype.update = function (_a) {
         var id_turma = _a.id_turma, id_fila = _a.id_fila, prioridade = _a.prioridade;
         return __awaiter(this, void 0, void 0, function () {
-            var filaFounded, filaToUpdate;
+            var filaFounded;
             return __generator(this, function (_b) {
                 switch (_b.label) {
                     case 0: return [4 /*yield*/, this.filaRepository.queryByTurmaEFila(id_turma, id_fila)];
@@ -143,14 +134,11 @@ var HandleFilaTurmaNewService = /** @class */ (function () {
                         if (!filaFounded) {
                             throw new AppError_1.AppError("Fila não encontrada!");
                         }
-                        return [4 /*yield*/, this.filaRepository.updateByTurmaEFila({
+                        return [2 /*return*/, this.filaRepository.updateByTurmaEFila({
                                 id_turma: id_turma,
                                 id_fila: id_fila,
                                 prioridade: prioridade,
                             })];
-                    case 2:
-                        filaToUpdate = _b.sent();
-                        return [2 /*return*/, filaToUpdate];
                 }
             });
         });
@@ -204,7 +192,7 @@ var HandleFilaTurmaNewService = /** @class */ (function () {
         return new Promise(function (resolve, reject) {
             var filas = [];
             var stream = fs_1.default.createReadStream(file.path);
-            var parseFile = (0, csv_parse_1.default)();
+            var parseFile = csv_parse_1.default.parse();
             stream.pipe(parseFile);
             parseFile
                 .on("data", function (line) { return __awaiter(_this, void 0, void 0, function () {

@@ -76,7 +76,7 @@ class HandleProfessorService {
       );
     }
 
-    const professor = await this.professoresRepository.createProfessor({
+    return this.professoresRepository.createProfessor({
       siape,
       nome,
       data_ingresso: data_ingresso
@@ -101,8 +101,6 @@ class HandleProfessorService {
         : null,
       status,
     });
-
-    return professor;
   }
 
   async read(): Promise<Professor[]> {
@@ -146,7 +144,7 @@ class HandleProfessorService {
       throw new AppError("Este professor não está cadastrado!");
     }
 
-    const professorToUpdate = await this.professoresRepository.updateBySiape({
+    return this.professoresRepository.updateBySiape({
       siape,
       nome,
       data_ingresso,
@@ -161,8 +159,6 @@ class HandleProfessorService {
       data_aposentadoria,
       status,
     });
-
-    return professorToUpdate;
   }
 
   async delete(siape: string): Promise<void> {
@@ -233,7 +229,7 @@ class HandleProfessorService {
 
       const stream = fs.createReadStream(file.path);
 
-      const parseFile = csvParse();
+      const parseFile = csvParse.parse();
 
       stream.pipe(parseFile);
 

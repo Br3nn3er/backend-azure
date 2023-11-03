@@ -26,7 +26,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     function verb(n) { return function (v) { return step([n, v]); }; }
     function step(op) {
         if (f) throw new TypeError("Generator is already executing.");
-        while (_) try {
+        while (g && (g = 0, op[0] && (_ = 0)), _) try {
             if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
             if (y = 0, t) op = [op[0] & 2, t.value];
             switch (op[0]) {
@@ -58,7 +58,6 @@ var HandleFilaTurmaService = /** @class */ (function () {
     HandleFilaTurmaService.prototype.create = function (_a) {
         var siape = _a.siape, id_turma = _a.id_turma, codigo_disc = _a.codigo_disc, turma = _a.turma, pos = _a.pos, prioridade = _a.prioridade, qte_ministrada = _a.qte_ministrada, qte_maximo = _a.qte_maximo, status = _a.status, ch = _a.ch, id = _a.id, periodo_preferencial = _a.periodo_preferencial;
         return __awaiter(this, void 0, void 0, function () {
-            var filaTurma;
             return __generator(this, function (_b) {
                 switch (_b.label) {
                     case 0: return [4 /*yield*/, this.filaTurmaRepository.create({
@@ -75,9 +74,7 @@ var HandleFilaTurmaService = /** @class */ (function () {
                             id: id,
                             periodo_preferencial: periodo_preferencial,
                         })];
-                    case 1:
-                        filaTurma = _b.sent();
-                        return [2 /*return*/, filaTurma];
+                    case 1: return [2 /*return*/, _b.sent()];
                 }
             });
         });
@@ -85,35 +82,26 @@ var HandleFilaTurmaService = /** @class */ (function () {
     HandleFilaTurmaService.prototype.read = function () {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0: return [4 /*yield*/, this.filaTurmaRepository.listFilas()];
-                    case 1: return [2 /*return*/, _a.sent()];
-                }
+                return [2 /*return*/, this.filaTurmaRepository.listFilas()];
             });
         });
     };
     HandleFilaTurmaService.prototype.readByProfessor = function (siape) {
         return __awaiter(this, void 0, void 0, function () {
-            var filas;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0: return [4 /*yield*/, this.filaTurmaRepository.queryBySiape(siape)];
-                    case 1:
-                        filas = _a.sent();
-                        return [2 /*return*/, filas];
+                    case 1: return [2 /*return*/, _a.sent()];
                 }
             });
         });
     };
     HandleFilaTurmaService.prototype.readByTurma = function (id_turma) {
         return __awaiter(this, void 0, void 0, function () {
-            var filas;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0: return [4 /*yield*/, this.filaTurmaRepository.queryByTurma(id_turma)];
-                    case 1:
-                        filas = _a.sent();
-                        return [2 /*return*/, filas];
+                    case 1: return [2 /*return*/, _a.sent()];
                 }
             });
         });
@@ -130,7 +118,7 @@ var HandleFilaTurmaService = /** @class */ (function () {
                         if (!filaFounded) {
                             throw new AppError_1.AppError("Fila não encontrada!");
                         }
-                        return [4 /*yield*/, this.filaTurmaRepository.updateById({
+                        return [2 /*return*/, this.filaTurmaRepository.updateById({
                                 siape: siape,
                                 id_turma: id_turma,
                                 codigo_disc: codigo_disc,
@@ -144,7 +132,6 @@ var HandleFilaTurmaService = /** @class */ (function () {
                                 id: id,
                                 periodo_preferencial: periodo_preferencial,
                             })];
-                    case 2: return [2 /*return*/, _b.sent()];
                 }
             });
         });

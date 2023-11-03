@@ -33,9 +33,7 @@ class HandleOfertaService {
       throw new AppError("Já existe uma oferta com esta configuração!");
     }
 
-    const oferta = await this.ofertaRepository.create({ dia, letra, id_turma });
-
-    return oferta;
+    return this.ofertaRepository.create({ dia, letra, id_turma });
   }
 
   async read(): Promise<Oferta[]> {
@@ -91,7 +89,7 @@ class HandleOfertaService {
 
       const stream = fs.createReadStream(file.path);
 
-      const parseFile = csvParse();
+      const parseFile = csvParse.parse();
 
       stream.pipe(parseFile);
 

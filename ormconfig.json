@@ -1,16 +1,18 @@
 {
   "type": "postgres",
   "port": 5432,
-  "host": "host.docker.internal",
+  "host": "localhost",
   "username": "postgres",
   "password": "a1s2d3",
-  "database": "sodd",
+  "database": "disciplinas",
   "logging": true,
+  "autoLoadEntities": true,
   "migrations": [
     "./src/shared/infra/typeorm/migrations/*.ts"
   ],
   "entities": [
-    "./src/modules/**/entities/*.ts"
+    "**/src/modules/**/infra/typeorm/entities/*{.js,.ts}",
+    "../../../modules/**/infra/typeorm/entities/*{.js,.ts}"
   ],
   "cli": {
     "migrationsDir": "./src/shared/infra/typeorm/migrations"

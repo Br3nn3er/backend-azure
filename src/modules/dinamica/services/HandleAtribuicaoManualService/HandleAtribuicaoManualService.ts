@@ -34,13 +34,11 @@ class HandleAtribuicaoManualService {
       throw new AppError("Atribuição já cadastrada!");
     }
 
-    const atribuicaoToCreate = await this.atribuicaoRepository.create({
+    return this.atribuicaoRepository.create({
       num_cenario,
       siape,
       id_turma,
     });
-
-    return atribuicaoToCreate;
   }
 
   async read(): Promise<AtribuicaoManual[]> {
@@ -85,7 +83,7 @@ class HandleAtribuicaoManualService {
 
       const stream = fs.createReadStream(file.path);
 
-      const parseFile = csvParse();
+      const parseFile = csvParse.parse();
 
       stream.pipe(parseFile);
 
@@ -100,8 +98,7 @@ class HandleAtribuicaoManualService {
           });
         })
         .on("end", () => {
-          fs.promises.unlink(file.path);
-          resolve(atribuicoes);
+          fs.promises.unlink(file.path).then(() => resolve(atribuicoes));
         })
         .on("error", (err) => {
           reject(err);

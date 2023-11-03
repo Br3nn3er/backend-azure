@@ -1,5 +1,6 @@
-import { getRepository, Repository } from "typeorm";
+import { Repository } from "typeorm";
 
+import { dataSource } from "../../../../../shared/infra/typeorm";
 import { ICreateEtapaDTO, IPatchEtapaDTO } from "../../../dtos/ICreateEtapaDTO";
 import { Etapa } from "../entities/Etapa";
 import { IEtapaRepository } from "./interfaces/IEtapaRepository";
@@ -8,7 +9,7 @@ class EtapaRepository implements IEtapaRepository {
   private repository: Repository<Etapa>;
 
   constructor() {
-    this.repository = getRepository(Etapa);
+    this.repository = dataSource.getRepository(Etapa);
   }
 
   async create({ codigo, ativo, descricao }: ICreateEtapaDTO): Promise<Etapa> {
@@ -20,24 +21,18 @@ class EtapaRepository implements IEtapaRepository {
   }
 
   async listEtapas(): Promise<Etapa[]> {
-    const etapas = await this.repository
+    return this.repository
       .createQueryBuilder("etapa")
       .orderBy("id", "ASC")
       .getMany();
-
-    return etapas;
   }
 
   async queryById(id: string): Promise<Etapa> {
-    const etapa = await this.repository.findOne(id);
-
-    return etapa;
+    return this.repository.findOneBy({ id });
   }
 
   async queryByCodigo(codigo: string): Promise<Etapa> {
-    const etapa = await this.repository.findOne({ where: codigo });
-
-    return etapa;
+    return this.repository.findOneBy({ codigo });
   }
 
   async updateById({
@@ -46,7 +41,7 @@ class EtapaRepository implements IEtapaRepository {
     ativo,
     descricao,
   }: IPatchEtapaDTO): Promise<Etapa> {
-    const etapa = await this.repository.findOne(id);
+    const etapa = await this.repository.findOneBy({ id });
 
     etapa.codigo = codigo || etapa.codigo;
     etapa.ativo = ativo === null || ativo === undefined ? etapa.ativo : ativo;

@@ -14,7 +14,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     function verb(n) { return function (v) { return step([n, v]); }; }
     function step(op) {
         if (f) throw new TypeError("Generator is already executing.");
-        while (_) try {
+        while (g && (g = 0, op[0] && (_ = 0)), _) try {
             if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
             if (y = 0, t) op = [op[0] & 2, t.value];
             switch (op[0]) {
@@ -37,12 +37,12 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.MinistraRepository = void 0;
-var typeorm_1 = require("typeorm");
+var typeorm_1 = require("../../../../../shared/infra/typeorm");
 var Oferta_1 = require("../../../../dinamica/infra/typeorm/entities/Oferta");
 var Ministra_1 = require("../entities/Ministra");
 var MinistraRepository = /** @class */ (function () {
     function MinistraRepository() {
-        this.repository = (0, typeorm_1.getRepository)(Ministra_1.Ministra);
+        this.repository = typeorm_1.dataSource.getRepository(Ministra_1.Ministra);
     }
     MinistraRepository.prototype.create = function (_a) {
         var siape = _a.siape, id_turma = _a.id_turma;
@@ -50,11 +50,10 @@ var MinistraRepository = /** @class */ (function () {
             var ministra;
             return __generator(this, function (_b) {
                 switch (_b.label) {
-                    case 0: return [4 /*yield*/, this.repository.create({ siape: siape, id_turma: id_turma })];
-                    case 1:
-                        ministra = _b.sent();
+                    case 0:
+                        ministra = this.repository.create({ siape: siape, id_turma: id_turma });
                         return [4 /*yield*/, this.repository.save(ministra)];
-                    case 2:
+                    case 1:
                         _b.sent();
                         return [2 /*return*/, ministra];
                 }
@@ -63,68 +62,44 @@ var MinistraRepository = /** @class */ (function () {
     };
     MinistraRepository.prototype.listAllMinistra = function () {
         return __awaiter(this, void 0, void 0, function () {
-            var allMinistra;
             return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0: return [4 /*yield*/, this.repository
-                            .createQueryBuilder("ministra")
-                            .orderBy("siape", "ASC")
-                            .getMany()];
-                    case 1:
-                        allMinistra = _a.sent();
-                        return [2 /*return*/, allMinistra];
-                }
+                return [2 /*return*/, this.repository
+                        .createQueryBuilder("ministra")
+                        .orderBy("siape", "ASC")
+                        .getMany()];
             });
         });
     };
     MinistraRepository.prototype.listMinistraByProfessorAndSemestre = function (siapes, ano, semestre) {
         return __awaiter(this, void 0, void 0, function () {
-            var allMinistra;
             return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0: return [4 /*yield*/, this.repository
-                            .createQueryBuilder("ministra")
-                            .innerJoinAndSelect("ministra.turma", "turma")
-                            .innerJoinAndMapMany("ministra.ofertas", Oferta_1.Oferta, "ofertas", "ministra.id_turma = ofertas.id_turma")
-                            .where("ministra.siape IN (:...siapes) AND turma.ano = :ano AND turma.semestre = :semestre", { ano: ano, semestre: semestre, siapes: siapes })
-                            .getMany()];
-                    case 1:
-                        allMinistra = _a.sent();
-                        return [2 /*return*/, allMinistra];
-                }
+                return [2 /*return*/, this.repository
+                        .createQueryBuilder("ministra")
+                        .innerJoinAndSelect("ministra.turma", "turma")
+                        .innerJoinAndMapMany("ministra.ofertas", Oferta_1.Oferta, "ofertas", "ministra.id_turma = ofertas.id_turma")
+                        .where("ministra.siape IN (:...siapes) AND turma.ano = :ano AND turma.semestre = :semestre", { ano: ano, semestre: semestre, siapes: siapes })
+                        .getMany()];
             });
         });
     };
     MinistraRepository.prototype.listByTurmasAndSemestre = function (turmaIds, ano, semestre) {
         return __awaiter(this, void 0, void 0, function () {
-            var allMinistra;
             return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0: return [4 /*yield*/, this.repository
-                            .createQueryBuilder("ministra")
-                            .innerJoinAndSelect("ministra.turma", "turma")
-                            .innerJoinAndMapMany("ministra.ofertas", Oferta_1.Oferta, "ofertas", "ministra.id_turma = ofertas.id_turma")
-                            .where("turma.ano = :ano AND turma.semestre = :semestre AND turma.id IN (:...turmaIds)", { ano: ano, semestre: semestre, turmaIds: turmaIds })
-                            .getMany()];
-                    case 1:
-                        allMinistra = _a.sent();
-                        return [2 /*return*/, allMinistra];
-                }
+                return [2 /*return*/, this.repository
+                        .createQueryBuilder("ministra")
+                        .innerJoinAndSelect("ministra.turma", "turma")
+                        .innerJoinAndMapMany("ministra.ofertas", Oferta_1.Oferta, "ofertas", "ministra.id_turma = ofertas.id_turma")
+                        .where("turma.ano = :ano AND turma.semestre = :semestre AND turma.id IN (:...turmaIds)", { ano: ano, semestre: semestre, turmaIds: turmaIds })
+                        .getMany()];
             });
         });
     };
     MinistraRepository.prototype.queryBySiapeAndIdTurma = function (siape, id_turma) {
         return __awaiter(this, void 0, void 0, function () {
-            var ministra;
             return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0: return [4 /*yield*/, this.repository.findOne({
-                            where: { siape: siape, id_turma: id_turma },
-                        })];
-                    case 1:
-                        ministra = _a.sent();
-                        return [2 /*return*/, ministra];
-                }
+                return [2 /*return*/, this.repository.findOne({
+                        where: { siape: siape, id_turma: id_turma },
+                    })];
             });
         });
     };

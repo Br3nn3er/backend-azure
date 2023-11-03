@@ -14,7 +14,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     function verb(n) { return function (v) { return step([n, v]); }; }
     function step(op) {
         if (f) throw new TypeError("Generator is already executing.");
-        while (_) try {
+        while (g && (g = 0, op[0] && (_ = 0)), _) try {
             if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
             if (y = 0, t) op = [op[0] & 2, t.value];
             switch (op[0]) {
@@ -37,11 +37,11 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.OfertaRepository = void 0;
-var typeorm_1 = require("typeorm");
+var typeorm_1 = require("../../../../../shared/infra/typeorm");
 var Oferta_1 = require("../entities/Oferta");
 var OfertaRepository = /** @class */ (function () {
     function OfertaRepository() {
-        this.repository = (0, typeorm_1.getRepository)(Oferta_1.Oferta);
+        this.repository = typeorm_1.dataSource.getRepository(Oferta_1.Oferta);
     }
     OfertaRepository.prototype.create = function (_a) {
         var dia = _a.dia, letra = _a.letra, id_turma = _a.id_turma;
@@ -61,66 +61,42 @@ var OfertaRepository = /** @class */ (function () {
     };
     OfertaRepository.prototype.listOfertas = function () {
         return __awaiter(this, void 0, void 0, function () {
-            var ofertas;
             return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0: return [4 /*yield*/, this.repository
-                            .createQueryBuilder("oferta")
-                            .orderBy("id", "ASC")
-                            .getMany()];
-                    case 1:
-                        ofertas = _a.sent();
-                        return [2 /*return*/, ofertas];
-                }
+                return [2 /*return*/, this.repository
+                        .createQueryBuilder("oferta")
+                        .orderBy("id", "ASC")
+                        .getMany()];
             });
         });
     };
     OfertaRepository.prototype.listByTurmaIdAndSemestreAndAno = function (turmaId, ano, semestre) {
         return __awaiter(this, void 0, void 0, function () {
-            var ofertas;
             return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0: return [4 /*yield*/, this.repository
-                            .createQueryBuilder("oferta")
-                            .innerJoinAndSelect("oferta.horario", "horario")
-                            .innerJoinAndSelect("oferta.turma", "turma")
-                            .innerJoinAndSelect("turma.fila_turma_new", "fila_new")
-                            .where("turma.id = :turmaId AND turma.ano = :ano AND turma.semestre = :semestre", { ano: ano, semestre: semestre, turmaId: turmaId })
-                            .orderBy("oferta.id", "ASC")
-                            .printSql()
-                            .getMany()];
-                    case 1:
-                        ofertas = _a.sent();
-                        return [2 /*return*/, ofertas];
-                }
+                return [2 /*return*/, this.repository
+                        .createQueryBuilder("oferta")
+                        .innerJoinAndSelect("oferta.horario", "horario")
+                        .innerJoinAndSelect("oferta.turma", "turma")
+                        .innerJoinAndSelect("turma.fila_turma_new", "fila_new")
+                        .where("turma.id = :turmaId AND turma.ano = :ano AND turma.semestre = :semestre", { ano: ano, semestre: semestre, turmaId: turmaId })
+                        .orderBy("oferta.id", "ASC")
+                        .printSql()
+                        .getMany()];
             });
         });
     };
     OfertaRepository.prototype.queryById = function (id) {
         return __awaiter(this, void 0, void 0, function () {
-            var oferta;
             return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0: return [4 /*yield*/, this.repository.findOne(id)];
-                    case 1:
-                        oferta = _a.sent();
-                        return [2 /*return*/, oferta];
-                }
+                return [2 /*return*/, this.repository.findOneBy({ id: id })];
             });
         });
     };
     OfertaRepository.prototype.queryByDiaELetraETurma = function (dia, letra, id_turma) {
         return __awaiter(this, void 0, void 0, function () {
-            var oferta;
             return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0: return [4 /*yield*/, this.repository.findOne({
-                            where: { dia: dia, letra: letra, id_turma: id_turma },
-                        })];
-                    case 1:
-                        oferta = _a.sent();
-                        return [2 /*return*/, oferta];
-                }
+                return [2 /*return*/, this.repository.findOne({
+                        where: { dia: dia, letra: letra, id_turma: id_turma },
+                    })];
             });
         });
     };

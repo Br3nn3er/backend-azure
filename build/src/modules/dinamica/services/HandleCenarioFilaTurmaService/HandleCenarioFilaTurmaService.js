@@ -26,7 +26,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     function verb(n) { return function (v) { return step([n, v]); }; }
     function step(op) {
         if (f) throw new TypeError("Generator is already executing.");
-        while (_) try {
+        while (g && (g = 0, op[0] && (_ = 0)), _) try {
             if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
             if (y = 0, t) op = [op[0] & 2, t.value];
             switch (op[0]) {
@@ -63,7 +63,7 @@ var HandleCenarioFilaTurmaService = /** @class */ (function () {
     HandleCenarioFilaTurmaService.prototype.create = function (_a) {
         var num_cenario = _a.num_cenario, id_turma = _a.id_turma, id_fila = _a.id_fila, status = _a.status, prioridade = _a.prioridade, posicao = _a.posicao;
         return __awaiter(this, void 0, void 0, function () {
-            var cenarioFilaFounded, cenarioFila;
+            var cenarioFilaFounded;
             return __generator(this, function (_b) {
                 switch (_b.label) {
                     case 0: return [4 /*yield*/, this.cenarioFilaRepository.queryByCenarioETurmaEFila(num_cenario, id_turma, id_fila)];
@@ -72,7 +72,7 @@ var HandleCenarioFilaTurmaService = /** @class */ (function () {
                         if (cenarioFilaFounded) {
                             throw new AppError_1.AppError("Já existe um cenário com esta turma e fila!");
                         }
-                        return [4 /*yield*/, this.cenarioFilaRepository.create({
+                        return [2 /*return*/, this.cenarioFilaRepository.create({
                                 num_cenario: num_cenario,
                                 id_turma: id_turma,
                                 id_fila: id_fila,
@@ -80,30 +80,21 @@ var HandleCenarioFilaTurmaService = /** @class */ (function () {
                                 prioridade: prioridade,
                                 posicao: posicao,
                             })];
-                    case 2:
-                        cenarioFila = _b.sent();
-                        return [2 /*return*/, cenarioFila];
                 }
             });
         });
     };
     HandleCenarioFilaTurmaService.prototype.read = function () {
         return __awaiter(this, void 0, void 0, function () {
-            var cenarioFilas;
             return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0: return [4 /*yield*/, this.cenarioFilaRepository.listCenarios()];
-                    case 1:
-                        cenarioFilas = _a.sent();
-                        return [2 /*return*/, cenarioFilas];
-                }
+                return [2 /*return*/, this.cenarioFilaRepository.listCenarios()];
             });
         });
     };
     HandleCenarioFilaTurmaService.prototype.update = function (_a) {
         var num_cenario = _a.num_cenario, id_turma = _a.id_turma, id_fila = _a.id_fila, status = _a.status, prioridade = _a.prioridade, posicao = _a.posicao;
         return __awaiter(this, void 0, void 0, function () {
-            var cenarioFilaFounded, cenarioFila;
+            var cenarioFilaFounded;
             return __generator(this, function (_b) {
                 switch (_b.label) {
                     case 0: return [4 /*yield*/, this.cenarioFilaRepository.queryByCenarioETurmaEFila(num_cenario, id_turma, id_fila)];
@@ -112,7 +103,7 @@ var HandleCenarioFilaTurmaService = /** @class */ (function () {
                         if (!cenarioFilaFounded) {
                             throw new AppError_1.AppError("Registro não encontrado!");
                         }
-                        return [4 /*yield*/, this.cenarioFilaRepository.updateByCenarioETurmaEFila({
+                        return [2 /*return*/, this.cenarioFilaRepository.updateByCenarioETurmaEFila({
                                 num_cenario: num_cenario,
                                 id_turma: id_turma,
                                 id_fila: id_fila,
@@ -120,9 +111,6 @@ var HandleCenarioFilaTurmaService = /** @class */ (function () {
                                 prioridade: prioridade,
                                 posicao: posicao,
                             })];
-                    case 2:
-                        cenarioFila = _b.sent();
-                        return [2 /*return*/, cenarioFila];
                 }
             });
         });
@@ -179,7 +167,7 @@ var HandleCenarioFilaTurmaService = /** @class */ (function () {
         return new Promise(function (resolve, reject) {
             var cenarioFilas = [];
             var stream = fs_1.default.createReadStream(file.path);
-            var parseFile = (0, csv_parse_1.default)();
+            var parseFile = csv_parse_1.default.parse();
             stream.pipe(parseFile);
             parseFile
                 .on("data", function (line) { return __awaiter(_this, void 0, void 0, function () {

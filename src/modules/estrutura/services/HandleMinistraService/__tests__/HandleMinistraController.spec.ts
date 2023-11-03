@@ -5,7 +5,7 @@ import { v4 as uuidV4 } from "uuid";
 
 import { DayjsDateProvider } from "../../../../../shared/container/providers/DateProvider/implementations/DayjsDateProvider";
 import { app } from "../../../../../shared/infra/http/app";
-import createConnection from "../../../../../shared/infra/typeorm";
+import { dataSource } from "../../../../../shared/infra/typeorm";
 import { Curso } from "../../../infra/typeorm/entities/Curso";
 import { Disciplina } from "../../../infra/typeorm/entities/Disciplina";
 import { Horario } from "../../../infra/typeorm/entities/Horario";
@@ -19,7 +19,7 @@ let dateProvider: DayjsDateProvider;
 describe("Handle CRUD routes related to ministra", () => {
   beforeAll(async () => {
     dateProvider = new DayjsDateProvider();
-    connection = await createConnection();
+    connection = await dataSource.initialize();
     await connection.runMigrations();
 
     const id = uuidV4();

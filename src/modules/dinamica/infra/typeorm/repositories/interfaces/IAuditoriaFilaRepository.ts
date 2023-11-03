@@ -1,4 +1,7 @@
-import { ICreateAuditoriaFilaDTO, IPatchAuditoriaFilaDTO } from "../../../../dtos/ICreateAuditoriaFilaDTO";
+import {
+  ICreateAuditoriaFilaDTO,
+  IPatchAuditoriaFilaDTO,
+} from "../../../../dtos/ICreateAuditoriaFilaDTO";
 import { AuditoriaFila } from "../../entities/AuditoriaFila";
 
 interface IAuditoriaFilaRepository {
@@ -10,4 +13,4 @@ interface IAuditoriaFilaRepository {
   deleteById(id: string): Promise<void>;
 }
 
-export { IAuditoriaFilaRepository }
+export { IAuditoriaFilaRepository };

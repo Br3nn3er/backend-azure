@@ -1,6 +1,6 @@
-import { ICreateDistribuicoesPossibilidadeDTO } from "../../../../dtos/ICreateDistribuicoesPossibilidadeDTO";
-import { DistribuicoesPossibilidade } from "../../entities/DistribuicoesPossibilidade";
-import { IDistribuicoesPossibilidadeRepository } from "../interfaces/IDistribuicoesPossibilidadeRepository";
+import {ICreateDistribuicoesPossibilidadeDTO} from "../../../../dtos/ICreateDistribuicoesPossibilidadeDTO";
+import {DistribuicoesPossibilidade} from "../../entities/DistribuicoesPossibilidade";
+import {IDistribuicoesPossibilidadeRepository} from "../interfaces/IDistribuicoesPossibilidadeRepository";
 
 class DistribuicoesPossibilidadeRepositoryTestMock
   implements IDistribuicoesPossibilidadeRepository
@@ -30,14 +30,12 @@ class DistribuicoesPossibilidadeRepositoryTestMock
     siape: string,
     id_turma: number
   ): Promise<DistribuicoesPossibilidade> {
-    const dist = this.listDist.find(
+    return this.listDist.find(
       (distFounded) =>
         distFounded.id_possibilidade === id_possibilidade &&
         distFounded.siape === siape &&
         distFounded.id_turma === id_turma
     );
-
-    return dist;
   }
 
   async deleteByPossibilidadeESiapeETurma(

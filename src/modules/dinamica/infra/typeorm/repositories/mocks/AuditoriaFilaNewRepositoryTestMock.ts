@@ -1,9 +1,6 @@
-import {
-  ICreateAuditoriaFilaNewDTO,
-  IPatchAuditoriaFilaNewDTO,
-} from "../../../../dtos/ICreateAuditoriaFilaNewDTO";
-import { AuditoriaFilaNew } from "../../entities/AuditoriaFilaNew";
-import { IAuditoriaFilaNewRepository } from "../interfaces/IAuditoriaFilaNewRepository";
+import {ICreateAuditoriaFilaNewDTO, IPatchAuditoriaFilaNewDTO,} from "../../../../dtos/ICreateAuditoriaFilaNewDTO";
+import {AuditoriaFilaNew} from "../../entities/AuditoriaFilaNew";
+import {IAuditoriaFilaNewRepository} from "../interfaces/IAuditoriaFilaNewRepository";
 
 class AuditoriaFilaNewRepositoryTestMock
   implements IAuditoriaFilaNewRepository
@@ -41,24 +38,20 @@ class AuditoriaFilaNewRepositoryTestMock
   }
 
   async queryById(id: string): Promise<AuditoriaFilaNew> {
-    const auditoriaNew = this.auditoriasNew.find(
+    return this.auditoriasNew.find(
       (auditoriaToSearch) => auditoriaToSearch.id === id
     );
-
-    return auditoriaNew;
   }
 
   async queryByIdTurmaIdFila(
     id_turma: number,
     id_fila: number
   ): Promise<AuditoriaFilaNew> {
-    const foundedAuditoriaNew = this.auditoriasNew.find(
+    return this.auditoriasNew.find(
       (auditoriaToSearch) =>
         auditoriaToSearch.id_turma === id_turma &&
         auditoriaToSearch.id_fila === id_fila
     );
-
-    return foundedAuditoriaNew;
   }
 
   async updateById({

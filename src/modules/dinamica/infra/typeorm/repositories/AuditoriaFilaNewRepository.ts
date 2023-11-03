@@ -1,5 +1,6 @@
-import { getRepository, Repository } from "typeorm";
+import { Repository } from "typeorm";
 
+import { dataSource } from "../../../../../shared/infra/typeorm";
 import {
   ICreateAuditoriaFilaNewDTO,
   IPatchAuditoriaFilaNewDTO,
@@ -11,7 +12,7 @@ class AuditoriaFilaNewRepository implements IAuditoriaFilaNewRepository {
   private repository: Repository<AuditoriaFilaNew>;
 
   constructor() {
-    this.repository = getRepository(AuditoriaFilaNew);
+    this.repository = dataSource.getRepository(AuditoriaFilaNew);
   }
 
   async create({
@@ -35,29 +36,24 @@ class AuditoriaFilaNewRepository implements IAuditoriaFilaNewRepository {
   }
 
   async listAllAuditoriaNew(): Promise<AuditoriaFilaNew[]> {
-    const auditoriasNew = await this.repository
+    return this.repository
       .createQueryBuilder("auditoria_fila_new")
       .orderBy("id_turma", "ASC")
       .getMany();
-
-    return auditoriasNew;
   }
 
   async queryById(id: string): Promise<AuditoriaFilaNew> {
-    const auditoriaNew = await this.repository.findOne(id);
-
-    return auditoriaNew;
+    return this.repository.findOneBy({ id });
   }
 
   async queryByIdTurmaIdFila(
     id_turma: number,
     id_fila: number
   ): Promise<AuditoriaFilaNew> {
-    const auditoriaNew = await this.repository.findOne({
-      where: { id_turma, id_fila },
+    return this.repository.findOneBy({
+      id_turma,
+      id_fila,
     });
-
-    return auditoriaNew;
   }
 
   async updateById({
@@ -68,7 +64,7 @@ class AuditoriaFilaNewRepository implements IAuditoriaFilaNewRepository {
     prioridade_new,
     stamp,
   }: IPatchAuditoriaFilaNewDTO): Promise<AuditoriaFilaNew> {
-    const auditoriaNew = await this.repository.findOne({ id });
+    const auditoriaNew = await this.repository.findOneBy({ id });
 
     auditoriaNew.id_turma = id_turma || auditoriaNew.id_turma;
     auditoriaNew.id_fila = id_fila || auditoriaNew.id_fila;

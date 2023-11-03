@@ -4,14 +4,14 @@ import { Connection } from "typeorm";
 import { v4 as uuidV4 } from "uuid";
 
 import { app } from "../../../../../shared/infra/http/app";
-import createConnection from "../../../../../shared/infra/typeorm";
+import { dataSource } from "../../../../../shared/infra/typeorm";
 import { Prioridades } from "../../../infra/typeorm/entities/Prioridades";
 
 let connection: Connection;
 
 describe("Handle CRUD routes related to prioridades", () => {
   beforeAll(async () => {
-    connection = await createConnection();
+    connection = await dataSource.initialize();
     await connection.runMigrations();
 
     const id = uuidV4();

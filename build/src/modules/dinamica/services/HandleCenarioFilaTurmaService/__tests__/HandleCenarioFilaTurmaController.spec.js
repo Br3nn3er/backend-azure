@@ -14,7 +14,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     function verb(n) { return function (v) { return step([n, v]); }; }
     function step(op) {
         if (f) throw new TypeError("Generator is already executing.");
-        while (_) try {
+        while (g && (g = 0, op[0] && (_ = 0)), _) try {
             if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
             if (y = 0, t) op = [op[0] & 2, t.value];
             switch (op[0]) {
@@ -44,7 +44,7 @@ var supertest_1 = __importDefault(require("supertest"));
 var uuid_1 = require("uuid");
 var DayjsDateProvider_1 = require("../../../../../shared/container/providers/DateProvider/implementations/DayjsDateProvider");
 var app_1 = require("../../../../../shared/infra/http/app");
-var typeorm_1 = __importDefault(require("../../../../../shared/infra/typeorm"));
+var typeorm_1 = require("../../../../../shared/infra/typeorm");
 var Curso_1 = require("../../../../estrutura/infra/typeorm/entities/Curso");
 var Disciplina_1 = require("../../../../estrutura/infra/typeorm/entities/Disciplina");
 var Professor_1 = require("../../../../estrutura/infra/typeorm/entities/Professor");
@@ -63,7 +63,7 @@ describe("Handle CRUD routes related to cenario_fila_turma", function () {
             switch (_a.label) {
                 case 0:
                     dateProvider = new DayjsDateProvider_1.DayjsDateProvider();
-                    return [4 /*yield*/, (0, typeorm_1.default)()];
+                    return [4 /*yield*/, typeorm_1.dataSource.initialize()];
                 case 1:
                     connection = _a.sent();
                     return [4 /*yield*/, connection.runMigrations()];

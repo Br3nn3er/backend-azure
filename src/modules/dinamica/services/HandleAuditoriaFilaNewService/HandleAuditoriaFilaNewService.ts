@@ -29,22 +29,17 @@ class HandleAuditoriaFilaNewService {
     prioridade_new,
     stamp,
   }: IHandleAuditoriaFilaNew): Promise<AuditoriaFilaNew> {
-    const auditoriaNew = await this.auditoriaFilaNewRepository.create({
+    return this.auditoriaFilaNewRepository.create({
       id_turma,
       id_fila,
       prioridade_old,
       prioridade_new,
       stamp,
     });
-
-    return auditoriaNew;
   }
 
   async read(): Promise<AuditoriaFilaNew[]> {
-    const auditoriasNew =
-      await this.auditoriaFilaNewRepository.listAllAuditoriaNew();
-
-    return auditoriasNew;
+    return this.auditoriaFilaNewRepository.listAllAuditoriaNew();
   }
 
   async update({
@@ -62,7 +57,7 @@ class HandleAuditoriaFilaNewService {
       throw new AppError("Auditoria não cadastrada!");
     }
 
-    const auditoriaToUpdate = await this.auditoriaFilaNewRepository.updateById({
+    return this.auditoriaFilaNewRepository.updateById({
       id,
       id_turma,
       id_fila,
@@ -70,8 +65,6 @@ class HandleAuditoriaFilaNewService {
       prioridade_new,
       stamp,
     });
-
-    return auditoriaToUpdate;
   }
 
   async delete(id: string): Promise<void> {
@@ -105,7 +98,7 @@ class HandleAuditoriaFilaNewService {
 
       const stream = fs.createReadStream(file.path);
 
-      const parseFile = csvParse();
+      const parseFile = csvParse.parse();
 
       stream.pipe(parseFile);
 

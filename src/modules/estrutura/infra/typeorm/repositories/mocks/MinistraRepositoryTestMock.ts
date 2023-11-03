@@ -1,6 +1,6 @@
-import { ICreateMinistraDTO } from "../../../../dtos/ICreateMinistraDTO";
-import { Ministra } from "../../entities/Ministra";
-import { IMinistraRepository } from "../interfaces/IMinistraRepository";
+import {ICreateMinistraDTO} from "../../../../dtos/ICreateMinistraDTO";
+import {Ministra} from "../../entities/Ministra";
+import {IMinistraRepository} from "../interfaces/IMinistraRepository";
 
 class MinistraRepositoryTestMock implements IMinistraRepository {
   listByTurmasAndSemestre(
@@ -37,11 +37,9 @@ class MinistraRepositoryTestMock implements IMinistraRepository {
     siape: string,
     id_turma: string
   ): Promise<Ministra> {
-    const ministra = this.listMinistra.find(
+    return this.listMinistra.find(
       (ministra) => ministra.siape === siape && ministra.id_turma === id_turma
     );
-
-    return ministra;
   }
 
   async deleteBySiapeAndIdTurma(

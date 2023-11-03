@@ -14,7 +14,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     function verb(n) { return function (v) { return step([n, v]); }; }
     function step(op) {
         if (f) throw new TypeError("Generator is already executing.");
-        while (_) try {
+        while (g && (g = 0, op[0] && (_ = 0)), _) try {
             if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
             if (y = 0, t) op = [op[0] & 2, t.value];
             switch (op[0]) {
@@ -37,11 +37,11 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.StatusDistribuicaoRepository = void 0;
-var typeorm_1 = require("typeorm");
+var typeorm_1 = require("../../../../../shared/infra/typeorm");
 var StatusDistribuicao_1 = require("../entities/StatusDistribuicao");
 var StatusDistribuicaoRepository = /** @class */ (function () {
     function StatusDistribuicaoRepository() {
-        this.repository = (0, typeorm_1.getRepository)(StatusDistribuicao_1.StatusDistribuicao);
+        this.repository = typeorm_1.dataSource.getRepository(StatusDistribuicao_1.StatusDistribuicao);
     }
     StatusDistribuicaoRepository.prototype.create = function (_a) {
         var id = _a.id, descricao = _a.descricao;
@@ -61,43 +61,25 @@ var StatusDistribuicaoRepository = /** @class */ (function () {
     };
     StatusDistribuicaoRepository.prototype.listAllStatus = function () {
         return __awaiter(this, void 0, void 0, function () {
-            var listStatus;
             return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0: return [4 /*yield*/, this.repository
-                            .createQueryBuilder("status_distribuicao")
-                            .orderBy("id", "ASC")
-                            .getMany()];
-                    case 1:
-                        listStatus = _a.sent();
-                        return [2 /*return*/, listStatus];
-                }
+                return [2 /*return*/, this.repository
+                        .createQueryBuilder("status_distribuicao")
+                        .orderBy("id", "ASC")
+                        .getMany()];
             });
         });
     };
     StatusDistribuicaoRepository.prototype.queryById = function (id) {
         return __awaiter(this, void 0, void 0, function () {
-            var statusFounded;
             return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0: return [4 /*yield*/, this.repository.findOne({ where: { id: id } })];
-                    case 1:
-                        statusFounded = _a.sent();
-                        return [2 /*return*/, statusFounded];
-                }
+                return [2 /*return*/, this.repository.findOne({ where: { id: id } })];
             });
         });
     };
     StatusDistribuicaoRepository.prototype.queryByCodigo = function (codigo) {
         return __awaiter(this, void 0, void 0, function () {
-            var statusFounded;
             return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0: return [4 /*yield*/, this.repository.findOne(codigo)];
-                    case 1:
-                        statusFounded = _a.sent();
-                        return [2 /*return*/, statusFounded];
-                }
+                return [2 /*return*/, this.repository.findOneBy({ codigo: codigo })];
             });
         });
     };
@@ -107,7 +89,7 @@ var StatusDistribuicaoRepository = /** @class */ (function () {
             var statusFounded;
             return __generator(this, function (_b) {
                 switch (_b.label) {
-                    case 0: return [4 /*yield*/, this.repository.findOne(codigo)];
+                    case 0: return [4 /*yield*/, this.repository.findOneBy({ codigo: codigo })];
                     case 1:
                         statusFounded = _b.sent();
                         statusFounded.descricao = descricao || statusFounded.descricao;

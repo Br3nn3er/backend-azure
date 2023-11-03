@@ -1,5 +1,6 @@
-import { getRepository, Repository } from "typeorm";
+import { Repository } from "typeorm";
 
+import { dataSource } from "../../../../../shared/infra/typeorm";
 import {
   ICreateCargaDocenteDTO,
   IPatchCargaDocenteDTO,
@@ -11,7 +12,7 @@ class CargaDocentesRepository implements ICargaDocentesRepository {
   private repository: Repository<CargaDocente>;
 
   constructor() {
-    this.repository = getRepository(CargaDocente);
+    this.repository = dataSource.getRepository(CargaDocente);
   }
 
   async createCarga({
@@ -20,7 +21,7 @@ class CargaDocentesRepository implements ICargaDocentesRepository {
     ano,
     semestre,
   }: ICreateCargaDocenteDTO): Promise<CargaDocente> {
-    const carga = await this.repository.create({
+    const carga = this.repository.create({
       siape,
       carga_atual,
       ano,
@@ -33,18 +34,14 @@ class CargaDocentesRepository implements ICargaDocentesRepository {
   }
 
   async queryBySiape(siape: string): Promise<CargaDocente> {
-    const carga = await this.repository.findOne({ siape });
-
-    return carga;
+    return this.repository.findOneBy({ siape });
   }
 
   async listAllCargas(): Promise<CargaDocente[]> {
-    const cargas = await this.repository
+    return this.repository
       .createQueryBuilder("carga_docentes")
       .orderBy("siape", "ASC")
       .getMany();
-
-    return cargas;
   }
 
   async updateBySiape({
@@ -53,7 +50,7 @@ class CargaDocentesRepository implements ICargaDocentesRepository {
     ano,
     semestre,
   }: IPatchCargaDocenteDTO): Promise<CargaDocente> {
-    const cargaToUpdate = await this.repository.findOne({ siape });
+    const cargaToUpdate = await this.repository.findOneBy({ siape });
 
     cargaToUpdate.carga_atual = carga_atual || cargaToUpdate.carga_atual;
     cargaToUpdate.ano = ano || cargaToUpdate.ano;

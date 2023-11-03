@@ -36,19 +36,15 @@ class HandleSemestreService {
       throw new AppError("Já existe um ano com este semestre!");
     }
 
-    const semestreToCreate = await this.semestresRepository.createSemestre({
+    return this.semestresRepository.createSemestre({
       ano,
       semestre,
       status,
     });
-
-    return semestreToCreate;
   }
 
   async read(): Promise<Semestre[]> {
-    const semestres = await this.semestresRepository.listAllSemestres();
-
-    return semestres;
+    return this.semestresRepository.listAllSemestres();
   }
 
   readById(id: number): Promise<Semestre> {
@@ -67,14 +63,12 @@ class HandleSemestreService {
       throw new AppError("Registro não consta no sistema!");
     }
 
-    const semestreToCreate = await this.semestresRepository.updateById({
+    return this.semestresRepository.updateById({
       id,
       ano,
       semestre,
       status,
     });
-
-    return semestreToCreate;
   }
 
   async delete(id: number): Promise<void> {
@@ -108,7 +102,7 @@ class HandleSemestreService {
 
       const stream = fs.createReadStream(file.path);
 
-      const parseFile = csvParse();
+      const parseFile = csvParse.parse();
 
       stream.pipe(parseFile);
 

@@ -14,7 +14,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     function verb(n) { return function (v) { return step([n, v]); }; }
     function step(op) {
         if (f) throw new TypeError("Generator is already executing.");
-        while (_) try {
+        while (g && (g = 0, op[0] && (_ = 0)), _) try {
             if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
             if (y = 0, t) op = [op[0] & 2, t.value];
             switch (op[0]) {
@@ -37,15 +37,15 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.FilaRepository = void 0;
-var typeorm_1 = require("typeorm");
-var Fila_1 = require("../entities/Fila");
-var Professor_1 = require("../../../../estrutura/infra/typeorm/entities/Professor");
-var FilaTurmaNew_1 = require("../entities/FilaTurmaNew");
-var Turma_1 = require("../../../../estrutura/infra/typeorm/entities/Turma");
+var typeorm_1 = require("../../../../../shared/infra/typeorm");
 var Disciplina_1 = require("../../../../estrutura/infra/typeorm/entities/Disciplina");
+var Professor_1 = require("../../../../estrutura/infra/typeorm/entities/Professor");
+var Turma_1 = require("../../../../estrutura/infra/typeorm/entities/Turma");
+var Fila_1 = require("../entities/Fila");
+var FilaTurmaNew_1 = require("../entities/FilaTurmaNew");
 var FilaRepository = /** @class */ (function () {
     function FilaRepository() {
-        this.repository = (0, typeorm_1.getRepository)(Fila_1.Fila);
+        this.repository = typeorm_1.dataSource.getRepository(Fila_1.Fila);
     }
     FilaRepository.prototype.create = function (_a) {
         var siape = _a.siape, codigo_disc = _a.codigo_disc, pos = _a.pos, prioridade = _a.prioridade, qte_ministrada = _a.qte_ministrada, qte_maximo = _a.qte_maximo, ano = _a.ano, semestre = _a.semestre, status = _a.status, periodo_preferencial = _a.periodo_preferencial;
@@ -76,165 +76,113 @@ var FilaRepository = /** @class */ (function () {
     };
     FilaRepository.prototype.listFilas = function () {
         return __awaiter(this, void 0, void 0, function () {
-            var filas;
             return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0: return [4 /*yield*/, this.repository
-                            .createQueryBuilder("fila")
-                            .orderBy("id", "ASC")
-                            .getMany()];
-                    case 1:
-                        filas = _a.sent();
-                        return [2 /*return*/, filas];
-                }
+                return [2 /*return*/, this.repository
+                        .createQueryBuilder("fila")
+                        .orderBy("id", "ASC")
+                        .getMany()];
             });
         });
     };
     FilaRepository.prototype.queryById = function (id) {
         return __awaiter(this, void 0, void 0, function () {
-            var fila;
             return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0: return [4 /*yield*/, this.repository.findOne(id)];
-                    case 1:
-                        fila = _a.sent();
-                        return [2 /*return*/, fila];
-                }
+                return [2 /*return*/, this.repository.findOneBy({ id: id })];
             });
         });
     };
     FilaRepository.prototype.queryByDiscEPosEAnoESemestre = function (codigo_disc, pos, ano, semestre) {
         return __awaiter(this, void 0, void 0, function () {
-            var fila;
             return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0: return [4 /*yield*/, this.repository.findOne({
-                            where: { codigo_disc: codigo_disc, pos: pos, ano: ano, semestre: semestre },
-                        })];
-                    case 1:
-                        fila = _a.sent();
-                        return [2 /*return*/, fila];
-                }
+                return [2 /*return*/, this.repository.findOne({
+                        where: { codigo_disc: codigo_disc, pos: pos, ano: ano, semestre: semestre },
+                    })];
             });
         });
     };
     FilaRepository.prototype.queryByDiscEAnoESemestre = function (codigo_disc, ano, semestre) {
         return __awaiter(this, void 0, void 0, function () {
-            var fila;
             return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0: return [4 /*yield*/, this.repository.find({
-                            relations: ["professor"],
-                            where: { codigo_disc: codigo_disc, ano: ano, semestre: semestre },
-                            order: { pos: "ASC" },
-                        })];
-                    case 1:
-                        fila = _a.sent();
-                        return [2 /*return*/, fila];
-                }
+                return [2 /*return*/, this.repository.find({
+                        relations: ["professor"],
+                        where: { codigo_disc: codigo_disc, ano: ano, semestre: semestre },
+                        order: { pos: "ASC" },
+                    })];
             });
         });
     };
     FilaRepository.prototype.queryBySIAPEEAnoESemestre = function (siape, ano, semestre) {
         return __awaiter(this, void 0, void 0, function () {
-            var fila;
             return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0: return [4 /*yield*/, this.repository.find({
-                            relations: ["professor", "disciplina", "disciplina.curso_disciplinas"],
-                            where: { siape: siape, ano: ano, semestre: semestre },
-                            order: { pos: "ASC" },
-                        })];
-                    case 1:
-                        fila = _a.sent();
-                        return [2 /*return*/, fila];
-                }
+                return [2 /*return*/, this.repository.find({
+                        relations: ["professor", "disciplina", "disciplina.curso_disciplinas"],
+                        where: { siape: siape, ano: ano, semestre: semestre },
+                        order: { pos: "ASC" },
+                    })];
             });
         });
     };
     FilaRepository.prototype.queryBySiape = function (siape) {
         return __awaiter(this, void 0, void 0, function () {
-            var fila;
             return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0: return [4 /*yield*/, this.repository.find({
-                            relations: ["fila_turma_new"],
-                            where: { siape: siape },
-                            order: { pos: "ASC" },
-                        })];
-                    case 1:
-                        fila = _a.sent();
-                        return [2 /*return*/, fila];
-                }
+                return [2 /*return*/, this.repository.find({
+                        relations: ["fila_turma_new"],
+                        where: { siape: siape },
+                        order: { pos: "ASC" },
+                    })];
             });
         });
     };
     FilaRepository.prototype.queryBySiapeEAnoESemestre = function (siape, ano, semestre) {
         return __awaiter(this, void 0, void 0, function () {
-            var filaFinded;
             return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0: return [4 /*yield*/, (0, typeorm_1.getRepository)(Fila_1.Fila)
-                            .createQueryBuilder("fl")
-                            .select("dp.codigo", "codigo_disciplina")
-                            .addSelect("dp.nome", "nome_disciplina")
-                            .addSelect("tm.turma", "turma")
-                            .addSelect("fl.pos", "posicao")
-                            .addSelect("fl.prioridade", "prioridade")
-                            .addSelect("fl.qte_ministrada", "qte_ministrada")
-                            .addSelect("fl.qte_maximo", "qte_maximo")
-                            .leftJoin(FilaTurmaNew_1.FilaTurmaNew, "ftn", "ftn.id_fila = fl.id")
-                            .leftJoin(Turma_1.Turma, "tm", "tm.id = ftn.id_turma")
-                            .leftJoin(Disciplina_1.Disciplina, "dp", "fl.codigo_disc = dp.codigo")
-                            .where("fl.siape = :siape", { siape: siape })
-                            .andWhere("tm.ano = :ano", { ano: ano })
-                            .andWhere("tm.semestre = :semestre", { semestre: semestre })
-                            .orderBy("fl.prioridade", "DESC")
-                            .getRawMany()];
-                    case 1:
-                        filaFinded = _a.sent();
-                        return [2 /*return*/, filaFinded];
-                }
+                return [2 /*return*/, typeorm_1.dataSource
+                        .getRepository(Fila_1.Fila)
+                        .createQueryBuilder("fl")
+                        .select("dp.codigo", "codigo_disciplina")
+                        .addSelect("dp.nome", "nome_disciplina")
+                        .addSelect("tm.turma", "turma")
+                        .addSelect("fl.pos", "posicao")
+                        .addSelect("fl.prioridade", "prioridade")
+                        .addSelect("fl.qte_ministrada", "qte_ministrada")
+                        .addSelect("fl.qte_maximo", "qte_maximo")
+                        .leftJoin(FilaTurmaNew_1.FilaTurmaNew, "ftn", "ftn.id_fila = fl.id")
+                        .leftJoin(Turma_1.Turma, "tm", "tm.id = ftn.id_turma")
+                        .leftJoin(Disciplina_1.Disciplina, "dp", "fl.codigo_disc = dp.codigo")
+                        .where("fl.siape = :siape", { siape: siape })
+                        .andWhere("tm.ano = :ano", { ano: ano })
+                        .andWhere("tm.semestre = :semestre", { semestre: semestre })
+                        .orderBy("fl.prioridade", "DESC")
+                        .getRawMany()];
             });
         });
     };
     FilaRepository.prototype.queryByTurma = function (turma) {
         return __awaiter(this, void 0, void 0, function () {
-            var filaFinded;
             return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0: return [4 /*yield*/, (0, typeorm_1.getRepository)(Fila_1.Fila)
-                            .createQueryBuilder("fl")
-                            .select("pf.nome", "nome_professor")
-                            .addSelect("fl.pos", "posicao")
-                            .addSelect("fl.prioridade", "prioridade")
-                            .addSelect("fl.qte_ministrada", "qte_ministrada")
-                            .addSelect("fl.qte_maximo", "qte_maximo")
-                            .leftJoin(FilaTurmaNew_1.FilaTurmaNew, "ftn", "ftn.id_fila = fl.id")
-                            .leftJoin(Turma_1.Turma, "tm", "tm.id = ftn.id_turma")
-                            .leftJoin(Professor_1.Professor, "pf", "pf.siape = fl.siape")
-                            .where("ftn.id_turma = :turma", { turma: turma })
-                            .orderBy("fl.prioridade", "DESC")
-                            .getRawMany()];
-                    case 1:
-                        filaFinded = _a.sent();
-                        return [2 /*return*/, filaFinded];
-                }
+                return [2 /*return*/, typeorm_1.dataSource
+                        .getRepository(Fila_1.Fila)
+                        .createQueryBuilder("fl")
+                        .select("pf.nome", "nome_professor")
+                        .addSelect("fl.pos", "posicao")
+                        .addSelect("fl.prioridade", "prioridade")
+                        .addSelect("fl.qte_ministrada", "qte_ministrada")
+                        .addSelect("fl.qte_maximo", "qte_maximo")
+                        .leftJoin(FilaTurmaNew_1.FilaTurmaNew, "ftn", "ftn.id_fila = fl.id")
+                        .leftJoin(Turma_1.Turma, "tm", "tm.id = ftn.id_turma")
+                        .leftJoin(Professor_1.Professor, "pf", "pf.siape = fl.siape")
+                        .where("ftn.id_turma = :turma", { turma: turma })
+                        .orderBy("fl.prioridade", "DESC")
+                        .getRawMany()];
             });
         });
     };
     FilaRepository.prototype.queryBySiapeEDiscEAnoESemestre = function (siape, codigo_disc, ano, semestre) {
         return __awaiter(this, void 0, void 0, function () {
-            var fila;
             return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0: return [4 /*yield*/, this.repository.findOne({
-                            where: { siape: siape, codigo_disc: codigo_disc, ano: ano, semestre: semestre },
-                        })];
-                    case 1:
-                        fila = _a.sent();
-                        return [2 /*return*/, fila];
-                }
+                return [2 /*return*/, this.repository.findOne({
+                        where: { siape: siape, codigo_disc: codigo_disc, ano: ano, semestre: semestre },
+                    })];
             });
         });
     };
@@ -244,7 +192,7 @@ var FilaRepository = /** @class */ (function () {
             var filaToUpdate;
             return __generator(this, function (_b) {
                 switch (_b.label) {
-                    case 0: return [4 /*yield*/, this.repository.findOne(id)];
+                    case 0: return [4 /*yield*/, this.repository.findOneBy({ id: id })];
                     case 1:
                         filaToUpdate = _b.sent();
                         filaToUpdate.siape = siape || filaToUpdate.siape;

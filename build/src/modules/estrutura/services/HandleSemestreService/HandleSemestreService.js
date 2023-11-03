@@ -26,7 +26,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     function verb(n) { return function (v) { return step([n, v]); }; }
     function step(op) {
         if (f) throw new TypeError("Generator is already executing.");
-        while (_) try {
+        while (g && (g = 0, op[0] && (_ = 0)), _) try {
             if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
             if (y = 0, t) op = [op[0] & 2, t.value];
             switch (op[0]) {
@@ -63,7 +63,7 @@ var HandleSemestreService = /** @class */ (function () {
     HandleSemestreService.prototype.create = function (_a) {
         var ano = _a.ano, semestre = _a.semestre, status = _a.status;
         return __awaiter(this, void 0, void 0, function () {
-            var foundedSemestre, semestreToCreate;
+            var foundedSemestre;
             return __generator(this, function (_b) {
                 switch (_b.label) {
                     case 0: return [4 /*yield*/, this.semestresRepository.queryByAnoSemestre(ano, semestre)];
@@ -72,28 +72,19 @@ var HandleSemestreService = /** @class */ (function () {
                         if (foundedSemestre) {
                             throw new AppError_1.AppError("Já existe um ano com este semestre!");
                         }
-                        return [4 /*yield*/, this.semestresRepository.createSemestre({
+                        return [2 /*return*/, this.semestresRepository.createSemestre({
                                 ano: ano,
                                 semestre: semestre,
                                 status: status,
                             })];
-                    case 2:
-                        semestreToCreate = _b.sent();
-                        return [2 /*return*/, semestreToCreate];
                 }
             });
         });
     };
     HandleSemestreService.prototype.read = function () {
         return __awaiter(this, void 0, void 0, function () {
-            var semestres;
             return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0: return [4 /*yield*/, this.semestresRepository.listAllSemestres()];
-                    case 1:
-                        semestres = _a.sent();
-                        return [2 /*return*/, semestres];
-                }
+                return [2 /*return*/, this.semestresRepository.listAllSemestres()];
             });
         });
     };
@@ -103,7 +94,7 @@ var HandleSemestreService = /** @class */ (function () {
     HandleSemestreService.prototype.update = function (_a) {
         var id = _a.id, ano = _a.ano, semestre = _a.semestre, status = _a.status;
         return __awaiter(this, void 0, void 0, function () {
-            var foundedSemestre, semestreToCreate;
+            var foundedSemestre;
             return __generator(this, function (_b) {
                 switch (_b.label) {
                     case 0: return [4 /*yield*/, this.semestresRepository.queryById(id)];
@@ -112,15 +103,12 @@ var HandleSemestreService = /** @class */ (function () {
                         if (!foundedSemestre) {
                             throw new AppError_1.AppError("Registro não consta no sistema!");
                         }
-                        return [4 /*yield*/, this.semestresRepository.updateById({
+                        return [2 /*return*/, this.semestresRepository.updateById({
                                 id: id,
                                 ano: ano,
                                 semestre: semestre,
                                 status: status,
                             })];
-                    case 2:
-                        semestreToCreate = _b.sent();
-                        return [2 /*return*/, semestreToCreate];
                 }
             });
         });
@@ -178,7 +166,7 @@ var HandleSemestreService = /** @class */ (function () {
         return new Promise(function (resolve, reject) {
             var semestres = [];
             var stream = fs_1.default.createReadStream(file.path);
-            var parseFile = (0, csv_parse_1.default)();
+            var parseFile = csv_parse_1.default.parse();
             stream.pipe(parseFile);
             parseFile
                 .on("data", function (line) { return __awaiter(_this, void 0, void 0, function () {

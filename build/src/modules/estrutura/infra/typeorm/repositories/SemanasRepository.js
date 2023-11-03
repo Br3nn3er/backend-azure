@@ -14,7 +14,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     function verb(n) { return function (v) { return step([n, v]); }; }
     function step(op) {
         if (f) throw new TypeError("Generator is already executing.");
-        while (_) try {
+        while (g && (g = 0, op[0] && (_ = 0)), _) try {
             if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
             if (y = 0, t) op = [op[0] & 2, t.value];
             switch (op[0]) {
@@ -37,11 +37,11 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.SemanasRepository = void 0;
-var typeorm_1 = require("typeorm");
+var typeorm_1 = require("../../../../../shared/infra/typeorm");
 var Semana_1 = require("../entities/Semana");
 var SemanasRepository = /** @class */ (function () {
     function SemanasRepository() {
-        this.repository = (0, typeorm_1.getRepository)(Semana_1.Semana);
+        this.repository = typeorm_1.dataSource.getRepository(Semana_1.Semana);
     }
     SemanasRepository.prototype.createSemana = function (_a) {
         var dia = _a.dia, descricao = _a.descricao;
@@ -49,11 +49,10 @@ var SemanasRepository = /** @class */ (function () {
             var semana;
             return __generator(this, function (_b) {
                 switch (_b.label) {
-                    case 0: return [4 /*yield*/, this.repository.create({ dia: dia, descricao: descricao })];
-                    case 1:
-                        semana = _b.sent();
+                    case 0:
+                        semana = this.repository.create({ dia: dia, descricao: descricao });
                         return [4 /*yield*/, this.repository.save(semana)];
-                    case 2:
+                    case 1:
                         _b.sent();
                         return [2 /*return*/, semana];
                 }
@@ -62,30 +61,18 @@ var SemanasRepository = /** @class */ (function () {
     };
     SemanasRepository.prototype.listAllSemanas = function () {
         return __awaiter(this, void 0, void 0, function () {
-            var semanas;
             return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0: return [4 /*yield*/, this.repository
-                            .createQueryBuilder("semana")
-                            .orderBy("dia", "ASC")
-                            .getMany()];
-                    case 1:
-                        semanas = _a.sent();
-                        return [2 /*return*/, semanas];
-                }
+                return [2 /*return*/, this.repository
+                        .createQueryBuilder("semana")
+                        .orderBy("dia", "ASC")
+                        .getMany()];
             });
         });
     };
     SemanasRepository.prototype.queryByDia = function (dia) {
         return __awaiter(this, void 0, void 0, function () {
-            var semana;
             return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0: return [4 /*yield*/, this.repository.findOne(dia)];
-                    case 1:
-                        semana = _a.sent();
-                        return [2 /*return*/, semana];
-                }
+                return [2 /*return*/, this.repository.findOneBy({ dia: dia })];
             });
         });
     };
@@ -95,7 +82,7 @@ var SemanasRepository = /** @class */ (function () {
             var semana;
             return __generator(this, function (_b) {
                 switch (_b.label) {
-                    case 0: return [4 /*yield*/, this.repository.findOne({ dia: dia })];
+                    case 0: return [4 /*yield*/, this.repository.findOneBy({ dia: dia })];
                     case 1:
                         semana = _b.sent();
                         semana.descricao = descricao || semana.descricao;

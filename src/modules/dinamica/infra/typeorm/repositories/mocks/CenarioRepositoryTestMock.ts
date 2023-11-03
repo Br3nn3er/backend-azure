@@ -1,9 +1,6 @@
-import {
-  ICreateCenarioDTO,
-  IPatchCenarioDTO,
-} from "../../../../dtos/ICreateCenarioDTO";
-import { Cenario } from "../../entities/Cenario";
-import { ICenarioRepository } from "../interfaces/ICenarioRepository";
+import {ICreateCenarioDTO, IPatchCenarioDTO,} from "../../../../dtos/ICreateCenarioDTO";
+import {Cenario} from "../../entities/Cenario";
+import {ICenarioRepository} from "../interfaces/ICenarioRepository";
 
 class CenarioRepositoryTestMock implements ICenarioRepository {
   private cenarios: Cenario[] = [];
@@ -35,20 +32,16 @@ class CenarioRepositoryTestMock implements ICenarioRepository {
   }
 
   async queryByNumCenario(num_cenario: string): Promise<Cenario> {
-    const cenario = this.cenarios.find(
+    return this.cenarios.find(
       (cenarioToSearch) => cenarioToSearch.num_cenario === num_cenario
     );
-
-    return cenario;
   }
 
   async queryByAnoESemestre(ano: number, semestre: number): Promise<Cenario> {
-    const cenario = this.cenarios.find(
+    return this.cenarios.find(
       (cenarioToSearch) =>
         cenarioToSearch.ano === ano && cenarioToSearch.semestre === semestre
     );
-
-    return cenario;
   }
 
   async updateByNumCenario({

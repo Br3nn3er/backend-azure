@@ -5,7 +5,7 @@ import { HandleFilaTurmaService } from "./HandleFilaTurmaService";
 
 class HandleFilaTurmaController {
   async create(request: Request, response: Response): Promise<Response> {
-    const {     
+    const {
       siape,
       id_turma,
       codigo_disc,
@@ -18,7 +18,7 @@ class HandleFilaTurmaController {
       ch,
       id,
       periodo_preferencial,
-     } = request.body;
+    } = request.body;
 
     const handleFilaTurmaRepository = container.resolve(HandleFilaTurmaService);
 
@@ -60,20 +60,19 @@ class HandleFilaTurmaController {
     return response.status(200).json(filas);
   }
 
-  async readByTurma(
-    request: Request,
-    response: Response
-  ): Promise<Response> {
+  async readByTurma(request: Request, response: Response): Promise<Response> {
     const { id_turma } = request.params;
     const handleFilaTurmaRepository = container.resolve(HandleFilaTurmaService);
 
-    const filas = await handleFilaTurmaRepository.readByTurma(parseInt(id_turma));
+    const filas = await handleFilaTurmaRepository.readByTurma(
+      parseInt(id_turma)
+    );
 
     return response.status(200).json(filas);
   }
-  
+
   async update(request: Request, response: Response): Promise<Response> {
-    const {     
+    const {
       siape,
       id_turma,
       codigo_disc,
@@ -120,6 +119,3 @@ class HandleFilaTurmaController {
 }
 
 export { HandleFilaTurmaController };
-
-
-

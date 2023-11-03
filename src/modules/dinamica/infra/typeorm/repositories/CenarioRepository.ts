@@ -1,5 +1,6 @@
-import { getRepository, Repository } from "typeorm";
+import { Repository } from "typeorm";
 
+import { dataSource } from "../../../../../shared/infra/typeorm";
 import {
   ICreateCenarioDTO,
   IPatchCenarioDTO,
@@ -11,7 +12,7 @@ class CenarioRepository implements ICenarioRepository {
   private repository: Repository<Cenario>;
 
   constructor() {
-    this.repository = getRepository(Cenario);
+    this.repository = dataSource.getRepository(Cenario);
   }
 
   async create({
@@ -31,24 +32,18 @@ class CenarioRepository implements ICenarioRepository {
   }
 
   async listCenarios(): Promise<Cenario[]> {
-    const cenarios = await this.repository
+    return this.repository
       .createQueryBuilder("cenario")
       .orderBy("num_cenario")
       .getMany();
-
-    return cenarios;
   }
 
   async queryByNumCenario(num_cenario: string): Promise<Cenario> {
-    const cenario = await this.repository.findOne({ where: { num_cenario } });
-
-    return cenario;
+    return this.repository.findOne({ where: { num_cenario } });
   }
 
   async queryByAnoESemestre(ano: number, semestre: number): Promise<Cenario> {
-    const cenario = await this.repository.findOne({ where: { ano, semestre } });
-
-    return cenario;
+    return this.repository.findOne({ where: { ano, semestre } });
   }
 
   async updateByNumCenario({

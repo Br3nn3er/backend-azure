@@ -1,9 +1,9 @@
-import { inject, injectable } from "tsyringe";
+import {inject, injectable} from "tsyringe";
 
-import { AppError } from "../../../../shared/errors/AppError";
-import { IPatchFilaTurmaDTO } from "../../dtos/ICreateFilaTurmaDTO";
-import { FilaTurma } from "../../infra/typeorm/entities/FilaTurma";
-import { IFilaTurmaRepository } from "../../infra/typeorm/repositories/interfaces/IFilaTurmaRepository";
+import {AppError} from "../../../../shared/errors/AppError";
+import {IPatchFilaTurmaDTO} from "../../dtos/ICreateFilaTurmaDTO";
+import {FilaTurma} from "../../infra/typeorm/entities/FilaTurma";
+import {IFilaTurmaRepository} from "../../infra/typeorm/repositories/interfaces/IFilaTurmaRepository";
 
 interface IHandleFilaTurma {
   siape: string;
@@ -25,7 +25,7 @@ class HandleFilaTurmaService {
   constructor(
     @inject("FilaTurmaRepository")
     private filaTurmaRepository: IFilaTurmaRepository
-  ) { }
+  ) {}
 
   async create({
     siape,
@@ -41,7 +41,7 @@ class HandleFilaTurmaService {
     id,
     periodo_preferencial,
   }: IHandleFilaTurma): Promise<FilaTurma> {
-    const filaTurma = await this.filaTurmaRepository.create({
+    return await this.filaTurmaRepository.create({
       siape,
       id_turma,
       codigo_disc,
@@ -55,22 +55,18 @@ class HandleFilaTurmaService {
       id,
       periodo_preferencial,
     });
-
-    return filaTurma;
   }
 
   async read(): Promise<FilaTurma[]> {
-    return await this.filaTurmaRepository.listFilas();
+    return this.filaTurmaRepository.listFilas();
   }
 
   async readByProfessor(siape: string): Promise<FilaTurma[]> {
-    const filas = await this.filaTurmaRepository.queryBySiape(siape);
-    return filas;
+    return await this.filaTurmaRepository.queryBySiape(siape);
   }
 
   async readByTurma(id_turma: number): Promise<FilaTurma[]> {
-    const filas = await this.filaTurmaRepository.queryByTurma(id_turma);
-    return filas;
+    return await this.filaTurmaRepository.queryByTurma(id_turma);
   }
 
   async update({
@@ -93,7 +89,7 @@ class HandleFilaTurmaService {
       throw new AppError("Fila não encontrada!");
     }
 
-    return await this.filaTurmaRepository.updateById({
+    return this.filaTurmaRepository.updateById({
       siape,
       id_turma,
       codigo_disc,

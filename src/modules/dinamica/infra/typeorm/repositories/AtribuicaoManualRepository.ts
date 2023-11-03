@@ -1,5 +1,6 @@
-import { getRepository, Repository } from "typeorm";
+import { Repository } from "typeorm";
 
+import { dataSource } from "../../../../../shared/infra/typeorm";
 import { ICreateAtribuicaoManualDTO } from "../../../dtos/ICreateAtribuicaoManualDTO";
 import { AtribuicaoManual } from "../entities/AtribuicaoManual";
 import { IAtribuicaoManualRepository } from "./interfaces/IAtribuicaoManualRepository";
@@ -8,7 +9,7 @@ class AtribuicaoManualRepository implements IAtribuicaoManualRepository {
   private repository: Repository<AtribuicaoManual>;
 
   constructor() {
-    this.repository = getRepository(AtribuicaoManual);
+    this.repository = dataSource.getRepository(AtribuicaoManual);
   }
 
   async create({
@@ -24,23 +25,19 @@ class AtribuicaoManualRepository implements IAtribuicaoManualRepository {
   }
 
   async listAllAtribuicoes(): Promise<AtribuicaoManual[]> {
-    const atribuicoes = await this.repository
+    return this.repository
       .createQueryBuilder("atribuicao_manual")
       .orderBy("num_cenario", "ASC")
       .getMany();
-
-    return atribuicoes;
   }
 
   async queryByCenarioETurma(
     num_cenario: number,
     id_turma: number
   ): Promise<AtribuicaoManual> {
-    const atribuicao = this.repository.findOne({
+    return this.repository.findOne({
       where: { num_cenario, id_turma },
     });
-
-    return atribuicao;
   }
 
   async deleteByCenarioETurma(

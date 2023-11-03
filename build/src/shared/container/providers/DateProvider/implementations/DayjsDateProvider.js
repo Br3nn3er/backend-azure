@@ -28,8 +28,7 @@ var DayjsDateProvider = /** @class */ (function () {
     };
     DayjsDateProvider.prototype.processDateToUTC = function (date) {
         var date_utc = this.convertToUTC(date);
-        var convertedDate = new Date(date_utc);
-        return convertedDate;
+        return new Date(date_utc);
     };
     DayjsDateProvider.prototype.addDays = function (days) {
         return (0, dayjs_1.default)().add(days, "days").toDate();

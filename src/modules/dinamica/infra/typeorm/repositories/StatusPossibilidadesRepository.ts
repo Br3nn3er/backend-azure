@@ -1,5 +1,6 @@
-import { getRepository, Repository } from "typeorm";
+import { Repository } from "typeorm";
 
+import { dataSource } from "../../../../../shared/infra/typeorm";
 import { ICreateStatusPossibilidadesDTO } from "../../../dtos/ICreateStatusPossibilidadesDTO";
 import { StatusPossibilidades } from "../entities/StatusPossibilidades";
 import { IStatusPossibilidadesRepository } from "./interfaces/IStatusPossibilidadesRepository";
@@ -10,7 +11,7 @@ class StatusPossibilidadesRepository
   private repository: Repository<StatusPossibilidades>;
 
   constructor() {
-    this.repository = getRepository(StatusPossibilidades);
+    this.repository = dataSource.getRepository(StatusPossibilidades);
   }
 
   async create({
@@ -32,23 +33,19 @@ class StatusPossibilidadesRepository
   }
 
   async listStatusPossibilidades(): Promise<StatusPossibilidades[]> {
-    const listStatus = await this.repository
+    return this.repository
       .createQueryBuilder("status_possibilidade")
       .orderBy("id_fila")
       .getMany();
-
-    return listStatus;
   }
 
   async queryByFilaEPossibilidade(
     id_fila: number,
     id_possibilidade: number
   ): Promise<StatusPossibilidades> {
-    const statusFounded = await this.repository.findOne({
+    return this.repository.findOne({
       where: { id_fila, id_possibilidade },
     });
-
-    return statusFounded;
   }
 
   async deleteByFilaEPossibilidade(

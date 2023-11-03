@@ -14,7 +14,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     function verb(n) { return function (v) { return step([n, v]); }; }
     function step(op) {
         if (f) throw new TypeError("Generator is already executing.");
-        while (_) try {
+        while (g && (g = 0, op[0] && (_ = 0)), _) try {
             if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
             if (y = 0, t) op = [op[0] & 2, t.value];
             switch (op[0]) {
@@ -37,11 +37,11 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.DistribuicoesPossibilidadeRepository = void 0;
-var typeorm_1 = require("typeorm");
+var typeorm_1 = require("../../../../../shared/infra/typeorm");
 var DistribuicoesPossibilidade_1 = require("../entities/DistribuicoesPossibilidade");
 var DistribuicoesPossibilidadeRepository = /** @class */ (function () {
     function DistribuicoesPossibilidadeRepository() {
-        this.repository = (0, typeorm_1.getRepository)(DistribuicoesPossibilidade_1.DistribuicoesPossibilidade);
+        this.repository = typeorm_1.dataSource.getRepository(DistribuicoesPossibilidade_1.DistribuicoesPossibilidade);
     }
     DistribuicoesPossibilidadeRepository.prototype.create = function (_a) {
         var id_possibilidade = _a.id_possibilidade, siape = _a.siape, id_turma = _a.id_turma;
@@ -61,32 +61,20 @@ var DistribuicoesPossibilidadeRepository = /** @class */ (function () {
     };
     DistribuicoesPossibilidadeRepository.prototype.listDistribuicoes = function () {
         return __awaiter(this, void 0, void 0, function () {
-            var listDist;
             return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0: return [4 /*yield*/, this.repository
-                            .createQueryBuilder("distribuicoes_possibilidade")
-                            .orderBy("siape", "ASC")
-                            .getMany()];
-                    case 1:
-                        listDist = _a.sent();
-                        return [2 /*return*/, listDist];
-                }
+                return [2 /*return*/, this.repository
+                        .createQueryBuilder("distribuicoes_possibilidade")
+                        .orderBy("siape", "ASC")
+                        .getMany()];
             });
         });
     };
     DistribuicoesPossibilidadeRepository.prototype.queryByPossibilidadeESiapeETurma = function (id_possibilidade, siape, id_turma) {
         return __awaiter(this, void 0, void 0, function () {
-            var dist;
             return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0: return [4 /*yield*/, this.repository.findOne({
-                            where: { id_possibilidade: id_possibilidade, siape: siape, id_turma: id_turma },
-                        })];
-                    case 1:
-                        dist = _a.sent();
-                        return [2 /*return*/, dist];
-                }
+                return [2 /*return*/, this.repository.findOne({
+                        where: { id_possibilidade: id_possibilidade, siape: siape, id_turma: id_turma },
+                    })];
             });
         });
     };

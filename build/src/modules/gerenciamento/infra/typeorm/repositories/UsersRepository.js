@@ -14,7 +14,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     function verb(n) { return function (v) { return step([n, v]); }; }
     function step(op) {
         if (f) throw new TypeError("Generator is already executing.");
-        while (_) try {
+        while (g && (g = 0, op[0] && (_ = 0)), _) try {
             if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
             if (y = 0, t) op = [op[0] & 2, t.value];
             switch (op[0]) {
@@ -37,11 +37,11 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.UsersRepository = void 0;
-var typeorm_1 = require("typeorm");
+var typeorm_1 = require("../../../../../shared/infra/typeorm");
 var User_1 = require("../entities/User");
 var UsersRepository = /** @class */ (function () {
     function UsersRepository() {
-        this.usersRepository = (0, typeorm_1.getRepository)(User_1.User);
+        this.usersRepository = typeorm_1.dataSource.getRepository(User_1.User);
     }
     UsersRepository.prototype.createUser = function (_a) {
         var name = _a.name, email = _a.email, password = _a.password, id = _a.id, isAdmin = _a.isAdmin, siape = _a.siape;
@@ -56,10 +56,10 @@ var UsersRepository = /** @class */ (function () {
         return this.usersRepository.save(user);
     };
     UsersRepository.prototype.queryByEmail = function (email) {
-        return this.usersRepository.findOne({ email: email });
+        return this.usersRepository.findOneBy({ email: email });
     };
     UsersRepository.prototype.queryById = function (id) {
-        return this.usersRepository.findOne(id);
+        return this.usersRepository.findOneBy({ id: id });
     };
     UsersRepository.prototype.listUsers = function () {
         return this.usersRepository.find();
@@ -82,7 +82,7 @@ var UsersRepository = /** @class */ (function () {
             var user;
             return __generator(this, function (_b) {
                 switch (_b.label) {
-                    case 0: return [4 /*yield*/, this.usersRepository.findOne(id)];
+                    case 0: return [4 /*yield*/, this.usersRepository.findOneBy({ id: id })];
                     case 1:
                         user = _b.sent();
                         user.name = name || user.name;

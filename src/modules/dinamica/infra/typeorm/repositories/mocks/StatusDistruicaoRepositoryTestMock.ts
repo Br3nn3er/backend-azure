@@ -2,8 +2,8 @@ import {
   ICreateStatusDistribuicaoDTO,
   IPatchStatusDistribuicaoDTO,
 } from "../../../../dtos/ICreateStatusDistribuicaoDTO";
-import { StatusDistribuicao } from "../../entities/StatusDistribuicao";
-import { IStatusDistribuicaoRepository } from "../interfaces/IStatusDistribuicaoRepository";
+import {StatusDistribuicao} from "../../entities/StatusDistribuicao";
+import {IStatusDistribuicaoRepository} from "../interfaces/IStatusDistribuicaoRepository";
 
 class StatusDistribuicaoRepositoryTestMock
   implements IStatusDistribuicaoRepository
@@ -35,19 +35,15 @@ class StatusDistribuicaoRepositoryTestMock
   }
 
   async queryById(id: number): Promise<StatusDistribuicao> {
-    const statusFounded = this.listStatus.find(
+    return this.listStatus.find(
       (statusToSearch) => statusToSearch.id === id
     );
-
-    return statusFounded;
   }
 
   async queryByCodigo(codigo: string): Promise<StatusDistribuicao> {
-    const statusFounded = this.listStatus.find(
+    return this.listStatus.find(
       (statusToSearch) => statusToSearch.codigo === codigo
     );
-
-    return statusFounded;
   }
 
   async updateByCodigo({

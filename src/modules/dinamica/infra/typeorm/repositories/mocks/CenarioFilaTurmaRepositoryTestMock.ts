@@ -1,9 +1,6 @@
-import {
-  ICreateCenarioFilaTurmaDTO,
-  IPatchCenarioFilaTurmaDTO,
-} from "../../../../dtos/ICreateCenarioFilaTurmaDTO";
-import { CenarioFilaTurma } from "../../entities/CenarioFilaTurma";
-import { ICenarioFilaTurmaRepository } from "../interfaces/ICenarioFilaTurmaRepository";
+import {ICreateCenarioFilaTurmaDTO, IPatchCenarioFilaTurmaDTO,} from "../../../../dtos/ICreateCenarioFilaTurmaDTO";
+import {CenarioFilaTurma} from "../../entities/CenarioFilaTurma";
+import {ICenarioFilaTurmaRepository} from "../interfaces/ICenarioFilaTurmaRepository";
 
 class CenarioFilaTurmaRepositoryTestMock
   implements ICenarioFilaTurmaRepository
@@ -43,14 +40,12 @@ class CenarioFilaTurmaRepositoryTestMock
     id_turma: number,
     id_fila: number
   ): Promise<CenarioFilaTurma> {
-    const cenarioFilaFounded = this.listCenariosFilaTurma.find(
+    return this.listCenariosFilaTurma.find(
       (cenario) =>
         cenario.num_cenario === num_cenario &&
         cenario.id_turma === id_turma &&
         cenario.id_fila === id_fila
     );
-
-    return cenarioFilaFounded;
   }
 
   async updateByCenarioETurmaEFila({

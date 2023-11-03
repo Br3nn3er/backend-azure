@@ -26,7 +26,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     function verb(n) { return function (v) { return step([n, v]); }; }
     function step(op) {
         if (f) throw new TypeError("Generator is already executing.");
-        while (_) try {
+        while (g && (g = 0, op[0] && (_ = 0)), _) try {
             if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
             if (y = 0, t) op = [op[0] & 2, t.value];
             switch (op[0]) {
@@ -63,7 +63,7 @@ var HandleCargaDocenteService = /** @class */ (function () {
     HandleCargaDocenteService.prototype.create = function (_a) {
         var siape = _a.siape, carga_atual = _a.carga_atual, ano = _a.ano, semestre = _a.semestre;
         return __awaiter(this, void 0, void 0, function () {
-            var cargaExistent, carga;
+            var cargaExistent;
             return __generator(this, function (_b) {
                 switch (_b.label) {
                     case 0: return [4 /*yield*/, this.cargasRepository.queryBySiape(siape)];
@@ -72,15 +72,12 @@ var HandleCargaDocenteService = /** @class */ (function () {
                         if (cargaExistent) {
                             throw new AppError_1.AppError("Já existe uma carga para este siape!");
                         }
-                        return [4 /*yield*/, this.cargasRepository.createCarga({
+                        return [2 /*return*/, this.cargasRepository.createCarga({
                                 siape: siape,
                                 carga_atual: carga_atual,
                                 ano: ano,
                                 semestre: semestre,
                             })];
-                    case 2:
-                        carga = _b.sent();
-                        return [2 /*return*/, carga];
                 }
             });
         });
@@ -105,7 +102,7 @@ var HandleCargaDocenteService = /** @class */ (function () {
     HandleCargaDocenteService.prototype.update = function (_a) {
         var siape = _a.siape, carga_atual = _a.carga_atual, ano = _a.ano, semestre = _a.semestre;
         return __awaiter(this, void 0, void 0, function () {
-            var cargaExistent, cargaToUpdate;
+            var cargaExistent;
             return __generator(this, function (_b) {
                 switch (_b.label) {
                     case 0: return [4 /*yield*/, this.cargasRepository.queryBySiape(siape)];
@@ -114,15 +111,12 @@ var HandleCargaDocenteService = /** @class */ (function () {
                         if (!cargaExistent) {
                             throw new AppError_1.AppError("Não há uma carga para este siape!");
                         }
-                        return [4 /*yield*/, this.cargasRepository.updateBySiape({
+                        return [2 /*return*/, this.cargasRepository.updateBySiape({
                                 siape: siape,
                                 carga_atual: carga_atual,
                                 ano: ano,
                                 semestre: semestre,
                             })];
-                    case 2:
-                        cargaToUpdate = _b.sent();
-                        return [2 /*return*/, cargaToUpdate];
                 }
             });
         });
@@ -182,7 +176,7 @@ var HandleCargaDocenteService = /** @class */ (function () {
         return new Promise(function (resolve, reject) {
             var cargas = [];
             var stream = fs_1.default.createReadStream(file.path);
-            var parseFile = (0, csv_parse_1.default)();
+            var parseFile = csv_parse_1.default.parse();
             stream.pipe(parseFile);
             parseFile
                 .on("data", function (line) { return __awaiter(_this, void 0, void 0, function () {
@@ -199,8 +193,7 @@ var HandleCargaDocenteService = /** @class */ (function () {
                 });
             }); })
                 .on("end", function () {
-                fs_1.default.promises.unlink(file.path);
-                resolve(cargas);
+                fs_1.default.promises.unlink(file.path).then(function (r) { return resolve(cargas); });
             })
                 .on("error", function (err) {
                 reject(err);

@@ -1,5 +1,6 @@
-import { getRepository, Repository } from "typeorm";
+import { Repository } from "typeorm";
 
+import { dataSource } from "../../../../../shared/infra/typeorm";
 import { ICreateRestricoesDTO } from "../../../dtos/ICreateRestricoesDTO";
 import { Restricoes } from "../entities/Restricoes";
 import { IRestricoesRepository } from "./interfaces/IRestricoesRepository";
@@ -8,7 +9,7 @@ class RestricoesRepository implements IRestricoesRepository {
   private repository: Repository<Restricoes>;
 
   constructor() {
-    this.repository = getRepository(Restricoes);
+    this.repository = dataSource.getRepository(Restricoes);
   }
 
   async create({
@@ -37,12 +38,10 @@ class RestricoesRepository implements IRestricoesRepository {
   }
 
   async listRestricoes(): Promise<Restricoes[]> {
-    const listRestricoes = await this.repository
+    return this.repository
       .createQueryBuilder("restricoes")
       .orderBy("siape", "ASC")
       .getMany();
-
-    return listRestricoes;
   }
 
   async queryBySiapeEDiaELetra(
@@ -50,19 +49,15 @@ class RestricoesRepository implements IRestricoesRepository {
     dia: string,
     letra: string
   ): Promise<Restricoes> {
-    const restricoes = await this.repository.findOne({
+    return this.repository.findOne({
       where: { siape, dia, letra },
     });
-
-    return restricoes;
   }
 
   async queryBySiape(siape: string): Promise<Restricoes[]> {
-    const restricoes = await this.repository.find({
+    return this.repository.find({
       where: { siape },
     });
-
-    return restricoes;
   }
   async deleteBySiapeEDiaELetra(
     siape: string,

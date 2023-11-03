@@ -1,5 +1,6 @@
-import { getRepository, Repository } from "typeorm";
+import { Repository } from "typeorm";
 
+import { dataSource } from "../../../../../shared/infra/typeorm";
 import {
   ICreateSemestreDTO,
   IPatchSemestreDTO,
@@ -11,7 +12,7 @@ class SemestresRepository implements ISemestresRepository {
   private repository: Repository<Semestre>;
 
   constructor() {
-    this.repository = getRepository(Semestre);
+    this.repository = dataSource.getRepository(Semestre);
   }
 
   async createSemestre({
@@ -31,26 +32,20 @@ class SemestresRepository implements ISemestresRepository {
   }
 
   async listAllSemestres(): Promise<Semestre[]> {
-    const semestres = await this.repository
+    return this.repository
       .createQueryBuilder("semestres")
       .orderBy("id", "ASC")
       .getMany();
-
-    return semestres;
   }
 
   async queryById(id: number): Promise<Semestre> {
-    const semestre = await this.repository.findOne(id);
-
-    return semestre;
+    return this.repository.findOneBy({ id });
   }
 
   async queryByAnoSemestre(ano: number, semestre: number): Promise<Semestre> {
-    const foundedSemestre = await this.repository.findOne({
+    return this.repository.findOne({
       where: { ano, semestre },
     });
-
-    return foundedSemestre;
   }
 
   async updateById({
@@ -59,7 +54,7 @@ class SemestresRepository implements ISemestresRepository {
     semestre,
     status,
   }: IPatchSemestreDTO): Promise<Semestre> {
-    const semestreToUpdate = await this.repository.findOne({ id });
+    const semestreToUpdate = await this.repository.findOneBy({ id });
 
     semestreToUpdate.ano = ano || semestreToUpdate.ano;
     semestreToUpdate.semestre = semestre || semestreToUpdate.semestre;

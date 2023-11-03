@@ -26,7 +26,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     function verb(n) { return function (v) { return step([n, v]); }; }
     function step(op) {
         if (f) throw new TypeError("Generator is already executing.");
-        while (_) try {
+        while (g && (g = 0, op[0] && (_ = 0)), _) try {
             if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
             if (y = 0, t) op = [op[0] & 2, t.value];
             switch (op[0]) {
@@ -63,20 +63,14 @@ var HandleAuditoriaPrioridadeService = /** @class */ (function () {
     HandleAuditoriaPrioridadeService.prototype.create = function (_a) {
         var siape = _a.siape, codigo_disc = _a.codigo_disc, prioridade_antiga = _a.prioridade_antiga, prioridade_nova = _a.prioridade_nova, stamp = _a.stamp;
         return __awaiter(this, void 0, void 0, function () {
-            var auditoriaPrioridade;
             return __generator(this, function (_b) {
-                switch (_b.label) {
-                    case 0: return [4 /*yield*/, this.auditoriaPrioridade.create({
-                            siape: siape,
-                            codigo_disc: codigo_disc,
-                            prioridade_antiga: prioridade_antiga,
-                            prioridade_nova: prioridade_nova,
-                            stamp: stamp,
-                        })];
-                    case 1:
-                        auditoriaPrioridade = _b.sent();
-                        return [2 /*return*/, auditoriaPrioridade];
-                }
+                return [2 /*return*/, this.auditoriaPrioridade.create({
+                        siape: siape,
+                        codigo_disc: codigo_disc,
+                        prioridade_antiga: prioridade_antiga,
+                        prioridade_nova: prioridade_nova,
+                        stamp: stamp,
+                    })];
             });
         });
     };
@@ -102,7 +96,7 @@ var HandleAuditoriaPrioridadeService = /** @class */ (function () {
     HandleAuditoriaPrioridadeService.prototype.update = function (_a) {
         var id = _a.id, siape = _a.siape, codigo_disc = _a.codigo_disc, prioridade_antiga = _a.prioridade_antiga, prioridade_nova = _a.prioridade_nova, stamp = _a.stamp;
         return __awaiter(this, void 0, void 0, function () {
-            var auditoriaFounded, auditoriaToUpdate;
+            var auditoriaFounded;
             return __generator(this, function (_b) {
                 switch (_b.label) {
                     case 0: return [4 /*yield*/, this.auditoriaPrioridade.queryById(id)];
@@ -111,7 +105,7 @@ var HandleAuditoriaPrioridadeService = /** @class */ (function () {
                         if (!auditoriaFounded) {
                             throw new AppError_1.AppError("Auditoria não cadastrada!");
                         }
-                        return [4 /*yield*/, this.auditoriaPrioridade.update({
+                        return [2 /*return*/, this.auditoriaPrioridade.update({
                                 id: id,
                                 siape: siape,
                                 codigo_disc: codigo_disc,
@@ -119,9 +113,6 @@ var HandleAuditoriaPrioridadeService = /** @class */ (function () {
                                 prioridade_nova: prioridade_nova,
                                 stamp: stamp,
                             })];
-                    case 2:
-                        auditoriaToUpdate = _b.sent();
-                        return [2 /*return*/, auditoriaToUpdate];
                 }
             });
         });
@@ -177,7 +168,7 @@ var HandleAuditoriaPrioridadeService = /** @class */ (function () {
         return new Promise(function (resolve, reject) {
             var auditorias = [];
             var stream = fs_1.default.createReadStream(file.path);
-            var parseFile = (0, csv_parse_1.default)();
+            var parseFile = csv_parse_1.default.parse();
             stream.pipe(parseFile);
             parseFile
                 .on("data", function (line) { return __awaiter(_this, void 0, void 0, function () {

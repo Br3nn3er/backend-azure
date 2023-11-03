@@ -25,7 +25,10 @@ app.use(
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 function (err, request, response, next) {
     if (err instanceof AppError_1.AppError) {
-        return response.status(err.statusCode).json({ message: err.message });
+        return response.status(err.statusCode).json({
+            status: "error",
+            message: err.message,
+        });
     }
     return response.status(500).json({
         status: "error",

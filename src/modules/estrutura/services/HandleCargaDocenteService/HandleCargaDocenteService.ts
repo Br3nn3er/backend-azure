@@ -40,14 +40,12 @@ class HandleCargaDocenteService {
       throw new AppError("Já existe uma carga para este siape!");
     }
 
-    const carga = await this.cargasRepository.createCarga({
+    return this.cargasRepository.createCarga({
       siape,
       carga_atual,
       ano,
       semestre,
     });
-
-    return carga;
   }
 
   async read(): Promise<CargaDocente[]> {
@@ -73,14 +71,12 @@ class HandleCargaDocenteService {
       throw new AppError("Não há uma carga para este siape!");
     }
 
-    const cargaToUpdate = await this.cargasRepository.updateBySiape({
+    return this.cargasRepository.updateBySiape({
       siape,
       carga_atual,
       ano,
       semestre,
     });
-
-    return cargaToUpdate;
   }
 
   async deleteBySiape(siape: string): Promise<void> {
@@ -114,7 +110,7 @@ class HandleCargaDocenteService {
 
       const stream = fs.createReadStream(file.path);
 
-      const parseFile = csvParse();
+      const parseFile = csvParse.parse();
 
       stream.pipe(parseFile);
 
@@ -130,8 +126,7 @@ class HandleCargaDocenteService {
           });
         })
         .on("end", () => {
-          fs.promises.unlink(file.path);
-          resolve(cargas);
+          fs.promises.unlink(file.path).then((r) => resolve(cargas));
         })
         .on("error", (err) => {
           reject(err);

@@ -37,14 +37,12 @@ class HandleDistribuicaoCargaService {
       throw new AppError("Distribuicao já cadastrada!");
     }
 
-    const dist = await this.distRepository.create({
+    return this.distRepository.create({
       cenario,
       siape,
       regra,
       carga,
     });
-
-    return dist;
   }
 
   async read(): Promise<DistribuicaoCarga[]> {
@@ -76,14 +74,12 @@ class HandleDistribuicaoCargaService {
       throw new AppError("Distribuição não encontrada!", 403);
     }
 
-    const distToUpdate = await this.distRepository.update({
+    return this.distRepository.update({
       cenario,
       siape,
       regra,
       carga,
     });
-
-    return distToUpdate;
   }
 
   async delete(cenario: number, siape: string, regra: string): Promise<void> {
@@ -119,7 +115,7 @@ class HandleDistribuicaoCargaService {
 
       const stream = fs.createReadStream(file.path);
 
-      const parseFile = csvParse();
+      const parseFile = csvParse.parse();
 
       stream.pipe(parseFile);
 

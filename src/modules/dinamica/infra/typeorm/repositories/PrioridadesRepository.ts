@@ -1,5 +1,6 @@
-import { getRepository, Repository } from "typeorm";
+import { Repository } from "typeorm";
 
+import { dataSource } from "../../../../../shared/infra/typeorm";
 import {
   ICreatePrioridadesDTO,
   IPatchPrioridadesDTO,
@@ -11,7 +12,7 @@ class PrioridadesRepository implements IPrioridadesRepository {
   private prioridadesRepository: Repository<Prioridades>;
 
   constructor() {
-    this.prioridadesRepository = getRepository(Prioridades);
+    this.prioridadesRepository = dataSource.getRepository(Prioridades);
   }
 
   async create({
@@ -31,29 +32,23 @@ class PrioridadesRepository implements IPrioridadesRepository {
   }
 
   async listAllPrioridades(): Promise<Prioridades[]> {
-    const listPrioridades = await this.prioridadesRepository
+    return this.prioridadesRepository
       .createQueryBuilder("prioridades")
       .orderBy("siape", "ASC")
       .getMany();
-
-    return listPrioridades;
   }
 
   async queryById(id: string): Promise<Prioridades> {
-    const prioridade = await this.prioridadesRepository.findOne(id);
-
-    return prioridade;
+    return this.prioridadesRepository.findOneBy({ id });
   }
 
   async queryBySiapeECodigo(
     siape: string,
     codigo_disc: string
   ): Promise<Prioridades> {
-    const prioridade = await this.prioridadesRepository.findOne({
+    return this.prioridadesRepository.findOne({
       where: { siape, codigo_disc },
     });
-
-    return prioridade;
   }
 
   async updateById({
@@ -62,7 +57,9 @@ class PrioridadesRepository implements IPrioridadesRepository {
     codigo_disc,
     siape,
   }: IPatchPrioridadesDTO): Promise<Prioridades> {
-    const prioridadeToUpdate = await this.prioridadesRepository.findOne(id);
+    const prioridadeToUpdate = await this.prioridadesRepository.findOneBy({
+      id,
+    });
 
     prioridadeToUpdate.prioridade = prioridade || prioridadeToUpdate.prioridade;
     prioridadeToUpdate.codigo_disc =

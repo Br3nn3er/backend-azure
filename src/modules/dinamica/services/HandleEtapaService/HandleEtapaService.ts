@@ -21,19 +21,15 @@ class HandleEtapaService {
   ) {}
 
   async create({ codigo, ativo, descricao }: IHandleEtapa): Promise<Etapa> {
-    const etapa = await this.etapaRepository.create({
+    return this.etapaRepository.create({
       codigo,
       ativo,
       descricao,
     });
-
-    return etapa;
   }
 
   async read(): Promise<Etapa[]> {
-    const etapas = await this.etapaRepository.listEtapas();
-
-    return etapas;
+    return this.etapaRepository.listEtapas();
   }
 
   async update({
@@ -48,14 +44,12 @@ class HandleEtapaService {
       throw new AppError("Registro de etapa não cadastrado!");
     }
 
-    const etapa = await this.etapaRepository.updateById({
+    return this.etapaRepository.updateById({
       id,
       codigo,
       ativo,
       descricao,
     });
-
-    return etapa;
   }
 
   async delete(id: string): Promise<void> {
@@ -84,7 +78,7 @@ class HandleEtapaService {
 
       const stream = fs.createReadStream(file.path);
 
-      const parseFile = csvParse();
+      const parseFile = csvParse.parse();
 
       stream.pipe(parseFile);
 

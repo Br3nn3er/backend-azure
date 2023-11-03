@@ -26,7 +26,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     function verb(n) { return function (v) { return step([n, v]); }; }
     function step(op) {
         if (f) throw new TypeError("Generator is already executing.");
-        while (_) try {
+        while (g && (g = 0, op[0] && (_ = 0)), _) try {
             if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
             if (y = 0, t) op = [op[0] & 2, t.value];
             switch (op[0]) {
@@ -63,17 +63,11 @@ var HandleStatusDistribuicaoService = /** @class */ (function () {
     HandleStatusDistribuicaoService.prototype.create = function (_a) {
         var id = _a.id, descricao = _a.descricao;
         return __awaiter(this, void 0, void 0, function () {
-            var status;
             return __generator(this, function (_b) {
-                switch (_b.label) {
-                    case 0: return [4 /*yield*/, this.statusRepository.create({
-                            id: id,
-                            descricao: descricao,
-                        })];
-                    case 1:
-                        status = _b.sent();
-                        return [2 /*return*/, status];
-                }
+                return [2 /*return*/, this.statusRepository.create({
+                        id: id,
+                        descricao: descricao,
+                    })];
             });
         });
     };
@@ -97,7 +91,7 @@ var HandleStatusDistribuicaoService = /** @class */ (function () {
     HandleStatusDistribuicaoService.prototype.update = function (_a) {
         var codigo = _a.codigo, id = _a.id, descricao = _a.descricao;
         return __awaiter(this, void 0, void 0, function () {
-            var statusFounded, statusToUpdate;
+            var statusFounded;
             return __generator(this, function (_b) {
                 switch (_b.label) {
                     case 0: return [4 /*yield*/, this.statusRepository.queryByCodigo(codigo)];
@@ -106,14 +100,11 @@ var HandleStatusDistribuicaoService = /** @class */ (function () {
                         if (!statusFounded) {
                             throw new AppError_1.AppError("Registro de status não cadastrado!");
                         }
-                        return [4 /*yield*/, this.statusRepository.updateByCodigo({
+                        return [2 /*return*/, this.statusRepository.updateByCodigo({
                                 codigo: codigo,
                                 id: id,
                                 descricao: descricao,
                             })];
-                    case 2:
-                        statusToUpdate = _b.sent();
-                        return [2 /*return*/, statusToUpdate];
                 }
             });
         });
@@ -166,7 +157,7 @@ var HandleStatusDistribuicaoService = /** @class */ (function () {
         return new Promise(function (resolve, reject) {
             var listStatus = [];
             var stream = fs_1.default.createReadStream(file.path);
-            var parseFile = (0, csv_parse_1.default)();
+            var parseFile = csv_parse_1.default.parse();
             stream.pipe(parseFile);
             parseFile
                 .on("data", function (line) { return __awaiter(_this, void 0, void 0, function () {

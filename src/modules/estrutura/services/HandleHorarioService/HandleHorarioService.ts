@@ -40,20 +40,16 @@ class HandleHorarioService {
       throw new AppError("Há um horário cadastrado com este codigo!", 403);
     }
 
-    const horario = await this.horariosRepository.createHorario({
+    return this.horariosRepository.createHorario({
       letra,
       hora_inicio,
       hora_fim,
       turno,
     });
-
-    return horario;
   }
 
   async read(): Promise<Horario[]> {
-    const horarios = await this.horariosRepository.listAllHorarios();
-
-    return horarios;
+    return this.horariosRepository.listAllHorarios();
   }
 
   async update({
@@ -68,14 +64,12 @@ class HandleHorarioService {
       throw new AppError("Horário não cadastrado!");
     }
 
-    const horarioToUpdate = await this.horariosRepository.updateHorarioByLetra({
+    return this.horariosRepository.updateHorarioByLetra({
       letra,
       hora_inicio,
       hora_fim,
       turno,
     });
-
-    return horarioToUpdate;
   }
 
   async delete(letra: string): Promise<void> {
@@ -109,7 +103,7 @@ class HandleHorarioService {
 
       const stream = fs.createReadStream(file.path);
 
-      const parseFile = csvParse();
+      const parseFile = csvParse.parse();
 
       stream.pipe(parseFile);
 

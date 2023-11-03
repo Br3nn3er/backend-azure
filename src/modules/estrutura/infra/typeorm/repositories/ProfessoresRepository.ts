@@ -1,7 +1,8 @@
 import { inject, injectable } from "tsyringe";
-import { getRepository, Repository } from "typeorm";
+import { Repository } from "typeorm";
 
 import { IDateProvider } from "../../../../../shared/container/providers/DateProvider/IDateProvider";
+import { dataSource } from "../../../../../shared/infra/typeorm";
 import {
   ICreateProfessoresDTO,
   IPatchProfessorDTO,
@@ -17,13 +18,11 @@ class ProfessoresRepository implements IProfessoresRepository {
     @inject("DayjsDateProvider")
     private dateProvider: IDateProvider
   ) {
-    this.repository = getRepository(Professor);
+    this.repository = dataSource.getRepository(Professor);
   }
 
   async queryBySiape(siape: string): Promise<Professor> {
-    const professor = await this.repository.findOne({ siape });
-
-    return professor;
+    return this.repository.findOneBy({ siape });
   }
 
   async createProfessor({
@@ -63,12 +62,10 @@ class ProfessoresRepository implements IProfessoresRepository {
   }
 
   async listAllProfessores(): Promise<Professor[]> {
-    const listProfessores = await this.repository
+    return this.repository
       .createQueryBuilder("professor")
       .orderBy("siape", "ASC")
       .getMany();
-
-    return listProfessores;
   }
 
   async deleteBySiape(siape: string): Promise<void> {
@@ -90,7 +87,7 @@ class ProfessoresRepository implements IProfessoresRepository {
     data_aposentadoria,
     status,
   }: IPatchProfessorDTO): Promise<Professor> {
-    const professorToUpdate = await this.repository.findOne({ siape });
+    const professorToUpdate = await this.repository.findOneBy({ siape });
 
     professorToUpdate.nome = nome || professorToUpdate.nome;
 

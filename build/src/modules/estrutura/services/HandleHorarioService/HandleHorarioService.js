@@ -26,7 +26,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     function verb(n) { return function (v) { return step([n, v]); }; }
     function step(op) {
         if (f) throw new TypeError("Generator is already executing.");
-        while (_) try {
+        while (g && (g = 0, op[0] && (_ = 0)), _) try {
             if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
             if (y = 0, t) op = [op[0] & 2, t.value];
             switch (op[0]) {
@@ -63,7 +63,7 @@ var HandleHorarioService = /** @class */ (function () {
     HandleHorarioService.prototype.create = function (_a) {
         var letra = _a.letra, hora_inicio = _a.hora_inicio, hora_fim = _a.hora_fim, turno = _a.turno;
         return __awaiter(this, void 0, void 0, function () {
-            var existentHorario, horario;
+            var existentHorario;
             return __generator(this, function (_b) {
                 switch (_b.label) {
                     case 0: return [4 /*yield*/, this.horariosRepository.queryByLetra(letra)];
@@ -72,36 +72,27 @@ var HandleHorarioService = /** @class */ (function () {
                         if (existentHorario) {
                             throw new AppError_1.AppError("Há um horário cadastrado com este codigo!", 403);
                         }
-                        return [4 /*yield*/, this.horariosRepository.createHorario({
+                        return [2 /*return*/, this.horariosRepository.createHorario({
                                 letra: letra,
                                 hora_inicio: hora_inicio,
                                 hora_fim: hora_fim,
                                 turno: turno,
                             })];
-                    case 2:
-                        horario = _b.sent();
-                        return [2 /*return*/, horario];
                 }
             });
         });
     };
     HandleHorarioService.prototype.read = function () {
         return __awaiter(this, void 0, void 0, function () {
-            var horarios;
             return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0: return [4 /*yield*/, this.horariosRepository.listAllHorarios()];
-                    case 1:
-                        horarios = _a.sent();
-                        return [2 /*return*/, horarios];
-                }
+                return [2 /*return*/, this.horariosRepository.listAllHorarios()];
             });
         });
     };
     HandleHorarioService.prototype.update = function (_a) {
         var letra = _a.letra, hora_inicio = _a.hora_inicio, hora_fim = _a.hora_fim, turno = _a.turno;
         return __awaiter(this, void 0, void 0, function () {
-            var horario, horarioToUpdate;
+            var horario;
             return __generator(this, function (_b) {
                 switch (_b.label) {
                     case 0: return [4 /*yield*/, this.horariosRepository.queryByLetra(letra)];
@@ -110,15 +101,12 @@ var HandleHorarioService = /** @class */ (function () {
                         if (!horario) {
                             throw new AppError_1.AppError("Horário não cadastrado!");
                         }
-                        return [4 /*yield*/, this.horariosRepository.updateHorarioByLetra({
+                        return [2 /*return*/, this.horariosRepository.updateHorarioByLetra({
                                 letra: letra,
                                 hora_inicio: hora_inicio,
                                 hora_fim: hora_fim,
                                 turno: turno,
                             })];
-                    case 2:
-                        horarioToUpdate = _b.sent();
-                        return [2 /*return*/, horarioToUpdate];
                 }
             });
         });
@@ -178,7 +166,7 @@ var HandleHorarioService = /** @class */ (function () {
         return new Promise(function (resolve, reject) {
             var horarios = [];
             var stream = fs_1.default.createReadStream(file.path);
-            var parseFile = (0, csv_parse_1.default)();
+            var parseFile = csv_parse_1.default.parse();
             stream.pipe(parseFile);
             parseFile
                 .on("data", function (line) { return __awaiter(_this, void 0, void 0, function () {

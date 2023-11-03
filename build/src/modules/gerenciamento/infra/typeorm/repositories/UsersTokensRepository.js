@@ -14,7 +14,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     function verb(n) { return function (v) { return step([n, v]); }; }
     function step(op) {
         if (f) throw new TypeError("Generator is already executing.");
-        while (_) try {
+        while (g && (g = 0, op[0] && (_ = 0)), _) try {
             if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
             if (y = 0, t) op = [op[0] & 2, t.value];
             switch (op[0]) {
@@ -37,11 +37,11 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.UsersTokensRepository = void 0;
-var typeorm_1 = require("typeorm");
+var typeorm_1 = require("../../../../../shared/infra/typeorm");
 var UserTokens_1 = require("../entities/UserTokens");
 var UsersTokensRepository = /** @class */ (function () {
     function UsersTokensRepository() {
-        this.repository = (0, typeorm_1.getRepository)(UserTokens_1.UserTokens);
+        this.repository = typeorm_1.dataSource.getRepository(UserTokens_1.UserTokens);
     }
     UsersTokensRepository.prototype.create = function (_a) {
         var expires_date = _a.expires_date, refresh_token = _a.refresh_token, user_id = _a.user_id;
@@ -65,17 +65,13 @@ var UsersTokensRepository = /** @class */ (function () {
     };
     UsersTokensRepository.prototype.queryByUserIdAndRefToken = function (user_id, refresh_token) {
         return __awaiter(this, void 0, void 0, function () {
-            var usersToken;
             return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0: return [4 /*yield*/, this.repository.findOne({
+                return [2 /*return*/, this.repository.findOne({
+                        where: {
                             user_id: user_id,
                             refresh_token: refresh_token,
-                        })];
-                    case 1:
-                        usersToken = _a.sent();
-                        return [2 /*return*/, usersToken];
-                }
+                        },
+                    })];
             });
         });
     };
@@ -93,14 +89,8 @@ var UsersTokensRepository = /** @class */ (function () {
     };
     UsersTokensRepository.prototype.queryByRefreshToken = function (refresh_token) {
         return __awaiter(this, void 0, void 0, function () {
-            var userToken;
             return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0: return [4 /*yield*/, this.repository.findOne({ refresh_token: refresh_token })];
-                    case 1:
-                        userToken = _a.sent();
-                        return [2 /*return*/, userToken];
-                }
+                return [2 /*return*/, this.repository.findOneBy({ refresh_token: refresh_token })];
             });
         });
     };

@@ -26,7 +26,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     function verb(n) { return function (v) { return step([n, v]); }; }
     function step(op) {
         if (f) throw new TypeError("Generator is already executing.");
-        while (_) try {
+        while (g && (g = 0, op[0] && (_ = 0)), _) try {
             if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
             if (y = 0, t) op = [op[0] & 2, t.value];
             switch (op[0]) {
@@ -63,7 +63,7 @@ var HandleSemanaService = /** @class */ (function () {
     HandleSemanaService.prototype.create = function (_a) {
         var dia = _a.dia, descricao = _a.descricao;
         return __awaiter(this, void 0, void 0, function () {
-            var semanaExistent, semana;
+            var semanaExistent;
             return __generator(this, function (_b) {
                 switch (_b.label) {
                     case 0: return [4 /*yield*/, this.semanasRepository.queryByDia(dia)];
@@ -72,13 +72,10 @@ var HandleSemanaService = /** @class */ (function () {
                         if (semanaExistent) {
                             throw new AppError_1.AppError("Dia já cadastrado!");
                         }
-                        return [4 /*yield*/, this.semanasRepository.createSemana({
+                        return [2 /*return*/, this.semanasRepository.createSemana({
                                 dia: dia,
                                 descricao: descricao,
                             })];
-                    case 2:
-                        semana = _b.sent();
-                        return [2 /*return*/, semana];
                 }
             });
         });
@@ -103,7 +100,7 @@ var HandleSemanaService = /** @class */ (function () {
     HandleSemanaService.prototype.update = function (_a) {
         var dia = _a.dia, descricao = _a.descricao;
         return __awaiter(this, void 0, void 0, function () {
-            var semana, semanaToUpdate;
+            var semana;
             return __generator(this, function (_b) {
                 switch (_b.label) {
                     case 0: return [4 /*yield*/, this.semanasRepository.queryByDia(dia)];
@@ -112,13 +109,10 @@ var HandleSemanaService = /** @class */ (function () {
                         if (!semana) {
                             throw new AppError_1.AppError("Registro não consta no sistema!");
                         }
-                        return [4 /*yield*/, this.semanasRepository.update({
+                        return [2 /*return*/, this.semanasRepository.update({
                                 dia: dia,
                                 descricao: descricao,
                             })];
-                    case 2:
-                        semanaToUpdate = _b.sent();
-                        return [2 /*return*/, semanaToUpdate];
                 }
             });
         });
@@ -168,7 +162,7 @@ var HandleSemanaService = /** @class */ (function () {
         return new Promise(function (resolve, reject) {
             var semanas = [];
             var stream = fs_1.default.createReadStream(file.path);
-            var parseFile = (0, csv_parse_1.default)();
+            var parseFile = csv_parse_1.default.parse();
             stream.pipe(parseFile);
             parseFile
                 .on("data", function (line) { return __awaiter(_this, void 0, void 0, function () {

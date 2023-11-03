@@ -81,17 +81,12 @@ class HandleFilaController {
     const { siape } = request.params;
     const handleFilaRepository = container.resolve(HandleFilaService);
 
-    const filas = await handleFilaRepository.readByProfessor(
-      siape
-     );
+    const filas = await handleFilaRepository.readByProfessor(siape);
 
     return response.status(200).json(filas);
   }
-  
-  async readByTurma(
-    request: Request,
-    response: Response
-  ): Promise<Response> {
+
+  async readByTurma(request: Request, response: Response): Promise<Response> {
     const { turma } = request.params;
     const handleFilaRepository = container.resolve(HandleFilaService);
 

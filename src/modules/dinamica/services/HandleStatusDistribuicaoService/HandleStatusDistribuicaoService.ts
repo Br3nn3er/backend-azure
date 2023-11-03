@@ -23,12 +23,10 @@ class HandleStatusDistribuicaoService {
     id,
     descricao,
   }: IHandleStatusDistribuicao): Promise<StatusDistribuicao> {
-    const status = await this.statusRepository.create({
+    return this.statusRepository.create({
       id,
       descricao,
     });
-
-    return status;
   }
 
   async read(): Promise<StatusDistribuicao[]> {
@@ -53,13 +51,11 @@ class HandleStatusDistribuicaoService {
       throw new AppError("Registro de status não cadastrado!");
     }
 
-    const statusToUpdate = await this.statusRepository.updateByCodigo({
+    return this.statusRepository.updateByCodigo({
       codigo,
       id,
       descricao,
     });
-
-    return statusToUpdate;
   }
 
   async delete(codigo: string): Promise<void> {
@@ -89,7 +85,7 @@ class HandleStatusDistribuicaoService {
 
       const stream = fs.createReadStream(file.path);
 
-      const parseFile = csvParse();
+      const parseFile = csvParse.parse();
 
       stream.pipe(parseFile);
 

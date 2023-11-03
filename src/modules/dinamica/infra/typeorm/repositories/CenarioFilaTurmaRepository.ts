@@ -1,5 +1,6 @@
-import { getRepository, Repository } from "typeorm";
+import { Repository } from "typeorm";
 
+import { dataSource } from "../../../../../shared/infra/typeorm";
 import {
   ICreateCenarioFilaTurmaDTO,
   IPatchCenarioFilaTurmaDTO,
@@ -11,7 +12,7 @@ class CenarioFilaTurmaRepository implements ICenarioFilaTurmaRepository {
   private repository: Repository<CenarioFilaTurma>;
 
   constructor() {
-    this.repository = getRepository(CenarioFilaTurma);
+    this.repository = dataSource.getRepository(CenarioFilaTurma);
   }
 
   async create({
@@ -37,12 +38,10 @@ class CenarioFilaTurmaRepository implements ICenarioFilaTurmaRepository {
   }
 
   async listCenarios(): Promise<CenarioFilaTurma[]> {
-    const cenarios = await this.repository
+    return this.repository
       .createQueryBuilder("cenario_fila_turma")
       .orderBy("num_cenario")
       .getMany();
-
-    return cenarios;
   }
 
   async queryByCenarioETurmaEFila(
@@ -50,11 +49,9 @@ class CenarioFilaTurmaRepository implements ICenarioFilaTurmaRepository {
     id_turma: number,
     id_fila: number
   ): Promise<CenarioFilaTurma> {
-    const cenarioFilaFounded = await this.repository.findOne({
+    return this.repository.findOne({
       where: { num_cenario, id_turma, id_fila },
     });
-
-    return cenarioFilaFounded;
   }
 
   async updateByCenarioETurmaEFila({

@@ -34,20 +34,15 @@ class HandleStatusPossibilidadesService {
       throw new AppError("Possibilidade já cadastrada!");
     }
 
-    const statusFila = await this.statusFilaRepository.create({
+    return this.statusFilaRepository.create({
       id_fila,
       id_possibilidade,
       status,
     });
-
-    return statusFila;
   }
 
   async read(): Promise<StatusPossibilidades[]> {
-    const statusFilas =
-      await this.statusFilaRepository.listStatusPossibilidades();
-
-    return statusFilas;
+    return this.statusFilaRepository.listStatusPossibilidades();
   }
 
   async delete(id_fila: number, id_possibilidade: number): Promise<void> {
@@ -89,7 +84,7 @@ class HandleStatusPossibilidadesService {
 
       const stream = fs.createReadStream(file.path);
 
-      const parseFile = csvParse();
+      const parseFile = csvParse.parse();
 
       stream.pipe(parseFile);
 

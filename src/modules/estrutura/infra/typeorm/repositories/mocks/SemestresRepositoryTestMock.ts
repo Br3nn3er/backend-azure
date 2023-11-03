@@ -1,9 +1,6 @@
-import {
-  ICreateSemestreDTO,
-  IPatchSemestreDTO,
-} from "../../../../dtos/ICreateUpdateSemestreDTO";
-import { Semestre } from "../../entities/Semestre";
-import { ISemestresRepository } from "../interfaces/ISemestresRepository";
+import {ICreateSemestreDTO, IPatchSemestreDTO,} from "../../../../dtos/ICreateUpdateSemestreDTO";
+import {Semestre} from "../../entities/Semestre";
+import {ISemestresRepository} from "../interfaces/ISemestresRepository";
 
 class SemestresRepositoryTestMock implements ISemestresRepository {
   private semestres: Semestre[] = [];
@@ -35,20 +32,16 @@ class SemestresRepositoryTestMock implements ISemestresRepository {
   }
 
   async queryById(id: number): Promise<Semestre> {
-    const semestreFounded = await this.semestres.find(
+    return this.semestres.find(
       (semestre) => semestre.id === id
     );
-
-    return semestreFounded;
   }
 
   async queryByAnoSemestre(ano: number, semestre: number): Promise<Semestre> {
-    const semestreFounded = this.semestres.find(
+    return this.semestres.find(
       (semestreToSearch) =>
         semestreToSearch.ano === ano && semestreToSearch.semestre === semestre
     );
-
-    return semestreFounded;
   }
 
   async updateById({

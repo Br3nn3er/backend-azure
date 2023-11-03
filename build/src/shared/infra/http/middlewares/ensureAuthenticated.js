@@ -14,7 +14,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     function verb(n) { return function (v) { return step([n, v]); }; }
     function step(op) {
         if (f) throw new TypeError("Generator is already executing.");
-        while (_) try {
+        while (g && (g = 0, op[0] && (_ = 0)), _) try {
             if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
             if (y = 0, t) op = [op[0] & 2, t.value];
             switch (op[0]) {
@@ -47,28 +47,28 @@ var HandleUserService_1 = require("../../../../modules/gerenciamento/services/Ha
 var AppError_1 = require("../../../errors/AppError");
 function ensureAuthenticated(request, response, next) {
     return __awaiter(this, void 0, void 0, function () {
-        var authHeader, _a, token, user_id, userService, user, _b;
-        return __generator(this, function (_c) {
-            switch (_c.label) {
+        var authHeader, _a, token, user_id, userService, _b, _c;
+        return __generator(this, function (_d) {
+            switch (_d.label) {
                 case 0:
                     authHeader = request.headers.authorization;
                     if (!authHeader) {
                         throw new AppError_1.AppError("Token não encontrado!", 401);
                     }
                     _a = authHeader.split(" "), token = _a[1];
-                    _c.label = 1;
+                    _d.label = 1;
                 case 1:
-                    _c.trys.push([1, 3, , 4]);
+                    _d.trys.push([1, 3, , 4]);
                     user_id = (0, jsonwebtoken_1.verify)(token, auth_1.default.secret_token).sub;
                     userService = tsyringe_1.container.resolve(HandleUserService_1.HandleUserService);
+                    _b = request;
                     return [4 /*yield*/, userService.getCurrentUserInfo(user_id)];
                 case 2:
-                    user = _c.sent();
-                    request.user = user;
+                    _b.user = _d.sent();
                     next();
                     return [3 /*break*/, 4];
                 case 3:
-                    _b = _c.sent();
+                    _c = _d.sent();
                     throw new AppError_1.AppError("Token invalido!", 401);
                 case 4: return [2 /*return*/];
             }

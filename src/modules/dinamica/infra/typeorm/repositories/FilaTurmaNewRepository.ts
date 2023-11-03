@@ -1,5 +1,6 @@
-import { getRepository, Repository } from "typeorm";
+import { Repository } from "typeorm";
 
+import { dataSource } from "../../../../../shared/infra/typeorm";
 import {
   ICreateFilaTurmaNewDTO,
   IPatchFilaTurmaNewDTO,
@@ -11,7 +12,7 @@ class FilaTurmaNewRepository implements IFilaTurmaNewRepository {
   private repository: Repository<FilaTurmaNew>;
 
   constructor() {
-    this.repository = getRepository(FilaTurmaNew);
+    this.repository = dataSource.getRepository(FilaTurmaNew);
   }
 
   async create({
@@ -27,12 +28,10 @@ class FilaTurmaNewRepository implements IFilaTurmaNewRepository {
   }
 
   async listFilas(): Promise<FilaTurmaNew[]> {
-    const filas = await this.repository
+    return this.repository
       .createQueryBuilder("fila_turma_new")
       .orderBy("id_turma")
       .getMany();
-
-    return filas;
   }
 
   readByProfessorAndSemestre(
@@ -79,11 +78,9 @@ class FilaTurmaNewRepository implements IFilaTurmaNewRepository {
     id_turma: number,
     id_fila: number
   ): Promise<FilaTurmaNew> {
-    const filaFounded = await this.repository.findOne({
+    return this.repository.findOne({
       where: { id_turma, id_fila },
     });
-
-    return filaFounded;
   }
 
   async queryByTurma(id_turma: number): Promise<FilaTurmaNew[]> {
@@ -110,11 +107,9 @@ class FilaTurmaNewRepository implements IFilaTurmaNewRepository {
       .andWhere("id_fila = :id_fila", { id_fila })
       .execute();
 
-    const filaUpdated = await this.repository.findOne({
+    return this.repository.findOne({
       where: { id_turma, id_fila },
     });
-
-    return filaUpdated;
   }
 
   async deleteByTurmaEFila(id_turma: number, id_fila: number): Promise<void> {

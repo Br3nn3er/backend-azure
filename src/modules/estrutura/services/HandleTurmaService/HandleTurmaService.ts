@@ -53,15 +53,13 @@ class HandleTurmaService {
       throw new AppError("Há uma turma com este código!");
     }
 
-    const turmaToCreate = await this.turmasRepository.createTurma({
+    return this.turmasRepository.createTurma({
       codigo_disc,
       turma,
       ch,
       ano,
       semestre,
     });
-
-    return turmaToCreate;
   }
 
   async read(semesterId?: number): Promise<Turma[]> {
@@ -98,7 +96,7 @@ class HandleTurmaService {
       throw new AppError("Esta turma não está cadastrada!");
     }
 
-    const turmaToUpdate = await this.turmasRepository.updateById({
+    return this.turmasRepository.updateById({
       id,
       codigo_disc,
       turma,
@@ -106,8 +104,6 @@ class HandleTurmaService {
       ano,
       semestre,
     });
-
-    return turmaToUpdate;
   }
 
   async delete(id: string): Promise<void> {
@@ -148,7 +144,7 @@ class HandleTurmaService {
 
       const stream = fs.createReadStream(file.path);
 
-      const parseFile = csvParse();
+      const parseFile = csvParse.parse();
 
       stream.pipe(parseFile);
 

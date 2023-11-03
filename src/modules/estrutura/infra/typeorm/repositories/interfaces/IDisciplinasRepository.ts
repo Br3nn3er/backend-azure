@@ -10,7 +10,11 @@ interface IDisciplinasRepository {
   queryByCodigo(codigo: string): Promise<Disciplina>;
   updateByCodigo(data: IPatchDisciplinaDTO): Promise<Disciplina>;
   deleteByCodigo(codigo: string): Promise<void>;
-  queryBySiapeEAnoESemestre(siape: string, ano: number, semestre: number): Promise<Disciplina[]>;
+  queryBySiapeEAnoESemestre(
+    siape: string,
+    ano: number,
+    semestre: number
+  ): Promise<Disciplina[]>;
 }
 
 export { IDisciplinasRepository };

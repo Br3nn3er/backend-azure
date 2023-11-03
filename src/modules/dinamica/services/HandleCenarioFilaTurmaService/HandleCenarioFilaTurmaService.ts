@@ -42,7 +42,7 @@ class HandleCenarioFilaTurmaService {
       throw new AppError("Já existe um cenário com esta turma e fila!");
     }
 
-    const cenarioFila = await this.cenarioFilaRepository.create({
+    return this.cenarioFilaRepository.create({
       num_cenario,
       id_turma,
       id_fila,
@@ -50,14 +50,10 @@ class HandleCenarioFilaTurmaService {
       prioridade,
       posicao,
     });
-
-    return cenarioFila;
   }
 
   async read(): Promise<CenarioFilaTurma[]> {
-    const cenarioFilas = await this.cenarioFilaRepository.listCenarios();
-
-    return cenarioFilas;
+    return this.cenarioFilaRepository.listCenarios();
   }
 
   async update({
@@ -79,17 +75,14 @@ class HandleCenarioFilaTurmaService {
       throw new AppError("Registro não encontrado!");
     }
 
-    const cenarioFila =
-      await this.cenarioFilaRepository.updateByCenarioETurmaEFila({
-        num_cenario,
-        id_turma,
-        id_fila,
-        status,
-        prioridade,
-        posicao,
-      });
-
-    return cenarioFila;
+    return this.cenarioFilaRepository.updateByCenarioETurmaEFila({
+      num_cenario,
+      id_turma,
+      id_fila,
+      status,
+      prioridade,
+      posicao,
+    });
   }
 
   async delete(
@@ -132,7 +125,7 @@ class HandleCenarioFilaTurmaService {
 
       const stream = fs.createReadStream(file.path);
 
-      const parseFile = csvParse();
+      const parseFile = csvParse.parse();
 
       stream.pipe(parseFile);
 

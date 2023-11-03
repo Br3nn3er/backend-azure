@@ -65,11 +65,12 @@ class HandleDisciplinaController {
     const discipline = await handleDisciplinaService.readBySiapeEAnoESemestre(
       siape,
       parseInt(ano as string, 10),
-      parseInt(semestre as string, 10));
+      parseInt(semestre as string, 10)
+    );
 
     return response.status(200).json(discipline);
   }
-  
+
   async update(request: Request, response: Response): Promise<Response> {
     const {
       codigo,

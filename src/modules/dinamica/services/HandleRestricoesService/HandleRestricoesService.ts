@@ -27,13 +27,11 @@ class HandleRestricoesService {
       throw new AppError("Restricao já cadastrada!");
     }
 
-    const restricoes = await this.restricoesRepository.create({
+    return this.restricoesRepository.create({
       siape,
       dia,
       letra,
     });
-
-    return restricoes;
   }
 
   createMany(data: IHandleRestricoes[]): Promise<Restricoes[]> {
@@ -93,7 +91,7 @@ class HandleRestricoesService {
 
       const stream = fs.createReadStream(file.path);
 
-      const parseFile = csvParse();
+      const parseFile = csvParse.parse();
 
       stream.pipe(parseFile);
 

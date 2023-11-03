@@ -1,8 +1,10 @@
-import { inject, injectable } from "tsyringe";
+import {inject, injectable} from "tsyringe";
 
-import { AppError } from "../../../../shared/errors/AppError";
-import { DistribuicoesPossibilidade } from "../../infra/typeorm/entities/DistribuicoesPossibilidade";
-import { IDistribuicoesPossibilidadeRepository } from "../../infra/typeorm/repositories/interfaces/IDistribuicoesPossibilidadeRepository";
+import {AppError} from "../../../../shared/errors/AppError";
+import {DistribuicoesPossibilidade} from "../../infra/typeorm/entities/DistribuicoesPossibilidade";
+import {
+  IDistribuicoesPossibilidadeRepository
+} from "../../infra/typeorm/repositories/interfaces/IDistribuicoesPossibilidadeRepository";
 
 interface IHandleDistribuicoesPossibilidade {
   id_possibilidade: number;
@@ -33,13 +35,11 @@ class HandleDistribuicoesPossibilidadeService {
       throw new AppError("Distribuicao já cadastrada!");
     }
 
-    const dist = await this.distRepository.create({
+    return await this.distRepository.create({
       id_possibilidade,
       siape,
       id_turma,
     });
-
-    return dist;
   }
 
   async read(): Promise<DistribuicoesPossibilidade[]> {

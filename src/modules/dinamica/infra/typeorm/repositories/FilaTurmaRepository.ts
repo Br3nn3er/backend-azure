@@ -1,5 +1,6 @@
-import { getRepository, Repository } from "typeorm";
+import { Repository } from "typeorm";
 
+import { dataSource } from "../../../../../shared/infra/typeorm";
 import { Curso } from "../../../../estrutura/infra/typeorm/entities/Curso";
 import { Disciplina } from "../../../../estrutura/infra/typeorm/entities/Disciplina";
 import { Professor } from "../../../../estrutura/infra/typeorm/entities/Professor";
@@ -14,7 +15,7 @@ class FilaTurmaRepository implements IFilaTurmaRepository {
   private repository: Repository<FilaTurma>;
 
   constructor() {
-    this.repository = getRepository(FilaTurma);
+    this.repository = dataSource.getRepository(FilaTurma);
   }
 
   async create({
@@ -52,22 +53,19 @@ class FilaTurmaRepository implements IFilaTurmaRepository {
   }
 
   async listFilas(): Promise<FilaTurma[]> {
-    const filasTurma = await this.repository
+    return this.repository
       .createQueryBuilder("fila_turma")
       .orderBy("id", "ASC")
       .getMany();
-
-    return filasTurma;
   }
 
   async queryById(id: number): Promise<FilaTurma> {
-    const filaFinded = await this.repository.findOne(id);
-
-    return filaFinded;
+    return this.repository.findOneBy({ id });
   }
 
   async queryByTurma(id_turma: number): Promise<FilaTurma[]> {
-    const filaFinded = await getRepository(FilaTurma)
+    return dataSource
+      .getRepository(FilaTurma)
       .createQueryBuilder("ft")
       .select("nome")
       .addSelect("ft.pos", "possicao")
@@ -78,12 +76,11 @@ class FilaTurmaRepository implements IFilaTurmaRepository {
       .where("ft.id_turma = :id_turma", { id_turma })
       .orderBy("ft.prioridade", "DESC")
       .getRawMany();
-
-    return filaFinded;
   }
 
   async queryBySiape(siape: string): Promise<FilaTurma[]> {
-    const filaFinded = await getRepository(FilaTurma)
+    return dataSource
+      .getRepository(FilaTurma)
       .createQueryBuilder("ft")
       .select("dp.nome", "nome_diciplina")
       .addSelect("ft.turma", "turma")
@@ -96,8 +93,6 @@ class FilaTurmaRepository implements IFilaTurmaRepository {
       .leftJoin(Curso, "cs", "cs.codigo = dp.curso")
       .where("ft.siape = :siape", { siape })
       .getRawMany();
-
-    return filaFinded;
   }
 
   async updateById({
@@ -114,7 +109,7 @@ class FilaTurmaRepository implements IFilaTurmaRepository {
     id,
     periodo_preferencial,
   }: IPatchFilaTurmaDTO): Promise<FilaTurma> {
-    const filaTurma = await this.repository.findOne(id);
+    const filaTurma = await this.repository.findOneBy({ id });
 
     filaTurma.id_turma = id_turma || filaTurma.id_turma;
     filaTurma.turma = turma || filaTurma.turma;

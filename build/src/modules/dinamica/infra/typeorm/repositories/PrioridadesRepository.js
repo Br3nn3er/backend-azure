@@ -14,7 +14,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     function verb(n) { return function (v) { return step([n, v]); }; }
     function step(op) {
         if (f) throw new TypeError("Generator is already executing.");
-        while (_) try {
+        while (g && (g = 0, op[0] && (_ = 0)), _) try {
             if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
             if (y = 0, t) op = [op[0] & 2, t.value];
             switch (op[0]) {
@@ -37,11 +37,11 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.PrioridadesRepository = void 0;
-var typeorm_1 = require("typeorm");
+var typeorm_1 = require("../../../../../shared/infra/typeorm");
 var Prioridades_1 = require("../entities/Prioridades");
 var PrioridadesRepository = /** @class */ (function () {
     function PrioridadesRepository() {
-        this.prioridadesRepository = (0, typeorm_1.getRepository)(Prioridades_1.Prioridades);
+        this.prioridadesRepository = typeorm_1.dataSource.getRepository(Prioridades_1.Prioridades);
     }
     PrioridadesRepository.prototype.create = function (_a) {
         var prioridade = _a.prioridade, codigo_disc = _a.codigo_disc, siape = _a.siape;
@@ -65,45 +65,27 @@ var PrioridadesRepository = /** @class */ (function () {
     };
     PrioridadesRepository.prototype.listAllPrioridades = function () {
         return __awaiter(this, void 0, void 0, function () {
-            var listPrioridades;
             return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0: return [4 /*yield*/, this.prioridadesRepository
-                            .createQueryBuilder("prioridades")
-                            .orderBy("siape", "ASC")
-                            .getMany()];
-                    case 1:
-                        listPrioridades = _a.sent();
-                        return [2 /*return*/, listPrioridades];
-                }
+                return [2 /*return*/, this.prioridadesRepository
+                        .createQueryBuilder("prioridades")
+                        .orderBy("siape", "ASC")
+                        .getMany()];
             });
         });
     };
     PrioridadesRepository.prototype.queryById = function (id) {
         return __awaiter(this, void 0, void 0, function () {
-            var prioridade;
             return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0: return [4 /*yield*/, this.prioridadesRepository.findOne(id)];
-                    case 1:
-                        prioridade = _a.sent();
-                        return [2 /*return*/, prioridade];
-                }
+                return [2 /*return*/, this.prioridadesRepository.findOneBy({ id: id })];
             });
         });
     };
     PrioridadesRepository.prototype.queryBySiapeECodigo = function (siape, codigo_disc) {
         return __awaiter(this, void 0, void 0, function () {
-            var prioridade;
             return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0: return [4 /*yield*/, this.prioridadesRepository.findOne({
-                            where: { siape: siape, codigo_disc: codigo_disc },
-                        })];
-                    case 1:
-                        prioridade = _a.sent();
-                        return [2 /*return*/, prioridade];
-                }
+                return [2 /*return*/, this.prioridadesRepository.findOne({
+                        where: { siape: siape, codigo_disc: codigo_disc },
+                    })];
             });
         });
     };
@@ -113,7 +95,9 @@ var PrioridadesRepository = /** @class */ (function () {
             var prioridadeToUpdate;
             return __generator(this, function (_b) {
                 switch (_b.label) {
-                    case 0: return [4 /*yield*/, this.prioridadesRepository.findOne(id)];
+                    case 0: return [4 /*yield*/, this.prioridadesRepository.findOneBy({
+                            id: id,
+                        })];
                     case 1:
                         prioridadeToUpdate = _b.sent();
                         prioridadeToUpdate.prioridade = prioridade || prioridadeToUpdate.prioridade;

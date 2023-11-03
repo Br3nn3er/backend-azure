@@ -25,13 +25,11 @@ class HandleCenarioService {
     ano,
     semestre,
   }: IHandleCenario): Promise<Cenario> {
-    const cenario = await this.cenarioRepository.create({
+    return this.cenarioRepository.create({
       descricao_cenario,
       ano,
       semestre,
     });
-
-    return cenario;
   }
 
   async read(): Promise<Cenario[]> {
@@ -61,14 +59,12 @@ class HandleCenarioService {
       throw new AppError("Cenário não encontrado!", 403);
     }
 
-    const cenarioToUpdate = await this.cenarioRepository.updateByNumCenario({
+    return this.cenarioRepository.updateByNumCenario({
       num_cenario,
       descricao_cenario,
       ano,
       semestre,
     });
-
-    return cenarioToUpdate;
   }
 
   async delete(num_cenario: string): Promise<void> {
@@ -97,7 +93,7 @@ class HandleCenarioService {
 
       const stream = fs.createReadStream(file.path);
 
-      const parseFile = csvParse();
+      const parseFile = csvParse.parse();
 
       stream.pipe(parseFile);
 

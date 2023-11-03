@@ -31,12 +31,10 @@ class HandleSemanaService {
       throw new AppError("Dia já cadastrado!");
     }
 
-    const semana = await this.semanasRepository.createSemana({
+    return this.semanasRepository.createSemana({
       dia,
       descricao,
     });
-
-    return semana;
   }
 
   async read(): Promise<Semana[]> {
@@ -56,12 +54,10 @@ class HandleSemanaService {
       throw new AppError("Registro não consta no sistema!");
     }
 
-    const semanaToUpdate = await this.semanasRepository.update({
+    return this.semanasRepository.update({
       dia,
       descricao,
     });
-
-    return semanaToUpdate;
   }
 
   async delete(dia: string): Promise<void> {
@@ -86,7 +82,7 @@ class HandleSemanaService {
 
       const stream = fs.createReadStream(file.path);
 
-      const parseFile = csvParse();
+      const parseFile = csvParse.parse();
 
       stream.pipe(parseFile);
 

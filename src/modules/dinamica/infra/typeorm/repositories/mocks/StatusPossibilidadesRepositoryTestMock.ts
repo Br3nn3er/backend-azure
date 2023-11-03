@@ -1,6 +1,6 @@
-import { ICreateStatusPossibilidadesDTO } from "../../../../dtos/ICreateStatusPossibilidadesDTO";
-import { StatusPossibilidades } from "../../entities/StatusPossibilidades";
-import { IStatusPossibilidadesRepository } from "../interfaces/IStatusPossibilidadesRepository";
+import {ICreateStatusPossibilidadesDTO} from "../../../../dtos/ICreateStatusPossibilidadesDTO";
+import {StatusPossibilidades} from "../../entities/StatusPossibilidades";
+import {IStatusPossibilidadesRepository} from "../interfaces/IStatusPossibilidadesRepository";
 
 class StatusPossibilidadesRepositoryTestMock
   implements IStatusPossibilidadesRepository
@@ -29,13 +29,11 @@ class StatusPossibilidadesRepositoryTestMock
     id_fila: number,
     id_possibilidade: number
   ): Promise<StatusPossibilidades> {
-    const statusPossibilidade = this.statusPossibilidades.find(
+    return this.statusPossibilidades.find(
       (status) =>
         status.id_fila === id_fila &&
         status.id_possibilidade === id_possibilidade
     );
-
-    return statusPossibilidade;
   }
 
   async deleteByFilaEPossibilidade(
