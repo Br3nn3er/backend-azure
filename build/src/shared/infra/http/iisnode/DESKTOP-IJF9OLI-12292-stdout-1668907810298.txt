@@ -1,1 +1,0 @@
-Server is Running: \\.\pipe\9a82ad3c-5b4b-4de5-ab57-aa52ce02f89c

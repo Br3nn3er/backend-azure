@@ -1,5 +1,0 @@
-query: SELECT * FROM current_schema()
-query: SELECT version();
-query: SELECT * FROM current_schema()
-Server is Running: \\.\pipe\b53b73b3-7188-449f-996b-ae2317e580e5 ! 🏆
-query: SELECT version();
