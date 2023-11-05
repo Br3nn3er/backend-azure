@@ -33,6 +33,8 @@
   "projectManager.vscode.maxDepthRecursion": 1,
   "projectManager.git.maxDepthRecursion": 1,
   "projectManager.git.baseFolders": [
-    "C:\\Users\\Administrator\\Documents\\"
-  ]
+    "C:\\Users\\brenn\\OneDrive\\Documentos\\Projetos"
+  ],
+  "projectManager.groupList": true,
+  "projectManager.supportSymlinksOnBaseFolders": true
 }
