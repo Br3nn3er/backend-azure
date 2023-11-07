@@ -1,4 +1,4 @@
-import { hash } from "bcrypt";
+import { hash } from "bcryptjs";
 import { createConnection } from "typeorm";
 import { v4 as uuidV4 } from "uuid";
 
