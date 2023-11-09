@@ -1,3 +1,4 @@
+import * as dotenv from "dotenv";
 import { DataSource } from "typeorm";
 
 import { AtribuicaoManual } from "../../../modules/dinamica/infra/typeorm/entities/AtribuicaoManual";
@@ -62,7 +63,7 @@ import { AlterTableIsUniqueStatusDistribuicao1636221018524 } from "./migrations/
 import { CreateStatusPossibilidades1636221364682 } from "./migrations/1636221364682-CreateStatusPossibilidades";
 import { LigarUsuarioComProfessor1659541099710 } from "./migrations/1659541099710-LigarUsuarioComProfessor";
 
-require("dotenv").config();
+dotenv.config();
 
 export const dataSource = new DataSource({
   type: "postgres",

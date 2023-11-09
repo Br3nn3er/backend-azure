@@ -3,6 +3,6 @@ declare namespace NodeJS {
   export interface ProcessEnv {
     FORGOT_MAIL_URL: string;
 
-    PORT: number;
+    PORT: string;
   }
 }
